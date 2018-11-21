@@ -44,7 +44,7 @@ public:
 
     int renvoiePionsNbr(std::string);
 
-    void launchStratego();
+    void launchStratego(bool);
 };
 
 

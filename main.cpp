@@ -8,6 +8,6 @@ int main() {
     //PlateauDamier p(10);
     PlateauStratego p;
     std::cout << p << std::endl;
-    p.launchStratego();
+    p.launchStratego(true);
     return 0;
 }
