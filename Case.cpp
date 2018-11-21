@@ -42,4 +42,9 @@ std:: ostream& operator<<(std::ostream & out, const Case &c) {
     return out;
 }
 
+void Case::setPionBis(Pion& p) {
+    this->pion = p;
+}
+
+
 

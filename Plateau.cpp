@@ -40,5 +40,13 @@ Plateau::Plateau(int dimension) : dimension(dimension) {
     }
 }
 
+const void Plateau::move(int i_src, int j_src, int i_dst, int j_dst) const {
+    std::cout << "here" <<std::endl;
+    Case c = cases[i_dst][j_dst];
+    cases[i_dst][j_dst] = cases[i_src][j_src];
+    cases[i_src][j_src] = c;
+}
+
+
 Plateau::~Plateau() {}
 
