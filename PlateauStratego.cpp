@@ -2,6 +2,7 @@
 // Created by merat on 16/11/18.
 //
 
+#include <fstream>
 #include "PlateauStratego.h"
 
 PlateauStratego::PlateauStratego(): Plateau(10) {};
@@ -327,8 +328,24 @@ void PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
 }
 
 void PlateauStratego::mettrePionOrdiSurPlateau() {
-    // TODO lire fichier dans dossier ordi et créer les pions en fonction données fichier
-}
+    int r = rand() % 2 + 1;
+    std::string piece = "";
+    int i = 0;
+    int j = 0;
+    std::string delimiter = " ";
+
+    std::string nom = "ordi" + std::to_string(r) + ".txt";
+    std::string path = "/home/merat/Bureau/Master/M1/CppBoardGames/ordi/" + nom;
+    std::cout << path << std::endl;
+    std::ifstream infile(path);
+    std::string line = "";
+    while(std::getline(infile, line)){
+        piece = line.substr(0, line.find(delimiter));
+        i = std::stoi(line.substr(piece.length()+1, 1));
+        j = std::stoi(line.substr(piece.length()+3, 1));
+        std::cout << i << " " << j << " " << piece << std::endl;
+        cases[i][j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
+    }}
 
 void PlateauStratego::cacherPieceJoueur(bool joueur) {
     if(joueur){// ici joueur1

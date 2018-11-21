@@ -5,5 +5,9 @@
 
 int main() {
 
-    PlateauDamier p(10);
+    //PlateauDamier p(10);
+    PlateauStratego p;
+    std::cout << p << std::endl;
+    p.launchStratego();
+    return 0;
 }
