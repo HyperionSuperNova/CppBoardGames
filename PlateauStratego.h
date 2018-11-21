@@ -13,7 +13,7 @@ class PlateauStratego: public Plateau {
 private:
     std::tuple<int, std::string> pions[12] = {{0,"Drapeau"},{1,"Espion"},{2,"Eclaireur"},{3,"Demineur"},{4,"Sergent"},{5,"Lieutenant"},{6,"Capitaine"},{7,"Commandant"},{8,"Colonnel"},{9,"General"},{10,"Marechal"},{11,"Bombe"}};
     std::tuple<int, std::string> img[12] = {{0,"\u26FF"},{1,"\u2460"},{2,"\u2461"},{3,"\u2462"},{4,"\u2463"},{5,"\u2464"},{6,"\u2465"},{7,"\u2466"},{8,"\u2467"},{9,"\u2468"},{10,"\u2469"},{11,"\u2688"}};
-    // 0 -> Bombe | 1 -> Espion | 2 -> Eclaireur | 3 -> Demineur | 4 -> Sergent | 5 -> Lieutenant | 6 -> Capitaine | 7 -> Commandant | 8 -> Colonnel | 9 -> General | 10 -> Marechal | 11 -> drapeau
+    // 11 -> Bombe | 1 -> Espion | 2 -> Eclaireur | 3 -> Demineur | 4 -> Sergent | 5 -> Lieutenant | 6 -> Capitaine | 7 -> Commandant | 8 -> Colonnel | 9 -> General | 10 -> Marechal | 0 -> drapeau
     int joueur1[12] = {1,1,8,5,4,4,4,3,2,1,1,6};
     int joueur2[12] = {1,1,8,5,4,4,4,3,2,1,1,6};
 public:
