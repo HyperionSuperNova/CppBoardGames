@@ -19,7 +19,7 @@ public:
 
     virtual Case getCase(int, int);
     virtual void setCase(int, int, Pion);
-
+    virtual const void move(int i_src, int j_src, int i_dst, int j_dst) const;
     friend std::ostream &operator<<(std::ostream &, const Plateau &);
 };
 
