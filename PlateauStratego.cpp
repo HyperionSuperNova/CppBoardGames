@@ -336,7 +336,8 @@ void PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
 }
 
 void PlateauStratego::mettrePionOrdiSurPlateau() {
-    int r = rand() % 2 + 1;
+    srand(time(NULL));
+    int r = rand() % 6 + 1;
     std::string piece = "";
     int i = 0;
     int j = 0;
