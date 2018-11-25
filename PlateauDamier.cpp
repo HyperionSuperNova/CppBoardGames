@@ -55,18 +55,27 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
             if (i_dst == i_src - 1 && ((j_dst == j_src + 1) || j_dst == j_src - 1)) {
                 if (!cases[i_dst][j_dst].isEmpty() && cases[i_dst][j_dst].getPion().getColor() == Couleur::NOIR) {
                     if(j_dst == j_src + 1 && j_dst + 1 < dimension && j_dst +1 > 0){
-                        scoreJ1 += 1;
-                        cases[i_dst][j_dst] = Case(i_dst, j_dst);
-                        move(i_src, j_src, i_dst - 1, j_dst + 1);
+                        if(cases[i_dst-1][j_dst+1].isEmpty()){
+                            scoreJ1 += 1;
+                            cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                            move(i_src, j_src, i_dst - 1, j_dst + 1);
+                        }else{
+                            return false;
+                        }
                     }else if(j_dst -1 < dimension && j_dst - 1 > 0){
-                        scoreJ1 += 1;
-                        cases[i_dst][j_dst] = Case(i_dst, j_dst);
-                        move(i_src, j_src, i_dst - 1, j_dst - 1);
+                        if (cases[i_dst-1][j_dst-1].isEmpty()){
+                            scoreJ1 += 1;
+                            cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                            move(i_src, j_src, i_dst - 1, j_dst - 1);
+                        }else{
+                            return false;
+                        }
+                    }else{
+                        return false;
                     }
                 } else if (cases[i_dst][j_dst].isEmpty()) {
                     move(i_src, j_src, i_dst, j_dst);
                 } else {
-                    std::cout << "Illegal movement" << std::endl;
                     return false;
                 }
             } else {
@@ -76,26 +85,38 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
         } else if (cases[i_src][j_src].getPion().getColor() == Couleur::NOIR && c == Couleur::NOIR) {
             if (i_dst == i_src + 1 && ((j_dst == j_src + 1) || j_dst == j_src - 1)) {
                 if (!cases[i_dst][j_dst].isEmpty() && cases[i_dst][j_dst].getPion().getColor() == Couleur::BLANC) {
-                    scoreJ2 += 1;
-                    cases[i_dst][j_dst] = Case(i_dst, j_dst);
-                    move(i_src, j_src, i_dst + 1, j_dst + 1);
+                    if(j_dst == j_src + 1 && j_dst + 1 < dimension && j_dst +1 > 0) {
+                        if(cases[i_dst+1][j_dst+1].isEmpty()){
+                            scoreJ2 += 1;
+                            cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                            move(i_src, j_src, i_dst + 1, j_dst + 1);
+                        }else{
+                            return false;
+                        }
+                    }else if(j_dst -1 < dimension && j_dst - 1 > 0){
+                        if(cases[i_dst+1][j_dst-1].isEmpty()){
+                            scoreJ1 += 1;
+                            cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                            move(i_src, j_src, i_dst + 1, j_dst - 1);
+                        }else{
+                            return false;
+                        }
+                    }else{
+                        return false;
+                    }
                 } else if (cases[i_dst][j_dst].isEmpty()) {
                     move(i_src, j_src, i_dst, j_dst);
                 } else {
-                    std::cout << "Illegal movement" << std::endl;
                     return false;
                 }
 
             } else {
-                std::cout << "Illegal movement" << std::endl;
                 return false;
             }
         } else {
-            std::cout << "Illegal movement" << std::endl;
             return false;
         }
     } else {
-        std::cout << "Illegal movement" << std::endl;
         return false;
     }
     return true;
@@ -106,7 +127,6 @@ bool PlateauDamier::bot() {
     for (int i = 0; i < dimension; i++) {
         for (int j = 0; j < dimension; j++) {
             if (pionSelect(i, j, Couleur::NOIR)) {
-                std::cout << "coord x " << i << "coord y" << j << std::endl;
                 bool move1 = pionMove(i, j, i + 1, j - 1, Couleur::NOIR);
                 bool move2 = pionMove(i, j, i + 1, j + 1, Couleur::NOIR);
                 if (move1) {
