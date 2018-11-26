@@ -62,8 +62,9 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                         }else{
                             return false;
                         }
-                    }else if(j_dst -1 < dimension && j_dst - 1 > 0){
+                    }else if(j_dst == j_src - 1 &&j_dst -1 < dimension && j_dst - 1 > 0){
                         if (cases[i_dst-1][j_dst-1].isEmpty()){
+                            std::cout << "here" << std::endl;
                             scoreJ1 += 1;
                             cases[i_dst][j_dst] = Case(i_dst, j_dst);
                             move(i_src, j_src, i_dst - 1, j_dst - 1);
@@ -143,7 +144,7 @@ bool PlateauDamier::bot() {
 }
 
 const void PlateauDamier::playerTurn() {
-    if (turn == 0) {
+    firstSelect:if (turn == 0) {
         std::cout << "Veuillez entrez les coordonnées du pion que vous souhaitez deplacer " << "Exemple: 2,0"
                   << std::endl;
         std::string s;
@@ -167,12 +168,11 @@ const void PlateauDamier::playerTurn() {
         std::string x;
         std::cin >> x;
         std::vector<int> h = split(x, ',');
-        while ((h.size() != 2 || !pionMove(t[0], t[1], h[0], h[1], Couleur::BLANC))) {
+        if((h.size() != 2 || !pionMove(t[0], t[1], h[0], h[1], Couleur::BLANC))) {
             std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
-            std::cout << "Veuillez entrez les coordonnées de la case ou vous souhaitez deplacer le pion "
-                      << "Exemple: 2,0" << std::endl;
-            std::cin >> x;
-            h = split(x, ',');
+            /*std::cin >> x;
+            h = split(x, ',');*/
+            goto firstSelect;
         }
     }
     turn += 1;
@@ -217,6 +217,7 @@ const void PlateauDamier::singlePlayer() {
     std::cout << "IT'S P1 TURN !!" << std::endl;
     while (true) {
         this->playerTurn();
+        std::cout << *(this) << std::endl;
         this->bot();
         std::cout << *(this) << std::endl;
 
