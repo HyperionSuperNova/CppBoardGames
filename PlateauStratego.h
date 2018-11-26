@@ -40,6 +40,8 @@ public:
     int getNbrGeneral(bool joueur);
     int getNbrMarechal(bool joueur);
 
+    std::string help(bool joueur);
+
     void afficher();
 
     int renvoiePionsNbr(std::string);

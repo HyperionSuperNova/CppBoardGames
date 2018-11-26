@@ -43,7 +43,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 max = j_dst;
             }else {
                 min = j_dst;
-                max = j_src - 1;
+                max = j_src;
             }
             for(int j = min; j < max; j++){
                 std::cout << "j: " << cases[i_src][j].getPion().getNom() << std::endl;
@@ -62,8 +62,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 }else{
                      joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
                 }
-                cases[i_dst][j_dst] = cases[i_src][j_src];
-                cases[i_src][j_src] = Case(i_src, j_src);
+                move(i_src, j_src, i_dst, j_dst);
                 return 1;
             }else{
                  if(cases[i_src][j_src].getPion().getNom().compare(cases[i_dst][j_dst].getPion().getNom()) == 0){
@@ -74,8 +73,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                          joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
                          joueur2[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
                      }
-                     cases[i_src][j_src] = Case(i_src, j_src);
-                     cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                     move(i_src, j_src, i_dst, j_dst);
                  }else if(cases[i_dst][j_dst].getPion().getColor() != cases[i_src][j_src].getPion().getColor()){
                      revelerUnePiece(i_dst, j_dst);
                      if(joueur){ // si c'est le joueur 1 qui joue
@@ -95,7 +93,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 max = i_dst;
             }else {
                 min = i_dst;
-                max = i_src - 1;
+                max = i_src;
             }
             for(int i = min; i < max; i++){
                 if(!cases[i][j_src].isEmpty() ||  ((i == 4 || i == 5) && (j_src == 2 || j_src == 3 || j_src == 6 || j_src == 7))){
@@ -104,8 +102,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 }
             }
             if(cases[i_dst][j_dst].isEmpty()){
-                cases[i_dst][j_dst] = cases[i_src][j_src];
-                cases[i_src][j_src] = Case(i_src, j_src);
+                move(i_src, j_src, i_dst, j_dst);
                 return 1;
             }else if(estPlusFortQue(cases[i_src][j_src].getPion(), cases[i_dst][j_dst].getPion()) ){
                 if(joueur){
@@ -113,8 +110,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 }else{
                     joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
                 }
-                cases[i_dst][j_dst] = cases[i_src][j_src];
-                cases[i_src][j_src] = Case(i_src, j_src);
+                move(i_src, j_src, i_dst, j_dst);
                 return 1;
             }else if(cases[i_dst][j_dst].getPion().getColor() != cases[i_src][j_src].getPion().getColor()){
                 if(cases[i_src][j_src].getPion().getNom().compare(cases[i_dst][j_dst].getPion().getNom()) == 0){
@@ -125,8 +121,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                         joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
                         joueur2[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
                     }
-                    cases[i_src][j_src] = Case(i_src, j_src);
-                    cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                    move(i_src, j_src, i_dst, j_dst);
                 }else {
                     revelerUnePiece(i_dst, j_dst);
                     if(joueur){ // si c'est le joueur 1 qui joue
@@ -157,8 +152,7 @@ bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst
                 }else{
                     joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
                 }
-                cases[i_dst][j_dst] = cases[i_src][j_src];
-                cases[i_src][j_src] = Case(i_src, j_src);
+                move(i_src, j_src, i_dst, j_dst);
             }else{
                 if(cases[i_src][j_src].getPion().getNom().compare(cases[i_dst][j_dst].getPion().getNom()) == 0){
                     if(joueur){
@@ -168,8 +162,7 @@ bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst
                         joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
                         joueur2[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
                     }
-                    cases[i_src][j_src] = Case(i_src, j_src);
-                    cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                    move(i_src, j_src, i_dst, j_dst);
                 }else {
                     if(joueur){ // si c'est le joueur 1 qui joue
                         joueur1[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
@@ -352,7 +345,6 @@ void PlateauStratego::mettrePionOrdiSurPlateau() {
         piece = line.substr(0, line.find(delimiter));
         i = std::stoi(line.substr(piece.length()+1, 1));
         j = std::stoi(line.substr(piece.length()+3, 1));
-        std::cout << i << " " << j << " " << piece << std::endl;
         cases[i][j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
     }}
 
@@ -420,7 +412,7 @@ void PlateauStratego::launchStratego(bool ordi) {
         int j_src = 0;
         int i_dst = 0;
         int j_dst = 0;
-        if(!quiJoue && ordi){
+        if(!quiJoue && ordi){ // tour ordi
             int set_i[8]  = {0,1,2,3,6,7,8,9};
             int set_j[6] = {0,1,4,5,8,9};
             i_src = rand() % 10;
@@ -452,7 +444,12 @@ void PlateauStratego::launchStratego(bool ordi) {
             std::cout << "i: " << i_dst << "  j: " << j_dst << std::endl;
         }else {
             std::cin >> ii;
+            if(ii.compare("help") == 0){
+                std::cout << help(quiJoue) << std::endl;
+                goto next_loop;
+            }
             std::cin >> jj;
+
 
             i_src = std::stoi(ii);
             j_src = std::stoi(jj);
@@ -463,6 +460,7 @@ void PlateauStratego::launchStratego(bool ordi) {
             i_dst = std::stoi(ii);
             j_dst = std::stoi(jj);
         }
+
 
         if(quiJoue){
             if(cases[i_src][j_src].getPion().getColor() == Couleur::NOIR){
@@ -494,4 +492,87 @@ void PlateauStratego::launchStratego(bool ordi) {
     }
     if(joueur1[0] == 0) std::cout << "C'est le joueur 2 qui gagne!" << std::endl;
     else std::cout << "C'est le joueur 1 qui gagne!" << std::endl;
+}
+
+std::string PlateauStratego::help(bool joueur) {
+    std::string res = "";
+    Couleur c;
+    if(joueur) c = Couleur::BLANC;
+    else c = Couleur::NOIR;
+
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            if(cases[i][j].getPion().getColor() == c && cases[i][j].getPion().getNom().compare("Drapeau") != 0 && cases[i][j].getPion().getNom().compare("Bombe") != 0){
+                if(cases[i][j].getPion().getNom().compare("Eclaireur") == 0){
+                    for(int h = i+1; h < 10; h++){
+                        if(!cases[h][j].isEmpty() && h != i){
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
+                            res += std::to_string(h-1) + " " + std::to_string(j) + "\n";
+                            h = 100;
+                        }
+                        if(h == 8 && cases[h+1][j].isEmpty()){
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
+                            res += std::to_string(h+1) + " " + std::to_string(j) + "\n";
+                        }
+                    }
+                    for(int h = i-1; h >= 0; h--){
+                        if(!cases[h][j].isEmpty() && h != i){
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
+                            res += std::to_string(h+1) + " " + std::to_string(j) + "\n";
+                            h = -1;
+                        }
+                        if(h == 1 && cases[0][j].isEmpty()){
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
+                            res += std::to_string(0) + " " + std::to_string(j) + "\n";
+                        }
+                    }
+                    for(int h = j+1; h < 10; h++){
+                        if(!cases[i][h].isEmpty() && h != j){
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
+                            res += std::to_string(i) + " " + std::to_string(h-1) + "\n";
+                            h = 100;
+                        }
+                        if(h == 8 && cases[i][h+1].isEmpty()){
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
+                            res += std::to_string(i) + " " + std::to_string(h+1) + "\n";
+                        }
+                    }
+                    for(int h = j-1; h >= 0; h--){
+                        if(!cases[i][h].isEmpty() && h != j){
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
+                            res += std::to_string(i) + " " + std::to_string(h+1) + "\n";
+                            h = -1;
+                        }
+                        if(h == 1 && cases[i][0].isEmpty()){
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
+                            res += std::to_string(i) + " " + std::to_string(0) + "\n";
+                        }
+                    }
+                }else{
+                    if( i+1 < 10 && j+1 < 10 && i-1 >= 0 && j-1 >= 0){
+                        if(cases[i-1][j].isEmpty()){
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " ";
+                            res += std::to_string(i-1) + " " + std::to_string(j) + "\n";
+
+                        }
+                        if(cases[i+1][j].isEmpty()){
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " ";
+                            res += std::to_string(i+1) + " " + std::to_string(j) + "\n";
+
+                        }
+                        if(cases[i][j-1].isEmpty()){
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " ";
+                            res += std::to_string(i) + " " + std::to_string(j-1) + "\n";
+
+                        }
+                        if(cases[i][j+1].isEmpty()){
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " ";
+                            res += std::to_string(i) + " " + std::to_string(j+1) + "\n";
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return res;
 }

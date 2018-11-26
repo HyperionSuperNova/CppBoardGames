@@ -5,8 +5,9 @@
 
 int main() {
 
+    /*
     PlateauDamier p(10);
-    /*p.initialize();
+    p.initialize();
     std::cout << p << std::endl;
     p.pionMove(2,0,3,1, Couleur::NOIR);
     p.pionMove(3,1,4,2, Couleur::NOIR);
@@ -17,7 +18,10 @@ int main() {
     std::cout << "Score J1 : "  << p.scoreJ1 << "\n Score J2 : " << p.scoreJ2 << std::endl;
     std::string s;
     std::cin>>s;
-    std::cout << s << std::endl;*/
+    std::cout << s << std::endl;
     p.launcher();
     std::cout << p << std::endl;
+     */
+    PlateauStratego p;
+    p.launchStratego(true);
 }
