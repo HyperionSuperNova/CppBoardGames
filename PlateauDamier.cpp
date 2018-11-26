@@ -52,60 +52,115 @@ const bool PlateauDamier::posOk(int i_src, int j_src, int i_dst, int j_dst) cons
 const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, Couleur c) {
     if (posOk(i_src, j_src, i_dst, j_dst)) {
         if (cases[i_src][j_src].getPion().getColor() == Couleur::BLANC && c == Couleur::BLANC) {
-            if (i_dst == i_src - 1 && ((j_dst == j_src + 1) || j_dst == j_src - 1)) {
+            if (((j_dst == j_src + 1) || j_dst == j_src - 1)) {
                 if (!cases[i_dst][j_dst].isEmpty() && cases[i_dst][j_dst].getPion().getColor() == Couleur::NOIR) {
-                    if(j_dst == j_src + 1 && j_dst + 1 < dimension && j_dst +1 > 0){
-                        if(cases[i_dst-1][j_dst+1].isEmpty()){
-                            scoreJ1 += 1;
-                            cases[i_dst][j_dst] = Case(i_dst, j_dst);
-                            move(i_src, j_src, i_dst - 1, j_dst + 1);
-                        }else{
+                    if (i_dst == i_src - 1) {
+                        if (j_dst == j_src + 1 && j_dst + 1 < dimension && j_dst + 1 > 0) {
+                            if (cases[i_dst - 1][j_dst + 1].isEmpty()) {
+                                scoreJ1 += 1;
+                                cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                                move(i_src, j_src, i_dst - 1, j_dst + 1);
+                            } else {
+                                return false;
+                            }
+                        } else if (j_dst == j_src - 1 && j_dst - 1 < dimension && j_dst - 1 > 0) {
+                            if (cases[i_dst - 1][j_dst - 1].isEmpty()) {
+                                std::cout << "here" << std::endl;
+                                scoreJ1 += 1;
+                                cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                                move(i_src, j_src, i_dst - 1, j_dst - 1);
+                            } else {
+                                return false;
+                            }
+                        } else {
                             return false;
                         }
-                    }else if(j_dst == j_src - 1 &&j_dst -1 < dimension && j_dst - 1 > 0){
-                        if (cases[i_dst-1][j_dst-1].isEmpty()){
+                    } else if (cases[i_dst][j_dst].isEmpty() && i_dst == i_src - 1) {
+                        move(i_src, j_src, i_dst, j_dst);
+                    } else {
+                        return false;
+                    }
+                } else if (i_dst == i_src + 1) {
+                    if (j_dst == j_src + 1 && j_dst + 1 < dimension && j_dst + 1 > 0) {
+                        if (cases[i_dst + 1][j_dst + 1].isEmpty()) {
+                            scoreJ1 += 1;
+                            cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                            move(i_src, j_src, i_dst + 1, j_dst + 1);
+                        } else {
+                            return false;
+                        }
+                    } else if (j_dst == j_src - 1 && j_dst - 1 < dimension && j_dst - 1 > 0) {
+                        if (cases[i_dst + 1][j_dst - 1].isEmpty()) {
                             std::cout << "here" << std::endl;
                             scoreJ1 += 1;
                             cases[i_dst][j_dst] = Case(i_dst, j_dst);
-                            move(i_src, j_src, i_dst - 1, j_dst - 1);
-                        }else{
+                            move(i_src, j_src, i_dst + 1, j_dst - 1);
+                        } else {
                             return false;
                         }
-                    }else{
+                    } else {
                         return false;
                     }
-                } else if (cases[i_dst][j_dst].isEmpty()) {
+                } else if (cases[i_dst][j_dst].isEmpty() && i_dst == i_src - 1) {
                     move(i_src, j_src, i_dst, j_dst);
                 } else {
                     return false;
                 }
+
             } else {
                 std::cout << "Illegal movement" << std::endl;
                 return false;
             }
         } else if (cases[i_src][j_src].getPion().getColor() == Couleur::NOIR && c == Couleur::NOIR) {
-            if (i_dst == i_src + 1 && ((j_dst == j_src + 1) || j_dst == j_src - 1)) {
-                if (!cases[i_dst][j_dst].isEmpty() && cases[i_dst][j_dst].getPion().getColor() == Couleur::BLANC) {
-                    if(j_dst == j_src + 1 && j_dst + 1 < dimension && j_dst +1 > 0) {
-                        if(cases[i_dst+1][j_dst+1].isEmpty()){
-                            scoreJ2 += 1;
-                            cases[i_dst][j_dst] = Case(i_dst, j_dst);
-                            move(i_src, j_src, i_dst + 1, j_dst + 1);
-                        }else{
+            if (((j_dst == j_src + 1) || j_dst == j_src - 1)) {
+                if (i_dst == i_src + 1) {
+                    if (!cases[i_dst][j_dst].isEmpty() && cases[i_dst][j_dst].getPion().getColor() == Couleur::BLANC) {
+                        if (j_dst == j_src + 1 && j_dst + 1 < dimension && j_dst + 1 > 0) {
+                            if (cases[i_dst + 1][j_dst + 1].isEmpty()) {
+                                scoreJ2 += 1;
+                                cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                                move(i_src, j_src, i_dst + 1, j_dst + 1);
+                            } else {
+                                return false;
+                            }
+                        } else if (j_dst - 1 < dimension && j_dst - 1 > 0) {
+                            if (cases[i_dst + 1][j_dst - 1].isEmpty()) {
+                                scoreJ1 += 1;
+                                cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                                move(i_src, j_src, i_dst + 1, j_dst - 1);
+                            } else {
+                                return false;
+                            }
+                        } else if (i_dst - 1 > 0 && i_dst - 1) {
                             return false;
                         }
-                    }else if(j_dst -1 < dimension && j_dst - 1 > 0){
-                        if(cases[i_dst+1][j_dst-1].isEmpty()){
-                            scoreJ1 += 1;
-                            cases[i_dst][j_dst] = Case(i_dst, j_dst);
-                            move(i_src, j_src, i_dst + 1, j_dst - 1);
-                        }else{
-                            return false;
-                        }
-                    }else{
+                    } else if (i_dst == i_src + 1 && cases[i_dst][j_dst].isEmpty()) {
+                        move(i_src, j_src, i_dst, j_dst);
+                    } else {
                         return false;
                     }
-                } else if (cases[i_dst][j_dst].isEmpty()) {
+                } else if (i_dst == i_src - 1) {
+                    if (j_dst == j_src + 1 && j_dst + 1 < dimension && j_dst + 1 > 0) {
+                        if (cases[i_dst - 1][j_dst + 1].isEmpty()) {
+                            scoreJ1 += 1;
+                            cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                            move(i_src, j_src, i_dst - 1, j_dst + 1);
+                        } else {
+                            return false;
+                        }
+                    } else if (j_dst == j_src - 1 && j_dst - 1 < dimension && j_dst - 1 > 0) {
+                        if (cases[i_dst - 1][j_dst - 1].isEmpty()) {
+                            std::cout << "here" << std::endl;
+                            scoreJ1 += 1;
+                            cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                            move(i_src, j_src, i_dst - 1, j_dst - 1);
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                } else if (cases[i_dst][j_dst].isEmpty() && i_dst == i_src - 1) {
                     move(i_src, j_src, i_dst, j_dst);
                 } else {
                     return false;
@@ -117,9 +172,11 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
         } else {
             return false;
         }
+
     } else {
         return false;
     }
+
     return true;
 }
 
@@ -144,7 +201,8 @@ bool PlateauDamier::bot() {
 }
 
 const void PlateauDamier::playerTurn() {
-    firstSelect:if (turn == 0) {
+    firstSelect:
+    if (turn == 0) {
         std::cout << "Veuillez entrez les coordonnées du pion que vous souhaitez deplacer " << "Exemple: 2,0"
                   << std::endl;
         std::string s;
@@ -168,7 +226,7 @@ const void PlateauDamier::playerTurn() {
         std::string x;
         std::cin >> x;
         std::vector<int> h = split(x, ',');
-        if((h.size() != 2 || !pionMove(t[0], t[1], h[0], h[1], Couleur::BLANC))) {
+        if ((h.size() != 2 || !pionMove(t[0], t[1], h[0], h[1], Couleur::BLANC))) {
             std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
             /*std::cin >> x;
             h = split(x, ',');*/
