@@ -43,7 +43,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 max = j_dst;
             }else {
                 min = j_dst;
-                max = j_src;
+                max = j_src - 1;
             }
             for(int j = min; j < max; j++){
                 std::cout << "j: " << cases[i_src][j].getPion().getNom() << std::endl;
@@ -73,7 +73,9 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                          joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
                          joueur2[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
                      }
-                     move(i_src, j_src, i_dst, j_dst);
+                     cases[i_src][j_src] = Case(i_src, j_src);
+                     cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                     return 1;
                  }else if(cases[i_dst][j_dst].getPion().getColor() != cases[i_src][j_src].getPion().getColor()){
                      revelerUnePiece(i_dst, j_dst);
                      if(joueur){ // si c'est le joueur 1 qui joue
@@ -93,7 +95,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 max = i_dst;
             }else {
                 min = i_dst;
-                max = i_src;
+                max = i_src - 1;
             }
             for(int i = min; i < max; i++){
                 if(!cases[i][j_src].isEmpty() ||  ((i == 4 || i == 5) && (j_src == 2 || j_src == 3 || j_src == 6 || j_src == 7))){
@@ -121,7 +123,9 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                         joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
                         joueur2[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
                     }
-                    move(i_src, j_src, i_dst, j_dst);
+                    cases[i_src][j_src] = Case(i_src, j_src);
+                    cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                    return 1;
                 }else {
                     revelerUnePiece(i_dst, j_dst);
                     if(joueur){ // si c'est le joueur 1 qui joue
@@ -162,7 +166,8 @@ bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst
                         joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
                         joueur2[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
                     }
-                    move(i_src, j_src, i_dst, j_dst);
+                    cases[i_src][j_src] = Case(i_src, j_src);
+                    cases[i_dst][j_dst] = Case(i_dst, j_dst);
                 }else {
                     if(joueur){ // si c'est le joueur 1 qui joue
                         joueur1[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
@@ -279,8 +284,16 @@ void PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
         std::cout << "\nEspion (" << getNbrEspion(joueur) << ") Drapeau (" << getNbrDrapeau(joueur) << ") Eclaireur (" << getNbrEclaireur(joueur) << ") Demineur (" << getNbrDemineur(joueur) << ") Sergent (" << getNbrSergent(joueur) << ") Lieutenant (" << getNbrLieutenant(joueur) << ") Capitaine (" << getNbrCapitaine(joueur) << ") Commandant (" << getNbrCommandant(joueur) << ") Colonnel (" << getNbrColonnel(joueur) << ") General (" << getNbrGeneral(joueur) << ") Marechal (" << getNbrMarechal(joueur) << ") Bombe (" << getNbrBombe(joueur) << ")" << std::endl;
         std::cout << "Format: Nom de la piece  cordonnées: x y" << std::endl;
         std::cout << "Par exemple: Demineur 1 1" << std::endl;
+        std::cout << "Pour charger des pièces, tapez: charger" << std::endl;
 
         std::cin >> piece;
+
+        if(piece.compare("charger") == 0){
+            mettrePionOrdiSurPlateau(joueur);
+            cacherPieceJoueur(joueur);
+            h = 40;
+            break;
+        }
         std::cin >> ii;
         std::cin >> jj;
 
@@ -328,16 +341,23 @@ void PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
     std::cout << "Let's the game begin!" << std::endl;
 }
 
-void PlateauStratego::mettrePionOrdiSurPlateau() {
+void PlateauStratego::mettrePionOrdiSurPlateau(bool joueur) {
     srand(time(NULL));
     int r = rand() % 6 + 1;
     std::string piece = "";
     int i = 0;
     int j = 0;
     std::string delimiter = " ";
+    std::string nom = "";
+    std::string path = "";
+    if(joueur){
+        nom = "joueur" + std::to_string(r) + ".txt";
+        path = "/home/merat/Bureau/Master/M1/CppBoardGames/joueur/" + nom;
+    }else{
+        nom = "ordi" + std::to_string(r) + ".txt";
+        path = "/home/merat/Bureau/Master/M1/CppBoardGames/ordi/" + nom;
+    }
 
-    std::string nom = "ordi" + std::to_string(r) + ".txt";
-    std::string path = "/home/merat/Bureau/Master/M1/CppBoardGames/ordi/" + nom;
     std::cout << path << std::endl;
     std::ifstream infile(path);
     std::string line = "";
@@ -345,7 +365,8 @@ void PlateauStratego::mettrePionOrdiSurPlateau() {
         piece = line.substr(0, line.find(delimiter));
         i = std::stoi(line.substr(piece.length()+1, 1));
         j = std::stoi(line.substr(piece.length()+3, 1));
-        cases[i][j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
+        if(joueur) cases[i][j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::BLANC));
+        else cases[i][j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
     }}
 
 void PlateauStratego::cacherPieceJoueur(bool joueur) {
@@ -384,10 +405,11 @@ void PlateauStratego::revelerUnePiece(int i, int j) {
 }
 
 void PlateauStratego::launchStratego(bool ordi) {
-    if(ordi) mettrePionOrdiSurPlateau();
+    mettrePionJoueurSurPlateau(true);
+
+    if(ordi) mettrePionOrdiSurPlateau(false);
     else mettrePionJoueurSurPlateau(false);
 
-    mettrePionJoueurSurPlateau(true);
 
     bool quiJoue = true; //joueur 1
 
@@ -401,13 +423,10 @@ void PlateauStratego::launchStratego(bool ordi) {
     while(joueur1[0] != 0 && joueur2[0] != 0){
         next_loop:
         afficher();
-        if(quiJoue){
-            std::cout << "Tour joueur 1: " << std::endl;
-            cacherPieceJoueur(!quiJoue);
-        }else if(!ordi){
-            std::cout << "Tour joueur 2: " << std::endl;
-            cacherPieceJoueur(!quiJoue);
-        }
+        if(quiJoue) std::cout << "Tour joueur 1: " << std::endl;
+        else if(!ordi) std::cout << "Tour joueur 2: " << std::endl;
+
+        cacherPieceJoueur(quiJoue);
         int i_src = 0;
         int j_src = 0;
         int i_dst = 0;

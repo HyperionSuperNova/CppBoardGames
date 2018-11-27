@@ -25,7 +25,7 @@ public:
     void mettrePionJoueurSurPlateau(bool);
     void cacherPieceJoueur(bool);
     void revelerUnePiece(int, int);
-    void mettrePionOrdiSurPlateau();
+    void mettrePionOrdiSurPlateau(bool);
 
     int getNbrBombe(bool joueur);
     int getNbrDrapeau(bool joueur);
