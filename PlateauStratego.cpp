@@ -421,12 +421,12 @@ void PlateauStratego::launchStratego(bool ordi) {
     std::string jj = "";
     srand(time(NULL));
     while(joueur1[0] != 0 && joueur2[0] != 0){
+        cacherPieceJoueur(!quiJoue);
         next_loop:
         afficher();
         if(quiJoue) std::cout << "Tour joueur 1: " << std::endl;
         else if(!ordi) std::cout << "Tour joueur 2: " << std::endl;
 
-        cacherPieceJoueur(quiJoue);
         int i_src = 0;
         int j_src = 0;
         int i_dst = 0;
