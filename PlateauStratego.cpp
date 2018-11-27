@@ -279,7 +279,7 @@ void PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
     std::string jj = "";
     int j = 0;
     std::string delimiter = " ";
-    for(int h = 0; h < 2; h++){ // valeur h a changer
+    for(int h = 0; h < 40; h++){ // valeur h a changer
         afficher();
         std::cout << "\nEspion (" << getNbrEspion(joueur) << ") Drapeau (" << getNbrDrapeau(joueur) << ") Eclaireur (" << getNbrEclaireur(joueur) << ") Demineur (" << getNbrDemineur(joueur) << ") Sergent (" << getNbrSergent(joueur) << ") Lieutenant (" << getNbrLieutenant(joueur) << ") Capitaine (" << getNbrCapitaine(joueur) << ") Commandant (" << getNbrCommandant(joueur) << ") Colonnel (" << getNbrColonnel(joueur) << ") General (" << getNbrGeneral(joueur) << ") Marechal (" << getNbrMarechal(joueur) << ") Bombe (" << getNbrBombe(joueur) << ")" << std::endl;
         std::cout << "Format: Nom de la piece  cordonnées: x y" << std::endl;
