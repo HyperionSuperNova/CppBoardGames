@@ -320,8 +320,8 @@ void PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
                     }
                 }else{
                     if (joueur2[renvoiePionsNbr(piece)] > 0) {
-                        std::string img = std::to_string(renvoiePionsNbr(piece));
-                        cases[i][j].setPion(Pion(piece, img, Couleur::NOIR));
+                        std::string imag = std::get<1>(img[renvoiePionsNbr(piece)]);
+                        cases[i][j].setPion(Pion(piece, imag, Couleur::NOIR));
                         joueur2[renvoiePionsNbr(piece)]--;
                     } else {
                         std::cout << "Vous n'avez plus ce genre de pièce." << std::endl;
