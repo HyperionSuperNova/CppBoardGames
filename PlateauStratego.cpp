@@ -398,6 +398,17 @@ void PlateauStratego::cacherPieceJoueur(bool joueur) {
     }
 }
 
+std::vector< std::tuple<int, int> > PlateauStratego::getLigneColonne() {
+    std::vector< std::tuple<int, int> > pieces;
+
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            if(cases[i][j].getPion().getColor() == Couleur::NOIR) pieces.push_back({i, j});
+        }
+    }
+    return pieces;
+}
+
 void PlateauStratego::revelerUnePiece(int i, int j) {
     std::string nom = cases[i][j].getPion().getNom();
     int n = renvoiePionsNbr(nom);
@@ -432,35 +443,30 @@ void PlateauStratego::launchStratego(bool ordi) {
         int i_dst = 0;
         int j_dst = 0;
         if(!quiJoue && ordi){ // tour ordi
-            int set_i[8]  = {0,1,2,3,6,7,8,9};
-            int set_j[6] = {0,1,4,5,8,9};
-            i_src = rand() % 10;
-            std::cout << "i: " << i_src << std::endl;
-            if(i_src == 4 || i_src == 5){
-                j_src = set_j[rand() %6];
-                while(j_src == 2 || j_src == 3 || j_src == 6 || j_src == 7){
-                    j_src = set_j[rand()*6];
-                    std::cout << "passe par la" << std::endl;
-                }
-            }
-            else j_src = rand() % 10;
-            std::cout << j_src << std::endl;
+            std::vector< std::tuple<int, int> > coup = getLigneColonne();
+            int r = rand() % coup.size();
+
+            i_src = std::get<0>(coup[r]);
+            j_src = std::get<1>(coup[r]);
+
+            //std::cout << "i: " << i_src << std::endl;
+           // std::cout << j_src << std::endl;
             if(cases[i_src][j_src].getPion().getNom().compare("Eclaireur") == 0){
                 again:
                 i_dst = rand() % 10;
                 j_dst = rand() % 10;
                 if((i_dst != i_src && j_dst != j_src) || (i_dst == i_src && j_dst == j_src)) goto again;
-                std::cout << "i_dst: " << i_dst << "   j_dst: " << j_dst << std::endl;
+                // std::cout << "i_dst: " << i_dst << "   j_dst: " << j_dst << std::endl;
 
             }else {
                 int set_i_dst[2] = {i_src + 1, i_src + 1};
                 int set_j_dst[2] = {j_src + 1, j_src + 1};
                 i_dst = set_i_dst[rand() % 2];
                 j_dst = set_j_dst[rand() % 2];
-                std::cout << "i[0]: " << set_i_dst[0] << "  i[1]: " << set_i_dst[1] << std::endl;
+                // std::cout << "i[0]: " << set_i_dst[0] << "  i[1]: " << set_i_dst[1] << std::endl;
             }
 
-            std::cout << "i: " << i_dst << "  j: " << j_dst << std::endl;
+            // std::cout << "i: " << i_dst << "  j: " << j_dst << std::endl;
         }else {
             std::cin >> ii;
             if(ii.compare("help") == 0){
@@ -499,7 +505,7 @@ void PlateauStratego::launchStratego(bool ordi) {
 
 
         if (cases[i_src][j_src].getPion().getNom().compare("Bombe") == 0 || cases[i_src][j_src].getPion().getNom().compare("Drapeau") == 0 || cases[i_src][j_src].getPion().getNom().compare("") == 0){
-            std::cout << "Mouvement impossible" << std::endl;
+            std::cout << "Mouvement impossible\n" << std::endl;
             goto next_loop;
         }else if (cases[i_src][j_src].getPion().getNom().compare("Eclaireur") == 0){
             if(!mouvement_eclaireur(i_src, j_src, i_dst, j_dst, quiJoue)) goto next_loop;

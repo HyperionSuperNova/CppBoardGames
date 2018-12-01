@@ -8,6 +8,7 @@
 
 #include "Plateau.h"
 #include <tuple>
+#include <vector>
 
 class PlateauStratego: public Plateau {
 private:
@@ -39,6 +40,8 @@ public:
     int getNbrColonnel(bool joueur);
     int getNbrGeneral(bool joueur);
     int getNbrMarechal(bool joueur);
+
+    std::vector <std::tuple<int, int>> getLigneColonne();
 
     std::string help(bool joueur);
 
