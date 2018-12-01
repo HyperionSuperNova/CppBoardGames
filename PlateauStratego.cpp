@@ -77,7 +77,8 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                      cases[i_dst][j_dst] = Case(i_dst, j_dst);
                      return 1;
                  }else if(cases[i_dst][j_dst].getPion().getColor() != cases[i_src][j_src].getPion().getColor()){
-                     revelerUnePiece(i_dst, j_dst);
+                     std::cout << "Battu par: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
+                     //revelerUnePiece(i_dst, j_dst);
                      if(joueur){ // si c'est le joueur 1 qui joue
                          joueur1[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
                      }else{
@@ -94,8 +95,8 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 min = i_src + 1;
                 max = i_dst;
             }else {
-                min = i_dst;
-                max = i_src - 1;
+                min = i_dst + 1;
+                max = i_src;
             }
             for(int i = min; i < max; i++){
                 if(!cases[i][j_src].isEmpty() ||  ((i == 4 || i == 5) && (j_src == 2 || j_src == 3 || j_src == 6 || j_src == 7))){
@@ -127,7 +128,8 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                     cases[i_dst][j_dst] = Case(i_dst, j_dst);
                     return 1;
                 }else {
-                    revelerUnePiece(i_dst, j_dst);
+                    std::cout << "Battu par: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
+                    //revelerUnePiece(i_dst, j_dst);
                     if(joueur){ // si c'est le joueur 1 qui joue
                         joueur1[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
                     }else{
@@ -150,13 +152,17 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
 bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst, bool joueur) {
     if( i_dst < 10 && j_dst < 10){
         if((i_dst == i_src -1 && j_dst == j_src) || (i_dst == i_src +1 && j_dst == j_src) || (i_dst == i_src && j_dst == j_src -1) || (i_dst == i_src && j_dst == j_src + 1)){
-            if(cases[i_dst][j_dst].isEmpty() || estPlusFortQue(cases[i_src][j_src].getPion(), cases[i_dst][j_dst].getPion()) ) {
+            if(cases[i_dst][j_dst].isEmpty()){
+                move(i_src, j_src, i_dst, j_dst);
+
+            }else if(estPlusFortQue(cases[i_src][j_src].getPion(), cases[i_dst][j_dst].getPion())){
                 if(joueur){
                     joueur2[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
                 }else{
                     joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
                 }
                 move(i_src, j_src, i_dst, j_dst);
+
             }else{
                 if(cases[i_src][j_src].getPion().getNom().compare(cases[i_dst][j_dst].getPion().getNom()) == 0){
                     if(joueur){
@@ -169,6 +175,8 @@ bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst
                     cases[i_src][j_src] = Case(i_src, j_src);
                     cases[i_dst][j_dst] = Case(i_dst, j_dst);
                 }else {
+                    std::cout << "Battu par: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
+                    //revelerUnePiece(i_dst, j_dst);
                     if(joueur){ // si c'est le joueur 1 qui joue
                         joueur1[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
                     }else{
@@ -434,7 +442,10 @@ void PlateauStratego::launchStratego(bool ordi) {
     while(joueur1[0] != 0 && joueur2[0] != 0){
         cacherPieceJoueur(!quiJoue);
         next_loop:
-        afficher();
+
+        if(quiJoue && ordi) afficher();
+        else if(!ordi) afficher();
+
         if(quiJoue) std::cout << "Tour joueur 1: " << std::endl;
         else if(!ordi) std::cout << "Tour joueur 2: " << std::endl;
 

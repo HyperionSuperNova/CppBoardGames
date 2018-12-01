@@ -6,5 +6,5 @@
 int main() {
 
     PlateauStratego p;
-    p.launchStratego(true);
+    p.launchStratego(false);
 }
