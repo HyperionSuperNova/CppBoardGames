@@ -423,6 +423,14 @@ void PlateauStratego::revelerUnePiece(int i, int j) {
     cases[i][j].setPionImg(std::get<1>(img[n]));
 }
 
+bool PlateauStratego::queBombeEtDrapeau(bool joueur) {
+    if(joueur){
+        return (joueur1[1] == 0 && joueur1[2] == 0 && joueur1[3] == 0 && joueur1[4] == 0 && joueur1[5] == 0 && joueur1[6] == 0 && joueur1[7] == 0 && joueur1[8] == 0 && joueur1[9] == 0 && joueur1[10] == 0);
+    }else{
+        return (joueur2[1] == 0 && joueur2[2] == 0 && joueur2[3] == 0 && joueur2[4] == 0 && joueur2[5] == 0 && joueur2[6] == 0 && joueur2[7] == 0 && joueur2[8] == 0 && joueur2[9] == 0 && joueur2[10] == 0);
+    }
+}
+
 void PlateauStratego::launchStratego(bool ordi) {
     mettrePionJoueurSurPlateau(true);
 
@@ -460,8 +468,6 @@ void PlateauStratego::launchStratego(bool ordi) {
             i_src = std::get<0>(coup[r]);
             j_src = std::get<1>(coup[r]);
 
-            //std::cout << "i: " << i_src << std::endl;
-           // std::cout << j_src << std::endl;
             if(cases[i_src][j_src].getPion().getNom().compare("Eclaireur") == 0){
                 again:
                 i_dst = rand() % 10;
@@ -474,10 +480,8 @@ void PlateauStratego::launchStratego(bool ordi) {
                 int set_j_dst[2] = {j_src + 1, j_src + 1};
                 i_dst = set_i_dst[rand() % 2];
                 j_dst = set_j_dst[rand() % 2];
-                // std::cout << "i[0]: " << set_i_dst[0] << "  i[1]: " << set_i_dst[1] << std::endl;
             }
 
-            // std::cout << "i: " << i_dst << "  j: " << j_dst << std::endl;
         }else {
             std::cin >> ii;
             if(ii.compare("help") == 0){
@@ -525,9 +529,14 @@ void PlateauStratego::launchStratego(bool ordi) {
             if(!mouvement_autre(i_src, j_src, i_dst, j_dst, quiJoue)) goto next_loop;
         }
         quiJoue = !quiJoue;
+        if(queBombeEtDrapeau(quiJoue)) quiJoue = !quiJoue;
+        if(queBombeEtDrapeau(quiJoue) && queBombeEtDrapeau(!quiJoue)){
+            std::cout << "Plus personne ne peut bouger de pions. Match nul!";
+            break;
+        }
     }
     if(joueur1[0] == 0) std::cout << "C'est le joueur 2 qui gagne!" << std::endl;
-    else std::cout << "C'est le joueur 1 qui gagne!" << std::endl;
+    else if(joueur2[0] == 0) std::cout << "C'est le joueur 1 qui gagne!" << std::endl;
 }
 
 std::string PlateauStratego::help(bool joueur) {
