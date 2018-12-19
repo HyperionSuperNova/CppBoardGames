@@ -9,6 +9,7 @@ Case::Case() {}
 Case::Case(int ii, int jj) {
     x = ii;
     y = jj;
+    pion = Pion();
     pion.setNom("");
     pion.setImg(" ");
 }

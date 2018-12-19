@@ -9,28 +9,25 @@
 PlateauStratego::PlateauStratego(): Plateau(10) {};
 
 std::ostream &operator<<(std::ostream &os, const PlateauStratego &stratego) {
-    os << static_cast<const Plateau &>(stratego);
-    return os;
-}
-
-void PlateauStratego::afficher() {
-    std::cout << "---------------------------------\n";
-    std::cout << "  ";
+    os << "---------------------------------\n";
+    os << "    ";
     for(int j = 0; j < 10; j++){
-        std::cout << j << "   ";
+        os << j << "   ";
     }
     std::cout << "\n";
     for(int i = 0; i < 10; i++){
-        std::cout << i << "|  ";
+        os << i << "|  ";
         for(int j = 0; j < 10; j++){
-            if((i == 4 || i == 5) && (j == 2 || j == 6)) std::cout << "    ";
-            else std::cout <<this->cases[i][j].getPion().getImg() << " | " ;
+            if((i == 4 || i == 5) && (j == 2 || j == 6)) os << "    ";
+            else os << stratego.cases[i][j].getPion().getImg() << " | " ;
 
         }
-        std::cout << "\n";
+        os << "\n";
     }
-    std::cout << "---------------------------------" << std::endl;
+    os << "---------------------------------" << std::endl;
+    return os;
 }
+
 
 bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j_dst, bool joueur) {
     bool ok = true;
@@ -288,7 +285,7 @@ void PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
     int j = 0;
     std::string delimiter = " ";
     for(int h = 0; h < 40; h++){ // valeur h a changer
-        afficher();
+        std::cout << *(this) << std::endl;
         std::cout << "\nEspion (" << getNbrEspion(joueur) << ") Drapeau (" << getNbrDrapeau(joueur) << ") Eclaireur (" << getNbrEclaireur(joueur) << ") Demineur (" << getNbrDemineur(joueur) << ") Sergent (" << getNbrSergent(joueur) << ") Lieutenant (" << getNbrLieutenant(joueur) << ") Capitaine (" << getNbrCapitaine(joueur) << ") Commandant (" << getNbrCommandant(joueur) << ") Colonnel (" << getNbrColonnel(joueur) << ") General (" << getNbrGeneral(joueur) << ") Marechal (" << getNbrMarechal(joueur) << ") Bombe (" << getNbrBombe(joueur) << ")" << std::endl;
         std::cout << "Format: Nom de la piece  cordonnées: x y" << std::endl;
         std::cout << "Par exemple: Demineur 1 1" << std::endl;
@@ -451,8 +448,8 @@ void PlateauStratego::launchStratego(bool ordi) {
         cacherPieceJoueur(!quiJoue);
         next_loop:
 
-        if(quiJoue && ordi) afficher();
-        else if(!ordi) afficher();
+        if(quiJoue && ordi) std::cout << *(this) << std::endl;
+        else if(!ordi) std::cout << *(this) << std::endl;
 
         if(quiJoue) std::cout << "Tour joueur 1: " << std::endl;
         else if(!ordi) std::cout << "Tour joueur 2: " << std::endl;
