@@ -9,12 +9,13 @@
 PlateauStratego::PlateauStratego(): Plateau(10) {};
 
 std::ostream &operator<<(std::ostream &os, const PlateauStratego &stratego) {
-    os << "---------------------------------\n";
     os << "    ";
     for(int j = 0; j < 10; j++){
         os << j << "   ";
     }
-    std::cout << "\n";
+    os << "\n";
+    os << "  -----------------------------------------\n";
+
     for(int i = 0; i < 10; i++){
         os << i << "|  ";
         for(int j = 0; j < 10; j++){
@@ -24,7 +25,7 @@ std::ostream &operator<<(std::ostream &os, const PlateauStratego &stratego) {
         }
         os << "\n";
     }
-    os << "---------------------------------" << std::endl;
+    os << "  -----------------------------------------" << std::endl;
     return os;
 }
 
