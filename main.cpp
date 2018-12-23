@@ -2,9 +2,12 @@
 #include "Plateau.h"
 #include "PlateauDamier.h"
 #include "PlateauStratego.h"
+#include "PlateauEchiquier.h"
 
 int main() {
 
-    PlateauStratego p;
-    p.launchStratego(false);
+    PlateauEchiquier e;
+    e.launchEchiquier(true);
+    //PlateauStratego p;
+    //p.launchStratego(true);
 }
