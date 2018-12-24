@@ -72,6 +72,94 @@ int PlateauEchiquier::getEquivalenceAlpha(char c) {
     return -1;
 }
 
+bool PlateauEchiquier::mouvement(std::string x, bool joueur, std::string piece) {
+    std::cout << x.at(1) << std::endl;
+    int i_dst = (int)(x.at(2)-'0');
+    int j_dst = getEquivalenceAlpha(x.at(1));
+
+    if((joueur && cases[i_dst][j_dst].getPion().getColor() == Couleur::BLANC) || (!joueur && cases[i_dst][j_dst].getPion().getColor() == Couleur::NOIR)){
+        std::cout << "Mouvement impossible" << std::endl;
+        return false;
+    }
+    if(piece == "Cavalier")coord = ouEstCavalier(i_dst,j_dst,joueur);
+    else if(piece == "Fou") coord = ouEstFou(i_dst,j_dst, joueur);
+    else if(piece == "Tour") coord = ouEstTour(i_dst, j_dst, joueur);
+    else if(piece == "Roi") coord = ouEstRoi(i_dst, j_dst, joueur);
+    else if(piece == "Dame") coord = ouEstDame(i_dst,j_dst,joueur);
+
+    if(std::get<0>(coord) == -1){
+        std::cout << "Mouvement impossible" << std::endl;
+        return false;
+    }else if(std::get<0>(coord) == -2){
+        std::cout << "Vous avez plusieurs possibilité de mouvement.\n Choisissez en une." << std::endl;
+        std::string ii = "";
+        std::cin >> ii;
+        int j_src = getEquivalenceAlpha(ii.at(0));
+        int cmp = 0;
+        int tmp = -1;
+        for(int i = 0; i < 16; i++){
+            if(joueur){
+                if(std::get<1>(joueur1[i]) == j_src && std::get<2>(joueur1[i]) == piece) cmp++;
+                tmp = i;
+            }else{
+                if(std::get<1>(joueur2[i]) == j_src && std::get<2>(joueur2[i]) == piece) cmp++;
+                tmp = i;
+            }
+        }
+        if(cmp > 1){
+            std::cout << "Vous avez plusieurs possibilité de mouvement.\n Choisissez en une." << std::endl;
+            std::string jj = "";
+            std::cin >> jj;
+            int i_src = (int)(jj.at(0)-'0');
+            if(!cases[i_dst][j_dst].isEmpty()){
+                pionDetruit(i_dst, j_dst, !joueur);
+            }
+            cases[i_dst][j_dst] = cases[i_src][j_src];
+            cases[i_src][j_src] = Case(i_src,j_src);
+            if (joueur)joueur1[tmp] = {i_dst, j_dst, piece};
+            else joueur2[tmp] = {i_dst, j_dst, piece};
+            return true;
+        }else{
+            if(joueur){
+                int i_src = std::get<0>(joueur1[tmp]);
+                if(!cases[i_dst][j_dst].isEmpty()){
+                    pionDetruit(i_dst, j_dst, !joueur);
+                }
+                cases[i_dst][j_dst] = cases[i_src][j_src];
+                cases[i_src][j_src] = Case(i_src,j_src);
+                joueur1[tmp] = {i_dst,j_dst, piece};
+                return true;
+            }else{
+                int i_src = std::get<0>(joueur2[tmp]);
+                cases[i_dst][j_dst] = cases[i_src][j_src];
+                cases[i_src][j_src] = Case(i_src,j_src);
+                joueur2[tmp] = {i_dst,j_dst, piece};
+                return true;
+            }
+        }
+    }else{
+        if(!cases[i_dst][j_dst].isEmpty()){
+            pionDetruit(i_dst, j_dst, !joueur);
+        }
+        cases[i_dst][j_dst] = cases[std::get<0>(coord)][std::get<1>(coord)];
+        cases[std::get<0>(coord)][std::get<1>(coord)] = Case(std::get<0>(coord),std::get<1>(coord));
+        if(joueur) {
+            for(int i = 0; i < 16; i++){
+                if(std::get<0>(joueur1[i]) == std::get<0>(coord) && std::get<1>(joueur1[i]) == std::get<1>(coord)){
+                    joueur1[i] = {std::get<0>(coord), std::get<1>(coord), piece};
+                }
+            }
+        }else{
+            for(int i = 0; i < 16; i++){
+                if(std::get<0>(joueur2[i]) == std::get<0>(coord) && std::get<1>(joueur2[i]) == std::get<1>(coord)){
+                    joueur2[i] = {std::get<0>(coord), std::get<1>(coord), piece};
+                }
+            }
+        }
+        return true;
+    }
+}
+
 bool PlateauEchiquier::pieceASoi(int i_src, int j_src, bool joueur) {
     if(joueur && cases[i_src][j_src].getPion().getColor() == Couleur::NOIR){
         std::cout << "Ce n'est pas un pion à vous" << std::endl;
@@ -289,150 +377,7 @@ std::tuple<int,int> PlateauEchiquier::ouEstCavalier(int i_dst, int j_dst, bool j
 }
 
 bool PlateauEchiquier::mouvement_cavalier(std::string x, bool joueur) {
-    std::cout << x.at(1) << std::endl;
-    int i_dst = (int)(x.at(2)-'0');
-    int j_dst = getEquivalenceAlpha(x.at(1));
-
-    if((joueur && cases[i_dst][j_dst].getPion().getColor() == Couleur::BLANC) || (!joueur && cases[i_dst][j_dst].getPion().getColor() == Couleur::NOIR)){
-        std::cout << "Mouvement impossible" << std::endl;
-        return false;
-    }
-    /*
-    if(cases[i_dst][j_dst].isEmpty()){
-        coord = ouEstCavalier(i_dst,j_dst,joueur);
-        std::cout << std::get<0>(coord) << " et " << std::get<1>(coord) << std::endl;
-        if(std::get<0>(coord) == -1){
-            std::cout << "Mouvement impossible" << std::endl;
-            return false;
-        }else if(std::get<0>(coord) == -2){
-            std::cout << "Vous avez plusieurs possibilité de mouvement.\n Choisissez en une." << std::endl;
-            std::string ii = "";
-            std::cin >> ii;
-            int j_src = getEquivalenceAlpha(ii.at(0));
-            int cmp = 0;
-            int tmp = -1;
-            for(int i = 0; i < 16; i++){
-                if(joueur){
-                    if(std::get<1>(joueur1[i]) == j_src && std::get<2>(joueur1[i]) == "Cavalier") cmp++;
-                    tmp = i;
-                }else{
-                    if(std::get<1>(joueur2[i]) == j_src && std::get<2>(joueur2[i]) == "Cavalier") cmp++;
-                    tmp = i;
-                }
-            }
-            if(cmp > 1){
-                std::cout << "Vous avez plusieurs possibilité de mouvement.\n Choisissez en une." << std::endl;
-                std::string jj = "";
-                std::cin >> jj;
-                int i_src = (int)(jj.at(0)-'0');
-                move(i_src, j_src, i_dst, j_dst);
-                if(joueur)joueur1[tmp] = {i_dst,j_dst, "Cavalier"};
-                else joueur2[tmp] = {i_dst,j_dst, "Cavalier"};
-                return true;
-            }else{
-                if(joueur){
-                    int i_src = std::get<0>(joueur1[tmp]);
-                    move(i_src,j_src,i_dst,j_dst);
-                    joueur1[tmp] = {i_dst,j_dst, "Cavalier"};
-                    return true;
-                }else{
-                    int i_src = std::get<0>(joueur2[tmp]);
-                    move(i_src,j_src,i_dst,j_dst);
-                    joueur2[tmp] = {i_dst,j_dst, "Cavalier"};
-                    return true;
-                }
-            }
-        }else{
-            move(std::get<0>(coord), std::get<1>(coord), i_dst, j_dst);
-            if(joueur) {
-                for(int i = 0; i < 16; i++){
-                    if(std::get<0>(joueur1[i]) == std::get<0>(coord) && std::get<1>(joueur1[i]) == std::get<1>(coord)){
-                        joueur1[i] = {std::get<0>(coord), std::get<1>(coord), "Cavalier"};
-                    }
-                }
-            }else{
-                for(int i = 0; i < 16; i++){
-                    if(std::get<0>(joueur2[i]) == std::get<0>(coord) && std::get<1>(joueur2[i]) == std::get<1>(coord)){
-                        joueur2[i] = {std::get<0>(coord), std::get<1>(coord), "Cavalier"};
-                    }
-                }
-            }
-            return true;
-        }
-    }else{*/
-        coord = ouEstCavalier(i_dst,j_dst,joueur);
-        if(std::get<0>(coord) == -1){
-            std::cout << "Mouvement impossible" << std::endl;
-            return false;
-        }else if(std::get<0>(coord) == -2){
-            std::cout << "Vous avez plusieurs possibilité de mouvement.\n Choisissez en une." << std::endl;
-            std::string ii = "";
-            std::cin >> ii;
-            int j_src = getEquivalenceAlpha(ii.at(0));
-            int cmp = 0;
-            int tmp = -1;
-            for(int i = 0; i < 16; i++){
-                if(joueur){
-                    if(std::get<1>(joueur1[i]) == j_src && std::get<2>(joueur1[i]) == "Cavalier") cmp++;
-                    tmp = i;
-                }else{
-                    if(std::get<1>(joueur2[i]) == j_src && std::get<2>(joueur2[i]) == "Cavalier") cmp++;
-                    tmp = i;
-                }
-            }
-            if(cmp > 1){
-                std::cout << "Vous avez plusieurs possibilité de mouvement.\n Choisissez en une." << std::endl;
-                std::string jj = "";
-                std::cin >> jj;
-                int i_src = (int)(jj.at(0)-'0');
-                if(!cases[i_dst][j_dst].isEmpty()){
-                    pionDetruit(i_dst, j_dst, !joueur);
-                }
-                cases[i_dst][j_dst] = cases[i_src][j_src];
-                cases[i_src][j_src] = Case(i_src,j_src);
-                if(joueur)joueur1[tmp] = {i_dst,j_dst, "Cavalier"};
-                else joueur2[tmp] = {i_dst,j_dst, "Cavalier"};
-                return true;
-            }else{
-                if(joueur){
-                    int i_src = std::get<0>(joueur1[tmp]);
-                    if(!cases[i_dst][j_dst].isEmpty()){
-                        pionDetruit(i_dst, j_dst, !joueur);
-                    }
-                    cases[i_dst][j_dst] = cases[i_src][j_src];
-                    cases[i_src][j_src] = Case(i_src,j_src);
-                    joueur1[tmp] = {i_dst,j_dst, "Cavalier"};
-                    return true;
-                }else{
-                    int i_src = std::get<0>(joueur2[tmp]);
-                    cases[i_dst][j_dst] = cases[i_src][j_src];
-                    cases[i_src][j_src] = Case(i_src,j_src);
-                    joueur2[tmp] = {i_dst,j_dst, "Cavalier"};
-                    return true;
-                }
-            }
-        }else{
-            if(!cases[i_dst][j_dst].isEmpty()){
-                pionDetruit(i_dst, j_dst, !joueur);
-            }
-            cases[i_dst][j_dst] = cases[std::get<0>(coord)][std::get<1>(coord)];
-            cases[std::get<0>(coord)][std::get<1>(coord)] = Case(std::get<0>(coord),std::get<1>(coord));
-            if(joueur) {
-                for(int i = 0; i < 16; i++){
-                    if(std::get<0>(joueur1[i]) == std::get<0>(coord) && std::get<1>(joueur1[i]) == std::get<1>(coord)){
-                        joueur1[i] = {std::get<0>(coord), std::get<1>(coord), "Cavalier"};
-                    }
-                }
-            }else{
-                for(int i = 0; i < 16; i++){
-                    if(std::get<0>(joueur2[i]) == std::get<0>(coord) && std::get<1>(joueur2[i]) == std::get<1>(coord)){
-                        joueur2[i] = {std::get<0>(coord), std::get<1>(coord), "Cavalier"};
-                    }
-                }
-            }
-            return true;
-        }
-    //}
+    return mouvement(x,joueur, "Cavalier");
 }
 
 
@@ -525,118 +470,80 @@ bool PlateauEchiquier::fouPeutIlYAller(int i_src, int j_src, int i_dst, int j_ds
 }
 
 bool PlateauEchiquier::mouvement_fou(std::string x, bool joueur) {
-    std::cout << x.at(1) << std::endl;
-    int i_dst = (int)(x.at(2)-'0');
-    int j_dst = getEquivalenceAlpha(x.at(1));
-
-    if((joueur && cases[i_dst][j_dst].getPion().getColor() == Couleur::BLANC) || (!joueur && cases[i_dst][j_dst].getPion().getColor() == Couleur::NOIR)){
-        std::cout << "Mouvement impossible" << std::endl;
-        return false;
-    }
-        coord = ouEstFou(i_dst, j_dst, joueur);
-        if(std::get<0>(coord) == -1){
-            std::cout << "Mouvement impossible" << std::endl;
-            return false;
-        }else if(std::get<0>(coord) == -2){
-            std::cout << "Vous avez plusieurs possibilité de mouvement.\n Choisissez en une." << std::endl;
-            std::string ii = "";
-            std::cin >> ii;
-            int j_src = getEquivalenceAlpha(ii.at(0));
-            int cmp = 0;
-            int tmp = -1;
-            for(int i = 0; i < 16; i++){
-                if(joueur){
-                    if(std::get<1>(joueur1[i]) == j_src && std::get<2>(joueur1[i]) == "Fou") {
-                        cmp++;
-                        tmp = i;
-                    }
-                }else{
-                    if(std::get<1>(joueur2[i]) == j_src && std::get<2>(joueur2[i]) == "Fou") {
-                        cmp++;
-                        tmp = i;
-                    }
-                }
-            }
-            if(cmp > 1){
-                std::cout << "Vous avez plusieurs possibilité de mouvement.\n Choisissez en une." << std::endl;
-                std::string jj = "";
-                std::cin >> jj;
-                int i_src = (int)(jj.at(0)-'0');
-                if(fouPeutIlYAller(i_src, j_src, i_dst, j_dst)) {
-                    if(!cases[i_dst][j_dst].isEmpty()){
-                        pionDetruit(i_dst, j_dst, !joueur);
-                    }
-                    cases[i_dst][j_dst] = cases[i_src][j_src];
-                    cases[i_src][j_src] = Case(i_src,j_src);
-                    if (joueur)joueur1[tmp] = {i_dst, j_dst, "Fou"};
-                    else joueur2[tmp] = {i_dst, j_dst, "Fou"};
-                    return true;
-                }else{
-                    std::cout << "Mouvement impossibme" << std::endl;
-                    return false;
-                }
-            }else{
-                if(joueur) {
-                    int i_src = std::get<0>(joueur1[tmp]);
-                    if (fouPeutIlYAller(i_src, j_src, i_dst, j_dst)) {
-                        if(!cases[i_dst][j_dst].isEmpty()){
-                            pionDetruit(i_dst, j_dst, !joueur);
-                        }
-                        cases[i_dst][j_dst] = cases[i_src][j_src];
-                        cases[i_src][j_src] = Case(i_src,j_src);
-                        joueur1[tmp] = {i_dst, j_dst, "Fou"};
-                        return true;
-                    }else{
-                        std::cout << "Mouvement impossibme" << std::endl;
-                        return false;
-                    }
-                }else{
-                    int i_src = std::get<0>(joueur2[tmp]);
-                    if(fouPeutIlYAller(i_src,j_src,i_dst,j_dst)) {
-                        if(!cases[i_dst][j_dst].isEmpty()){
-                            pionDetruit(i_dst, j_dst, !joueur);
-                        }
-                        cases[i_dst][j_dst] = cases[i_src][j_src];
-                        cases[i_src][j_src] = Case(i_src,j_src);
-                        joueur2[tmp] = {i_dst, j_dst, "Fou"};
-                        return true;
-                    }else{
-                        std::cout << "Mouvement impossibme" << std::endl;
-                        return false;
-                    }
-                }
-            }
-        } else {
-            if (fouPeutIlYAller(std::get<0>(coord), std::get<1>(coord), i_dst, j_dst)) {
-                if(!cases[i_dst][j_dst].isEmpty()){
-                    pionDetruit(i_dst, j_dst, !joueur);
-                }
-                cases[i_dst][j_dst] = cases[std::get<0>(coord)][std::get<1>(coord)];
-                cases[std::get<0>(coord)][std::get<1>(coord)] = Case(std::get<0>(coord),std::get<1>(coord));
-                if(joueur) {
-                    for(int i = 0; i < 16; i++){
-                        if(std::get<0>(joueur1[i]) == std::get<0>(coord) && std::get<1>(joueur1[i]) == std::get<1>(coord)){
-                            joueur1[i] = {std::get<0>(coord), std::get<1>(coord), "Fou"};
-                        }
-                    }
-                }else{
-                    for(int i = 0; i < 16; i++){
-                        if(std::get<0>(joueur2[i]) == std::get<0>(coord) && std::get<1>(joueur2[i]) == std::get<1>(coord)){
-                            joueur2[i] = {std::get<0>(coord), std::get<1>(coord), "Fou"};
-                        }
-                    }
-                }
-                return true;
-            }else{
-                std::cout << "Mouvement impossibme" << std::endl;
-                return false;
-            }
-        }
+    return mouvement(x,joueur,"Fou");
 }
 
+std::tuple<int,int> PlateauEchiquier::ouEstDame(int i_dst, int j_dst, bool joueur) {
+    if(joueur) {
+        for(int h = 0; h < 8; h++){
+            if (i_dst-h >= 0 && j_dst-h >= 0 && cases[i_dst - h][j_dst - h].getPion().getNom() == "Dame" &&
+                cases[i_dst - h][j_dst - h].getPion().getColor() == Couleur::BLANC){
+                std::get<0>(coord) = i_dst - h;
+                std::get<1>(coord) = j_dst - h;
+            }
+            if (i_dst+h < 8 && j_dst+h < 8 && cases[i_dst + h][j_dst + h].getPion().getNom() == "Dame" &&
+                cases[i_dst + h][j_dst + h].getPion().getColor() == Couleur::BLANC){
+                std::get<0>(coord) = i_dst + h;
+                std::get<1>(coord) = j_dst + h;
+            }
+            if (i_dst+h < 8 && j_dst-h >= 0 && cases[i_dst + h][j_dst - h].getPion().getNom() == "Dame" &&
+                cases[i_dst + h][j_dst - h].getPion().getColor() == Couleur::BLANC){
+                std::get<0>(coord) = i_dst + h;
+                std::get<1>(coord) = j_dst - h;
+            }
+            if (i_dst-h >= 0 && j_dst+h < 8 && cases[i_dst - h][j_dst + h].getPion().getNom() == "Dame" &&
+                cases[i_dst - h][j_dst + h].getPion().getColor() == Couleur::BLANC){
+                std::get<0>(coord) = i_dst - h;
+                std::get<1>(coord) = j_dst + h;
+            }
+            if (cases[i_dst][h].getPion().getNom() == "Dame" && cases[i_dst][h].getPion().getColor() == Couleur::BLANC && tourPeutElleYAller(i_dst, h, i_dst, j_dst)){
+                std::get<0>(coord) = i_dst;
+                std::get<1>(coord) = h;
+            }
+            if (cases[h][j_dst].getPion().getNom() == "Dame" && cases[h][j_dst].getPion().getColor() == Couleur::BLANC && tourPeutElleYAller(h, j_dst, i_dst, j_dst)){
+                std::get<0>(coord) = h;
+                std::get<1>(coord) = j_dst;
+            }
+
+        }
+    }else{
+        for(int h = 0; h < 8; h++){
+            if (i_dst-h >= 0 && j_dst-h >= 0 && cases[i_dst - h][j_dst - h].getPion().getNom() == "Dame" &&
+                cases[i_dst - h][j_dst - h].getPion().getColor() == Couleur::NOIR){
+                std::get<0>(coord) = i_dst - h;
+                std::get<1>(coord) = j_dst - h;
+            }
+            if (i_dst+h < 8 && j_dst+h < 8 && cases[i_dst + h][j_dst + h].getPion().getNom() == "Dame" &&
+                cases[i_dst + h][j_dst + h].getPion().getColor() == Couleur::NOIR){
+                std::get<0>(coord) = i_dst + h;
+                std::get<1>(coord) = j_dst + h;
+            }
+            if (i_dst+h < 8 && j_dst-h >= 0 && cases[i_dst + h][j_dst - h].getPion().getNom() == "Dame" &&
+                cases[i_dst + h][j_dst - h].getPion().getColor() == Couleur::NOIR){
+                std::get<0>(coord) = i_dst + h;
+                std::get<1>(coord) = j_dst - h;
+            }
+            if (i_dst-h >= 0 && j_dst+h < 8 && cases[i_dst - h][j_dst + h].getPion().getNom() == "Dame" &&
+                cases[i_dst - h][j_dst + h].getPion().getColor() == Couleur::NOIR){
+                std::get<0>(coord) = i_dst - h;
+                std::get<1>(coord) = j_dst + h;
+            }
+            if (cases[i_dst][h].getPion().getNom() == "Dame" && cases[i_dst][h].getPion().getColor() == Couleur::NOIR && tourPeutElleYAller(i_dst, h, i_dst, j_dst)){
+                std::get<0>(coord) = i_dst;
+                std::get<1>(coord) = h;
+            }
+            if (cases[h][j_dst].getPion().getNom() == "Dame" && cases[h][j_dst].getPion().getColor() == Couleur::NOIR && tourPeutElleYAller(h, j_dst, i_dst, j_dst)){
+                std::get<0>(coord) = h;
+                std::get<1>(coord) = j_dst;
+            }
+
+        }
+    }
+    return  coord;
+}
 
 bool PlateauEchiquier::mouvement_dame(std::string x, bool joueur) {
-
+    return mouvement(x, joueur, "Dame");
 }
 
 std::tuple<int,int> PlateauEchiquier::ouEstRoi(int i_dst, int j_dst, bool joueur) {
@@ -670,39 +577,7 @@ std::tuple<int,int> PlateauEchiquier::ouEstRoi(int i_dst, int j_dst, bool joueur
 }
 
 bool PlateauEchiquier::mouvement_roi(std::string x, bool joueur) {
-    std::cout << x.at(1) << std::endl;
-    int i_dst = (int)(x.at(2)-'0');
-    int j_dst = getEquivalenceAlpha(x.at(1));
-
-    if((joueur && cases[i_dst][j_dst].getPion().getColor() == Couleur::BLANC) || (!joueur && cases[i_dst][j_dst].getPion().getColor() == Couleur::NOIR)){
-        std::cout << "Mouvement impossible" << std::endl;
-        return false;
-    }
-    coord = ouEstRoi(i_dst, j_dst, joueur);
-    if(std::get<0>(coord) == -1){
-        std::cout << "Mouvement impossible" << std::endl;
-        return false;
-    } else {
-        if(!cases[i_dst][j_dst].isEmpty()){
-            pionDetruit(i_dst, j_dst, !joueur);
-        }
-        cases[i_dst][j_dst] = cases[std::get<0>(coord)][std::get<1>(coord)];
-        cases[std::get<0>(coord)][std::get<1>(coord)] = Case(std::get<0>(coord),std::get<1>(coord));
-        if(joueur) {
-            for(int i = 0; i < 16; i++){
-                if(std::get<0>(joueur1[i]) == std::get<0>(coord) && std::get<1>(joueur1[i]) == std::get<1>(coord)){
-                    joueur1[i] = {std::get<0>(coord), std::get<1>(coord), "Roi"};
-                }
-            }
-        }else{
-            for(int i = 0; i < 16; i++){
-                if(std::get<0>(joueur2[i]) == std::get<0>(coord) && std::get<1>(joueur2[i]) == std::get<1>(coord)){
-                    joueur2[i] = {std::get<0>(coord), std::get<1>(coord), "Roi"};
-                }
-            }
-        }
-        return true;
-    }
+    return mouvement(x,joueur,"Roi");
 }
 
 std::tuple<int,int> PlateauEchiquier::ouEstTour(int i_dst, int j_dst, bool joueur) {
@@ -773,113 +648,7 @@ bool PlateauEchiquier::tourPeutElleYAller(int i_src, int j_src, int i_dst, int j
 }
 
 bool PlateauEchiquier::mouvement_tour(std::string x, bool joueur) {
-    std::cout << x.at(1) << std::endl;
-    int i_dst = (int)(x.at(2)-'0');
-    int j_dst = getEquivalenceAlpha(x.at(1));
-
-    if((joueur && cases[i_dst][j_dst].getPion().getColor() == Couleur::BLANC) || (!joueur && cases[i_dst][j_dst].getPion().getColor() == Couleur::NOIR)){
-        std::cout << "Mouvement impossible" << std::endl;
-        return false;
-    }
-    coord = ouEstTour(i_dst, j_dst, joueur);
-    if(std::get<0>(coord) == -1){
-        std::cout << "Mouvement impossible" << std::endl;
-        return false;
-    }else if(std::get<0>(coord) == -2){
-        std::cout << "Vous avez plusieurs possibilité de mouvement.\n Choisissez en une." << std::endl;
-        std::string ii = "";
-        std::cin >> ii;
-        int j_src = getEquivalenceAlpha(ii.at(0));
-        int cmp = 0;
-        int tmp = -1;
-        for(int i = 0; i < 16; i++){
-            if(joueur){
-                if(std::get<1>(joueur1[i]) == j_src && std::get<2>(joueur1[i]) == "Tour") {
-                    cmp++;
-                    tmp = i;
-                }
-            }else{
-                if(std::get<1>(joueur2[i]) == j_src && std::get<2>(joueur2[i]) == "Tour") {
-                    cmp++;
-                    tmp = i;
-                }
-            }
-        }
-        if(cmp > 1){
-            std::cout << "Vous avez plusieurs possibilité de mouvement.\n Choisissez en une." << std::endl;
-            std::string jj = "";
-            std::cin >> jj;
-            int i_src = (int)(jj.at(0)-'0');
-            if(tourPeutElleYAller(i_src, j_src, i_dst, j_dst)) {
-                if(!cases[i_dst][j_dst].isEmpty()){
-                    pionDetruit(i_dst, j_dst, !joueur);
-                }
-                cases[i_dst][j_dst] = cases[i_src][j_src];
-                cases[i_src][j_src] = Case(i_src,j_src);
-                if (joueur)joueur1[tmp] = {i_dst, j_dst, "Tour"};
-                else joueur2[tmp] = {i_dst, j_dst, "Tour"};
-                return true;
-            }else{
-                std::cout << "Mouvement impossibme" << std::endl;
-                return false;
-            }
-        }else{
-            if(joueur) {
-                int i_src = std::get<0>(joueur1[tmp]);
-                if (tourPeutElleYAller(i_src, j_src, i_dst, j_dst)) {
-                    if(!cases[i_dst][j_dst].isEmpty()){
-                        pionDetruit(i_dst, j_dst, !joueur);
-                    }
-                    cases[i_dst][j_dst] = cases[i_src][j_src];
-                    cases[i_src][j_src] = Case(i_src,j_src);
-                    joueur1[tmp] = {i_dst, j_dst, "Tour"};
-                    return true;
-                }else{
-                    std::cout << "Mouvement impossibme" << std::endl;
-                    return false;
-                }
-            }else{
-                int i_src = std::get<0>(joueur2[tmp]);
-                if(tourPeutElleYAller(i_src,j_src,i_dst,j_dst)) {
-                    if(!cases[i_dst][j_dst].isEmpty()){
-                        pionDetruit(i_dst, j_dst, !joueur);
-                    }
-                    cases[i_dst][j_dst] = cases[i_src][j_src];
-                    cases[i_src][j_src] = Case(i_src,j_src);
-                    joueur2[tmp] = {i_dst, j_dst, "Tour"};
-                    return true;
-                }else{
-                    std::cout << "Mouvement impossibme" << std::endl;
-                    return false;
-                }
-            }
-        }
-    } else {
-        if (tourPeutElleYAller(std::get<0>(coord), std::get<1>(coord), i_dst, j_dst)) {
-            if(!cases[i_dst][j_dst].isEmpty()){
-                pionDetruit(i_dst, j_dst, !joueur);
-            }
-            cases[i_dst][j_dst] = cases[std::get<0>(coord)][std::get<1>(coord)];
-            cases[std::get<0>(coord)][std::get<1>(coord)] = Case(std::get<0>(coord),std::get<1>(coord));
-            if(joueur) {
-                for(int i = 0; i < 16; i++){
-                    if(std::get<0>(joueur1[i]) == std::get<0>(coord) && std::get<1>(joueur1[i]) == std::get<1>(coord)){
-                        joueur1[i] = {std::get<0>(coord), std::get<1>(coord), "Tour"};
-                    }
-                }
-            }else{
-                for(int i = 0; i < 16; i++){
-                    if(std::get<0>(joueur2[i]) == std::get<0>(coord) && std::get<1>(joueur2[i]) == std::get<1>(coord)){
-                        joueur2[i] = {std::get<0>(coord), std::get<1>(coord), "Tour"};
-                    }
-                }
-            }
-            return true;
-        }else{
-            std::cout << "Mouvement impossibme" << std::endl;
-            return false;
-        }
-    }
+    return mouvement(x,joueur,"Tour");
 }
 
 void PlateauEchiquier::launchEchiquier(bool ordi) {

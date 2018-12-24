@@ -30,10 +30,14 @@ public:
     bool mouvement_dame(std::string, bool);
     bool mouvement_roi(std::string, bool);
 
+    bool mouvement(std::string,bool, std::string);
+
     std::tuple<int,int> ouEstCavalier(int, int, bool);
     std::tuple<int,int> ouEstFou(int,int,bool);
     std::tuple<int,int> ouEstTour(int, int, bool);
     std::tuple<int,int> ouEstRoi(int, int, bool);
+    std::tuple<int,int> ouEstDame(int, int, bool);
+
 
     bool fouPeutIlYAller(int, int, int, int);
     bool tourPeutElleYAller(int, int, int, int);
