@@ -4,7 +4,6 @@
 #include "PlateauStratego.h"
 
 int main() {
-
-    PlateauStratego p;
-    p.launchStratego(false);
+    PlateauDamier p(10);
+    p.launcher();
 }
