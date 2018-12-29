@@ -47,8 +47,6 @@ public:
 
     std::string help(bool joueur);
 
-    void afficher();
-
     int renvoiePionsNbr(std::string);
 
     void launchStratego(bool);

@@ -2,6 +2,7 @@
 #include "Plateau.h"
 #include "PlateauDamier.h"
 #include "PlateauStratego.h"
+#include "PlateauEchiquier.h"
 
 int main() {
     PlateauDamier p(10);

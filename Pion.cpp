@@ -36,4 +36,3 @@ void Pion::setImg(std::string i) {
 std::string Pion::getImg() {
     return img;
 }
-
