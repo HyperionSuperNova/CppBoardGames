@@ -286,11 +286,10 @@ const void PlateauDamier::launcher() {
 
 const void PlateauDamier::singlePlayer() {
     this->initialize();
-    std::cout << *(this) << std::endl;
     std::cout << "IT'S P1 TURN !!" << std::endl;
     while (true) {
-        this->playerTurn();
         std::cout << *(this) << std::endl;
+        this->playerTurn();
         this->bot();
         std::cout << *(this) << std::endl;
 
