@@ -15,6 +15,8 @@ private:
     std::tuple<int, int, std::string>joueur2[16] = {{0,0, "Tour"},{0,1,"Cavalier"},{0,2,"Fou"},{0,3,"Dame"},{0,4,"Roi"},{0,5,"Fou"},{0,6,"Cavalier"},{0,7,"Tour"},{1,0,"Pion"},{1,1,"Pion"},{1,2,"Pion"},{1,3,"Pion"},{1,4,"Pion"},{1,5,"Pion"},{1,6,"Pion"},{1,7,"Pion"}};
     std::tuple<int, int>coord = {0,0};
 
+    std::tuple<int,int,std::string>dernier_mouv[2] = {{-1,-1,""}, {-1,-1,""}};
+
     bool les2RoisontSurLePlateau;
 public:
     PlateauEchiquier();
@@ -31,6 +33,11 @@ public:
     bool mouvement_roi(std::string, bool);
 
     bool mouvement(std::string,bool, std::string);
+
+    bool roiEStEnEchec(bool);
+    bool roiEstSurDiagonaleDeFou(bool);
+    bool roiEstSurCaseCavalier(bool);
+    bool roiACotePion(bool);
 
     std::tuple<int,int> ouEstCavalier(int, int, bool);
     std::tuple<int,int> ouEstFou(int,int,bool);
