@@ -6,8 +6,8 @@
 
 int main() {
 
-    PlateauEchiquier e;
-    e.launchEchiquier(true);
-    //PlateauStratego p;
-    //p.launchStratego(true);
+    //PlateauEchiquier e;
+    //e.launchEchiquier(true);
+    PlateauStratego p;
+    p.launchStratego(true);
 }

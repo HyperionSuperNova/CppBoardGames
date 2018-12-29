@@ -16,6 +16,7 @@ private:
     std::tuple<int, int>coord = {0,0};
 
     std::tuple<int,int,std::string>dernier_mouv[2] = {{-1,-1,""}, {-1,-1,""}};
+    std::string piece_bouffee = "";
 
     bool les2RoisontSurLePlateau;
 public:
@@ -44,6 +45,9 @@ public:
     std::tuple<int,int> ouEstTour(int, int, bool);
     std::tuple<int,int> ouEstRoi(int, int, bool);
     std::tuple<int,int> ouEstDame(int, int, bool);
+
+
+    std::string quelleImage(std::string, bool);
 
 
     bool fouPeutIlYAller(int, int, int, int);

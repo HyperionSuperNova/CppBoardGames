@@ -121,6 +121,7 @@ bool PlateauEchiquier::mouvement(std::string x, bool joueur, std::string piece) 
             cases[i_src][j_src] = Case(i_src,j_src);
             if (joueur)joueur1[tmp] = {i_dst, j_dst, piece};
             else joueur2[tmp] = {i_dst, j_dst, piece};
+            piece_bouffee = piece;
             return true;
         }else{
             if(joueur){
@@ -134,6 +135,7 @@ bool PlateauEchiquier::mouvement(std::string x, bool joueur, std::string piece) 
                 cases[i_dst][j_dst] = cases[i_src][j_src];
                 cases[i_src][j_src] = Case(i_src,j_src);
                 joueur1[tmp] = {i_dst,j_dst, piece};
+                piece_bouffee = piece;
                 return true;
             }else{
                 int i_src = std::get<0>(joueur2[tmp]);
@@ -143,6 +145,7 @@ bool PlateauEchiquier::mouvement(std::string x, bool joueur, std::string piece) 
                 cases[i_dst][j_dst] = cases[i_src][j_src];
                 cases[i_src][j_src] = Case(i_src,j_src);
                 joueur2[tmp] = {i_dst,j_dst, piece};
+                piece_bouffee = piece;
                 return true;
             }
         }
@@ -168,6 +171,7 @@ bool PlateauEchiquier::mouvement(std::string x, bool joueur, std::string piece) 
                 }
             }
         }
+        piece_bouffee = piece;
         return true;
     }
 }
@@ -821,6 +825,24 @@ bool PlateauEchiquier::roiEStEnEchec(bool joueur) {
     }
 }
 
+std::string PlateauEchiquier::quelleImage(std::string nom, bool joueur) {
+    if(joueur){
+        if(piece_bouffee == "Cavalier") return "\u2658";
+        else if(piece_bouffee == "Fou") return "\u2657";
+        else if(piece_bouffee == "Tour") return "\u2656";
+        else if(piece_bouffee == "Dame") return "\u2655";
+        else if(piece_bouffee == "Pion") return "\u2659";
+        else return "";
+    }else{
+        if(piece_bouffee == "Cavalier") return "\u265E";
+        else if(piece_bouffee == "Fou") return "\u265D";
+        else if(piece_bouffee == "Tour") return "\u265C";
+        else if(piece_bouffee == "Dame") return "\u265B";
+        else if(piece_bouffee == "Pion") return "\u265F";
+        else return "";
+    }
+}
+
 void PlateauEchiquier::launchEchiquier(bool ordi) {
     bool quiJoue = true; //joueur 1
 
@@ -867,12 +889,29 @@ void PlateauEchiquier::launchEchiquier(bool ordi) {
                         break;
                     }
                 }
+                std::string img = quelleImage(piece_bouffee, !quiJoue);
+
+                for(int h = 0; h < 16; h++){
+                    if(std::get<2>(joueur2[h]) == piece_bouffee && std::get<0>(joueur2[h]) == -1){
+                        Pion p(piece_bouffee,img,Couleur::NOIR);
+                        cases[std::get<0>(dernier_mouv[1])][std::get<1>(dernier_mouv[1])].setPion(p);
+                    }
+                }
             }else{
+
                 for(int h = 0; h < 16; h++){
                     if(std::get<0>(joueur2[h]) == std::get<0>(dernier_mouv[1]) && std::get<1>(joueur2[h]) == std::get<1>(dernier_mouv[1]) && std::get<2>(joueur2[h]) == std::get<2>(dernier_mouv[1])){
                         joueur2[h] = {std::get<0>(dernier_mouv[0]), std::get<1>(dernier_mouv[0]), piece};
                         move(std::get<0>(dernier_mouv[1]), std::get<1>(dernier_mouv[1]), std::get<0>(dernier_mouv[0]), std::get<1>(dernier_mouv[0]));
                         break;
+                    }
+                }
+
+                std::string img = quelleImage(piece_bouffee, !quiJoue);
+                for(int h = 0; h < 16; h++){
+                    if(std::get<2>(joueur1[h]) == piece_bouffee && std::get<0>(joueur1[h]) == -1){
+                        Pion p(piece_bouffee,img,Couleur::BLANC);
+                        cases[std::get<0>(dernier_mouv[1])][std::get<1>(dernier_mouv[1])].setPion(p);
                     }
                 }
             }
@@ -882,6 +921,8 @@ void PlateauEchiquier::launchEchiquier(bool ordi) {
 
         quiJoue = !quiJoue;
     }
+    if(std::get<0>(joueur1[4]) == -1) std::cout << "C'est le joueur 2 qui gagne!" << std::endl;
+    else if(std::get<0>(joueur2[4]) == -1) std::cout << "C'est le joueur 1 qui gagne!" << std::endl;
 
 }
 
