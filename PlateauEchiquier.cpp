@@ -114,6 +114,9 @@ bool PlateauEchiquier::mouvement(std::string x, bool joueur, std::string piece) 
             if(!cases[i_dst][j_dst].isEmpty()){
                 pionDetruit(i_dst, j_dst, !joueur);
             }
+            dernier_mouv[0] = {i_src,j_src, piece};
+            dernier_mouv[1] = {i_dst, j_dst, piece};
+
             cases[i_dst][j_dst] = cases[i_src][j_src];
             cases[i_src][j_src] = Case(i_src,j_src);
             if (joueur)joueur1[tmp] = {i_dst, j_dst, piece};
@@ -125,12 +128,18 @@ bool PlateauEchiquier::mouvement(std::string x, bool joueur, std::string piece) 
                 if(!cases[i_dst][j_dst].isEmpty()){
                     pionDetruit(i_dst, j_dst, !joueur);
                 }
+                dernier_mouv[0] = {i_src,j_src, piece};
+                dernier_mouv[1] = {i_dst, j_dst, piece};
+
                 cases[i_dst][j_dst] = cases[i_src][j_src];
                 cases[i_src][j_src] = Case(i_src,j_src);
                 joueur1[tmp] = {i_dst,j_dst, piece};
                 return true;
             }else{
                 int i_src = std::get<0>(joueur2[tmp]);
+                dernier_mouv[0] = {i_src,j_src, piece};
+                dernier_mouv[1] = {i_dst, j_dst, piece};
+
                 cases[i_dst][j_dst] = cases[i_src][j_src];
                 cases[i_src][j_src] = Case(i_src,j_src);
                 joueur2[tmp] = {i_dst,j_dst, piece};
@@ -141,6 +150,9 @@ bool PlateauEchiquier::mouvement(std::string x, bool joueur, std::string piece) 
         if(!cases[i_dst][j_dst].isEmpty()){
             pionDetruit(i_dst, j_dst, !joueur);
         }
+
+        dernier_mouv[0] = {std::get<0>(coord),std::get<1>(coord), piece};
+        dernier_mouv[1] = {i_dst, j_dst, piece};
         cases[i_dst][j_dst] = cases[std::get<0>(coord)][std::get<1>(coord)];
         cases[std::get<0>(coord)][std::get<1>(coord)] = Case(std::get<0>(coord),std::get<1>(coord));
         if(joueur) {
@@ -651,6 +663,164 @@ bool PlateauEchiquier::mouvement_tour(std::string x, bool joueur) {
     return mouvement(x,joueur,"Tour");
 }
 
+bool PlateauEchiquier::roiEstSurDiagonaleDeFou(bool joueur) {
+    if(joueur){
+        std::tuple<int,int,std::string> fou1 = joueur1[2];
+        std::tuple<int,int,std::string> fou2 = joueur1[5];
+        std::tuple<int,int,std::string> dame = joueur1[3];
+        std::tuple<int,int,std::string> roi_adverse = joueur2[4];
+
+        int i_fou1 = std::get<0>(fou1);
+        int j_fou1 = std::get<1>(fou1);
+        int i_fou2 = std::get<0>(fou2);
+        int j_fou2 = std::get<1>(fou2);
+        int i_dame = std::get<0>(dame);
+        int j_dame = std::get<1>(dame);
+        int i_roi = std::get<0>(roi_adverse);
+        int j_roi = std::get<1>(roi_adverse);
+
+        if(j_fou1 == -1 && j_fou2 == -1) return false;
+
+        for(int h = 0; h < 8; h++){
+            if ((i_fou1-h == i_roi && j_fou1-h == j_roi) || (i_fou2-h == i_roi && j_fou2-h == j_roi) || (i_dame-h == i_roi && j_dame-h == j_roi) ||
+                    (i_fou1+h == i_roi && j_fou1+h == j_roi) || (i_fou2+h == i_roi && j_fou2+h == j_roi) || (i_dame+h == i_roi && j_dame+h == j_roi) ||
+                    (i_fou1+h == i_roi && j_fou1-h == j_roi) || (i_fou2+h == i_roi && j_fou2-h == j_roi) || (i_dame+h == i_roi && j_dame-h == j_roi) ||
+                    (i_fou1-h == i_roi && j_fou1+h == j_roi) || (i_fou2-h == i_roi && j_fou2+h == j_roi) || (i_dame-h == i_roi && j_dame+h == j_roi)){
+                return true;
+            }
+
+        }
+        return false;
+    }else{
+        std::tuple<int,int,std::string> fou1 = joueur2[2];
+        std::tuple<int,int,std::string> fou2 = joueur2[5];
+        std::tuple<int,int,std::string> roi_adverse = joueur1[4];
+
+        int i_fou1 = std::get<0>(fou1);
+        int j_fou1 = std::get<1>(fou1);
+        int i_fou2 = std::get<0>(fou2);
+        int j_fou2 = std::get<1>(fou2);
+        int i_roi = std::get<0>(roi_adverse);
+        int j_roi = std::get<1>(roi_adverse);
+
+        if(j_fou1 == -1 && j_fou2 == -1) return false;
+
+        for(int h = 0; h < 8; h++){
+            if ((i_fou1-h == i_roi && j_fou1-h == j_roi) || (i_fou2-h == i_roi && j_fou2-h == j_roi) ||
+                (i_fou1+h == i_roi && j_fou1+h == j_roi) || (i_fou2+h == i_roi && j_fou2+h == j_roi) ||
+                (i_fou1+h == i_roi && j_fou1-h == j_roi) || (i_fou2+h == i_roi && j_fou2-h == j_roi) ||
+                (i_fou1-h == i_roi && j_fou1+h == j_roi) || (i_fou2-h == i_roi && j_fou2+h == j_roi)){
+                return true;
+            }
+
+        }
+        return false;
+    }
+}
+
+bool PlateauEchiquier::roiEstSurCaseCavalier(bool joueur) {
+    std::tuple<int, int, std::string> cava1 = {-1,-1,""};
+    std::tuple<int, int, std::string> cava2 = {-1,-1,""};
+    std::tuple<int, int, std::string> roi_adverse = {-1,-1,""};
+
+    int i_cava1 = -1;
+    int j_cava1 = -1;
+    int i_cava2 = -1;
+    int j_cava2 = -1;
+    int i_roi = -1;
+    int j_roi = -1;
+
+    if(joueur) {
+        cava1 = joueur1[1];
+        cava2 = joueur1[6];
+        roi_adverse = joueur2[4];
+
+        i_cava1 = std::get<0>(cava1);
+        j_cava1 = std::get<1>(cava1);
+        i_cava2 = std::get<0>(cava2);
+        j_cava2 = std::get<1>(cava2);
+        i_roi = std::get<0>(roi_adverse);
+        j_roi = std::get<1>(roi_adverse);
+    }else {
+        cava1 = joueur2[1];
+        cava2 = joueur2[6];
+        roi_adverse = joueur1[4];
+
+        i_cava1 = std::get<0>(cava1);
+        j_cava1 = std::get<1>(cava1);
+        i_cava2 = std::get<0>(cava2);
+        j_cava2 = std::get<1>(cava2);
+        i_roi = std::get<0>(roi_adverse);
+        j_roi = std::get<1>(roi_adverse);
+    }
+
+        if(j_cava1 == -1 && j_cava2 == -1) return false;
+
+        else if ((i_cava1-2 == i_roi && j_cava1-1 == j_roi) || (i_cava2-2 == i_roi && j_cava2-1 == j_roi) ||
+        (i_cava1-1 == i_roi && j_cava1-2 == j_roi) || (i_cava2-1 == i_roi && j_cava2-2 == j_roi) ||
+        (i_cava1+1 == i_roi && j_cava1-2 == j_roi) || (i_cava2+1 == i_roi && j_cava2-2 == j_roi) ||
+        (i_cava1+2 == i_roi && j_cava1-1 == j_roi) || (i_cava2+2 == i_roi && j_cava2-1 == j_roi) ||
+        (i_cava1+2 == i_roi && j_cava1+1 == j_roi) || (i_cava2+2 == i_roi && j_cava2+1 == j_roi) ||
+        (i_cava1+1 == i_roi && j_cava1+2 == j_roi) || (i_cava2+1 == i_roi && j_cava2+2 == j_roi) ||
+        (i_cava1-1 == i_roi && j_cava1+2 == j_roi) || (i_cava2-1 == i_roi && j_cava2+2 == j_roi) ||
+        (i_cava1-2 == i_roi && j_cava1+1 == j_roi) || (i_cava2-2 == i_roi && j_cava2+1 == j_roi) ) {
+            return true;
+        }
+        else return false;
+}
+
+bool PlateauEchiquier::roiACotePion(bool joueur) {
+    if(joueur){
+        std::tuple<int,int,std::string> pion = {-1,-1,""};
+        std::tuple<int,int,std::string> roi_adverse = joueur2[4];
+        int i_roi = std::get<0>(roi_adverse);
+        int j_roi = std::get<1>(roi_adverse);
+        for(int h = 8; h < 16; h++){
+            pion = joueur1[h];
+            int i_pion = std::get<0>(pion);
+            int j_pion = std::get<1>(pion);
+
+            if ((i_pion-1 == i_roi && j_pion+1 == j_roi) || (i_pion-1 == i_roi && j_pion-1 == j_roi)){
+                return true;
+            }
+        }
+        return false;
+    }else{
+        std::tuple<int,int,std::string> pion = {-1,-1,""};
+        std::tuple<int,int,std::string> roi_adverse = joueur1[4];
+        int i_roi = std::get<0>(roi_adverse);
+        int j_roi = std::get<1>(roi_adverse);
+        for(int h = 8; h < 16; h++){
+            pion = joueur2[h];
+            int i_pion = std::get<0>(pion);
+            int j_pion = std::get<1>(pion);
+
+            if ((i_pion+1 == i_roi && j_pion+1 == j_roi) || (i_pion+1 == i_roi && j_pion-1 == j_roi)){
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+bool PlateauEchiquier::roiEStEnEchec(bool joueur) {
+    if(joueur){
+        for(int h = 0; h < 16; h++){
+            if((std::get<0>(joueur2[h]) == std::get<0>(joueur1[4]) && (std::get<2>(joueur2[h]) == "Dame" || std::get<2>(joueur2[h]) == "Tour")) || (std::get<1>(joueur2[h]) == std::get<1>(joueur1[4]) && (std::get<2>(joueur2[h]) == "Dame" || std::get<2>(joueur2[h]) == "Tour"))) return true;
+            if(roiEstSurDiagonaleDeFou(!joueur) || roiEstSurCaseCavalier(!joueur)) return true;
+            if(roiACotePion(!joueur)) return true;
+        }
+        return  false;
+    }else{
+        for(int h = 0; h < 16; h++){
+            if((std::get<0>(joueur1[h]) == std::get<0>(joueur2[4]) && (std::get<2>(joueur1[h]) == "Dame" || std::get<2>(joueur1[h]) == "Tour")) || (std::get<1>(joueur1[h]) == std::get<1>(joueur2[4]) && (std::get<2>(joueur1[h]) == "Dame" || std::get<2>(joueur1[h]) == "Tour"))) return true;
+            if(roiEstSurDiagonaleDeFou(!joueur) || roiEstSurCaseCavalier(!joueur)) return true;
+            if(roiACotePion(!joueur)) return true;
+        }
+        return false;
+    }
+}
+
 void PlateauEchiquier::launchEchiquier(bool ordi) {
     bool quiJoue = true; //joueur 1
 
@@ -685,6 +855,29 @@ void PlateauEchiquier::launchEchiquier(bool ordi) {
         }
         else{
             if(!mouvement_roi(ii, quiJoue)) goto next_loop;
+        }
+        if(roiEStEnEchec(quiJoue)){
+            // TODO undo mouvement:: reste a gere cas ou mouvement a detruit une piece
+            std::string piece = std::get<2>(dernier_mouv[0]);
+            if(quiJoue){
+                for(int h = 0; h < 16; h++){
+                    if(std::get<0>(joueur1[h]) == std::get<0>(dernier_mouv[1]) && std::get<1>(joueur1[h]) == std::get<1>(dernier_mouv[1]) && std::get<2>(joueur1[h]) == std::get<2>(dernier_mouv[1])){
+                        joueur1[h] = {std::get<0>(dernier_mouv[0]), std::get<1>(dernier_mouv[0]), piece};
+                        move(std::get<0>(dernier_mouv[1]), std::get<1>(dernier_mouv[1]), std::get<0>(dernier_mouv[0]), std::get<1>(dernier_mouv[0]));
+                        break;
+                    }
+                }
+            }else{
+                for(int h = 0; h < 16; h++){
+                    if(std::get<0>(joueur2[h]) == std::get<0>(dernier_mouv[1]) && std::get<1>(joueur2[h]) == std::get<1>(dernier_mouv[1]) && std::get<2>(joueur2[h]) == std::get<2>(dernier_mouv[1])){
+                        joueur2[h] = {std::get<0>(dernier_mouv[0]), std::get<1>(dernier_mouv[0]), piece};
+                        move(std::get<0>(dernier_mouv[1]), std::get<1>(dernier_mouv[1]), std::get<0>(dernier_mouv[0]), std::get<1>(dernier_mouv[0]));
+                        break;
+                    }
+                }
+            }
+            std::cout << "Mouvement impossible. Roi en Echec" << std::endl;
+            goto next_loop;
         }
 
         quiJoue = !quiJoue;
