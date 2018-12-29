@@ -553,7 +553,7 @@ std::string PlateauStratego::help(bool joueur) {
                             res += std::to_string(h-1) + " " + std::to_string(j) + "\n";
                             h = 100;
                         }
-                        if(h == 8 && cases[h+1][j].isEmpty()){
+                        else if(h == 8 && cases[h+1][j].isEmpty()){
                             res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
                             res += std::to_string(h+1) + " " + std::to_string(j) + "\n";
                         }
@@ -564,7 +564,7 @@ std::string PlateauStratego::help(bool joueur) {
                             res += std::to_string(h+1) + " " + std::to_string(j) + "\n";
                             h = -1;
                         }
-                        if(h == 1 && cases[0][j].isEmpty()){
+                        else if(h == 1 && cases[0][j].isEmpty()){
                             res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
                             res += std::to_string(0) + " " + std::to_string(j) + "\n";
                         }
@@ -575,7 +575,7 @@ std::string PlateauStratego::help(bool joueur) {
                             res += std::to_string(i) + " " + std::to_string(h-1) + "\n";
                             h = 100;
                         }
-                        if(h == 8 && cases[i][h+1].isEmpty()){
+                        else if(h == 8 && cases[i][h+1].isEmpty()){
                             res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
                             res += std::to_string(i) + " " + std::to_string(h+1) + "\n";
                         }
@@ -586,7 +586,7 @@ std::string PlateauStratego::help(bool joueur) {
                             res += std::to_string(i) + " " + std::to_string(h+1) + "\n";
                             h = -1;
                         }
-                        if(h == 1 && cases[i][0].isEmpty()){
+                        else if(h == 1 && cases[i][0].isEmpty()){
                             res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
                             res += std::to_string(i) + " " + std::to_string(0) + "\n";
                         }
