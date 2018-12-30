@@ -926,6 +926,204 @@ void PlateauEchiquier::launchEchiquier(bool ordi) {
 
 }
 
-std::string PlateauEchiquier::help(bool joueur) {
+std::string PlateauEchiquier::helpPion(bool joueur) {
+    std::string res = "";
+    if(joueur){
+        for(int h = 8; h < 16; h++){
+            int i = std::get<0>(joueur1[h]);
+            int j = std::get<1>(joueur1[h]);
+            if(i == 6){
+                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                       std::to_string(j) + " -> ";
+                res += std::to_string(i-2) + " " + std::to_string(j) + "\n";
+            }
+            if(i-1 >= 0 && cases[i-1][j].isEmpty()){
+                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                       std::to_string(j) + " -> ";
+                res += std::to_string(i-1) + " " + std::to_string(j) + "\n";
+            }
+            if(i-1 >= 0 && j-1 >= 0 && !cases[i-1][j-1].isEmpty()){
+                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                       std::to_string(j) + " -> ";
+                res += std::to_string(i-1) + " " + std::to_string(j-1) + "\n";
+            }
+            if(i-1 >= 0 && j+1 < 8 && !cases[i-1][j+1].isEmpty()){
+                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                       std::to_string(j) + " -> ";
+                res += std::to_string(i-1) + " " + std::to_string(j+1) + "\n";
+            }
 
+        }
+    }else{
+        for(int h = 8; h < 16; h++){
+            int i = std::get<0>(joueur2[h]);
+            int j = std::get<1>(joueur2[h]);
+            if(i == 1){
+                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                       std::to_string(j) + " -> ";
+                res += std::to_string(i+2) + " " + std::to_string(j) + "\n";
+            }
+            if(i+1 < 8 && cases[i+1][j].isEmpty()){
+                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                       std::to_string(j) + " -> ";
+                res += std::to_string(i+1) + " " + std::to_string(j) + "\n";
+            }
+            if(i+1 < 8 && j-1 >= 0 && !cases[i+1][j-1].isEmpty()){
+                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                       std::to_string(j) + " -> ";
+                res += std::to_string(i+1) + " " + std::to_string(j-1) + "\n";
+            }
+            if(i+1 < 8 && j+1 < 8 && !cases[i+1][j+1].isEmpty()){
+                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                       std::to_string(j) + " -> ";
+                res += std::to_string(i+1) + " " + std::to_string(j+1) + "\n";
+            }
+
+        }
+    }
+    return res;
+}
+
+std::string PlateauEchiquier::helpTour(bool joueur) {
+    std::string res = "";
+    return res;
+}
+
+std::string PlateauEchiquier::helpCavalier(bool joueur) {
+    Couleur bon = Couleur ::BLANC;
+    std::string res = "";
+    int i_cava1 = -1;
+    int j_cava1 = -1;
+    int i_cava2 = -1;
+    int j_cava2 = -1;
+    if(joueur){
+        i_cava1 = std::get<0>(joueur1[1]);
+        j_cava1 = std::get<1>(joueur1[1]);
+        i_cava2 = std::get<0>(joueur1[6]);
+        j_cava2 = std::get<1>(joueur1[6]);
+    }else{
+        int i_cava1 = std::get<0>(joueur2[1]);
+        int j_cava1 = std::get<1>(joueur2[1]);;
+        int i_cava2 = std::get<0>(joueur2[6]);
+        int j_cava2 = std::get<1>(joueur2[6]);
+        bon = Couleur ::NOIR;
+    }
+    if (i_cava1-2 >= 0 && j_cava1-1 >= 0 &&
+    cases[i_cava1 - 2][j_cava1 - 1].getPion().getColor() != bon) {
+        res += "Cavalier " + std::to_string(i_cava1) + " " +
+               std::to_string(j_cava1) + " -> ";
+        res += std::to_string(i_cava1-2) + " " + std::to_string(j_cava1-1) + "\n";
+    }
+    if (i_cava2-2 >= 0 && j_cava2-1 >= 0 &&
+    cases[i_cava2 - 2][j_cava2 - 1].getPion().getColor() != bon) {
+        res += "Cavalier " + std::to_string(i_cava2) + " " +
+               std::to_string(j_cava2) + " -> ";
+        res += std::to_string(i_cava2-2) + " " + std::to_string(j_cava2-1) + "\n";
+    }
+    if (i_cava1-1 >= 0 && j_cava1-2 >= 0 &&
+    cases[i_cava1 - 1][j_cava1 - 2].getPion().getColor() != bon) {
+        res += "Cavalier " + std::to_string(i_cava1) + " " +
+               std::to_string(j_cava1) + " -> ";
+        res += std::to_string(i_cava1-1) + " " + std::to_string(j_cava1-2) + "\n";
+    }
+    if (i_cava2-1 >= 0 && j_cava2-2 >= 0 &&
+    cases[i_cava2 - 1][j_cava2 - 2].getPion().getColor() != bon) {
+        res += "Cavalier " + std::to_string(i_cava2) + " " +
+               std::to_string(j_cava2) + " -> ";
+        res += std::to_string(i_cava2-1) + " " + std::to_string(j_cava2-2) + "\n";
+    }
+    if (i_cava1+1 < 8 && j_cava1-2 >= 0 &&
+            cases[i_cava1 + 1][j_cava1 - 2].getPion().getColor() != bon) {
+        res += "Cavalier " + std::to_string(i_cava1) + " " +
+               std::to_string(j_cava1) + " -> ";
+        res += std::to_string(i_cava1+1) + " " + std::to_string(j_cava1-2) + "\n";
+    }
+    if (i_cava2+1 < 8 && j_cava2-2 >= 0 &&
+        cases[i_cava2 + 1][j_cava2 - 2].getPion().getColor() != bon) {
+        res += "Cavalier " + std::to_string(i_cava2) + " " +
+               std::to_string(j_cava2) + " -> ";
+        res += std::to_string(i_cava2+1) + " " + std::to_string(j_cava2-2) + "\n";
+    }
+        if (i_cava1+2 < 8 && j_cava1-1 >= 0 &&
+            cases[i_cava1 + 2][j_cava1 - 1].getPion().getColor() != bon) {
+            res += "Cavalier " + std::to_string(i_cava1) + " " +
+                   std::to_string(j_cava1) + " -> ";
+            res += std::to_string(i_cava1+2) + " " + std::to_string(j_cava1-1) + "\n";
+        }
+    if (i_cava2+2 < 8 && j_cava2-1 >= 0 &&
+        cases[i_cava2 + 2][j_cava2 - 1].getPion().getColor() != bon) {
+        res += "Cavalier " + std::to_string(i_cava2) + " " +
+               std::to_string(j_cava2) + " -> ";
+        res += std::to_string(i_cava2+2) + " " + std::to_string(j_cava2-1) + "\n";
+    }
+    if (i_cava1+2 < 8 && j_cava1+1 < 8 &&
+            cases[i_cava1 + 2][j_cava1 + 1].getPion().getColor() != bon) {
+        res += "Cavalier " + std::to_string(i_cava1) + " " +
+               std::to_string(j_cava1) + " -> ";
+        res += std::to_string(i_cava1+2) + " " + std::to_string(j_cava1+1) + "\n";
+    }
+    if (i_cava2+2 < 8 && j_cava2+1 < 8 &&
+        cases[i_cava2 + 2][j_cava2 + 1].getPion().getColor() != bon) {
+        res += "Cavalier " + std::to_string(i_cava2) + " " +
+               std::to_string(j_cava2) + " -> ";
+        res += std::to_string(i_cava2+2) + " " + std::to_string(j_cava2+1) + "\n";
+    }
+    if (i_cava1+1 < 8 && j_cava1+2 < 8 &&
+            cases[i_cava1 + 1][j_cava1 + 2].getPion().getColor() != bon) {
+        res += "Cavalier " + std::to_string(i_cava1) + " " +
+               std::to_string(j_cava1) + " -> ";
+        res += std::to_string(i_cava1+1) + " " + std::to_string(j_cava1+2) + "\n";
+    }
+    if (i_cava2+1 < 8 && j_cava2+2 < 8 &&
+        cases[i_cava2 + 1][j_cava2 + 2].getPion().getColor() != bon) {
+        res += "Cavalier " + std::to_string(i_cava2) + " " +
+               std::to_string(j_cava2) + " -> ";
+        res += std::to_string(i_cava2+1) + " " + std::to_string(j_cava2+2) + "\n";
+    }
+    if (i_cava1-1 >= 0 && j_cava1+2 < 8 &&
+    cases[i_cava1 - 1][j_cava1 + 2].getPion().getColor() != bon) {
+        res += "Cavalier " + std::to_string(i_cava1) + " " +
+               std::to_string(j_cava1) + " -> ";
+        res += std::to_string(i_cava1-1) + " " + std::to_string(j_cava1+2) + "\n";
+    }
+    if (i_cava2-1 >= 0 && j_cava2+2 < 8 &&
+        cases[i_cava2 - 1][j_cava2 + 2].getPion().getColor() != bon) {
+        res += "Cavalier " + std::to_string(i_cava2) + " " +
+               std::to_string(j_cava2) + " -> ";
+        res += std::to_string(i_cava2-1) + " " + std::to_string(j_cava2+2) + "\n";
+    }
+    if (i_cava1-2 >= 0 && j_cava1+1 < 8 &&
+    cases[i_cava1 - 2][j_cava1 + 1].getPion().getColor() != bon) {
+        res += "Cavalier " + std::to_string(i_cava1) + " " +
+               std::to_string(j_cava1) + " -> ";
+        res += std::to_string(i_cava1-2) + " " + std::to_string(j_cava1+1) + "\n";
+    }
+    if (i_cava2-2 >= 0 && j_cava2+1 < 8 &&
+        cases[i_cava2 - 2][j_cava2 + 1].getPion().getColor() != bon) {
+        res += "Cavalier " + std::to_string(i_cava2) + " " +
+               std::to_string(j_cava2) + " -> ";
+        res += std::to_string(i_cava2-2) + " " + std::to_string(j_cava2+1) + "\n";
+    }
+    return res;
+}
+
+std::string PlateauEchiquier::helpFou(bool joueur) {
+    std::string res = "";
+    return res;
+}
+
+std::string PlateauEchiquier::helpDame(bool joueur) {
+    std::string res = "";
+    return res;
+}
+
+std::string PlateauEchiquier::helpRoi(bool joueur) {
+    std::string res = "";
+    return res;
+}
+
+std::string PlateauEchiquier::help(bool joueur) {
+    std::string res = "";
+    res += helpPion(joueur) + helpCavalier(joueur); //+ helpTour(joueur) + helpCavalier(joueur) + helpFou(joueur) + helpDame(joueur) + helpRoi(joueur);
+    return res;
 }

@@ -49,6 +49,14 @@ public:
 
     std::string quelleImage(std::string, bool);
 
+    std::string helpCavalier(bool);
+    std::string helpTour(bool);
+    std::string helpFou(bool);
+    std::string helpPion(bool);
+    std::string helpDame(bool);
+    std::string helpRoi(bool);
+    std::string help(bool);
+
 
     bool fouPeutIlYAller(int, int, int, int);
     bool tourPeutElleYAller(int, int, int, int);
@@ -56,8 +64,6 @@ public:
     int getEquivalenceAlpha(char);
 
     void pionDetruit(int, int, bool);
-
-    std::string help(bool joueur);
 
     void launchEchiquier(bool);
 };
