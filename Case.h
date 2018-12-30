@@ -22,7 +22,6 @@ public:
     void setPionImg(std::string);
     void setPionBis(Pion& p);
     void setPion(Pion);
-
     bool isEmpty();
     friend std:: ostream&operator<<(std:: ostream&, const Case &);
 
