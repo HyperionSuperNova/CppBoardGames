@@ -1,7 +1,3 @@
-//
-// Created by merat on 22/12/18.
-//
-
 #include "PlateauEchiquier.h"
 
 PlateauEchiquier::PlateauEchiquier() : Plateau(8){

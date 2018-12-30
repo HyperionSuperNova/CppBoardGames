@@ -1,7 +1,3 @@
-//
-// Created by stryker on 16/11/18.
-//
-
 #ifndef CPLUSPROJ_PLATEAUDAMIER_H
 #define CPLUSPROJ_PLATEAUDAMIER_H
 

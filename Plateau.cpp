@@ -1,7 +1,3 @@
-//
-// Created by merat on 15/11/18.
-//
-
 #include "Plateau.h"
 
 Case Plateau::getCase(int i, int j) {
