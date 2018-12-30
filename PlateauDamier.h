@@ -19,6 +19,7 @@ public:
     const void initialize() const;
     const bool posOk(int i_src, int j_src,int i_dst, int j_dst) const;
     const bool pionMove(int i_src, int j_src,int i_dst, int j_dst, Couleur c);
+    const bool kingMove(int i_src, int j_src,int i_dst, int j_dst, Couleur c);
     bool bot();
     const void playerTurn();
     std::vector <int> split(const std::string &s, char delimiter);

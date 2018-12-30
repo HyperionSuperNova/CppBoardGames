@@ -5,8 +5,10 @@
 #include "PlateauEchiquier.h"
 
 int main() {
-    PlateauEchiquier e;
-    e.launchEchiquier(true);
+    //PlateauEchiquier e;
+    //e.launchEchiquier(true);
     //PlateauStratego p;
     //p.launchStratego(true);
+    PlateauDamier d(10);
+    d.launcher();
 }
