@@ -20,8 +20,8 @@ private:
 public:
     PlateauStratego();
     friend std::ostream &operator<<(std::ostream &os, const PlateauStratego &stratego);
-    bool mouvement_eclaireur(int , int, int, int, bool);
-    bool mouvement_autre(int, int, int, int, bool);
+    bool mouvement_eclaireur(int , int, int, int, bool, bool);
+    bool mouvement_autre(int, int, int, int, bool, bool);
     bool estPlusFortQue(Pion p1, Pion p2);
     void mettrePionJoueurSurPlateau(bool);
     void cacherPieceJoueur(bool);

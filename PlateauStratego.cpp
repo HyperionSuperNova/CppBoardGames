@@ -30,7 +30,7 @@ std::ostream &operator<<(std::ostream &os, const PlateauStratego &stratego) {
 }
 
 
-bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j_dst, bool joueur) {
+bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j_dst, bool joueur, bool ordi) {
     bool ok = true;
     int min = 0;
     int max = 0;
@@ -44,9 +44,8 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 max = j_src - 1;
             }
             for(int j = min; j < max; j++){
-                std::cout << "j: " << cases[i_src][j].getPion().getNom() << std::endl;
                 if(!cases[i_src][j].isEmpty() || ((i_src == 4 || i_src == 5) && (j == 2 || j == 3 || j == 6 || j == 7))){
-                    std::cout << "Mouvement impossible. Case non vide sur le chemin";
+                    if(ordi && joueur) std::cout << "Mouvement impossible. Case non vide sur le chemin";
                     return 0;
                 }
             }
@@ -64,6 +63,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 return 1;
             }else{
                  if(cases[i_src][j_src].getPion().getNom().compare(cases[i_dst][j_dst].getPion().getNom()) == 0){
+                     std::cout << "Battu par: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
                      if(joueur){
                          joueur1[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
                          joueur2[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
@@ -98,7 +98,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
             }
             for(int i = min; i < max; i++){
                 if(!cases[i][j_src].isEmpty() ||  ((i == 4 || i == 5) && (j_src == 2 || j_src == 3 || j_src == 6 || j_src == 7))){
-                    std::cout << "Mouvement impossible. Case non vide sur le chemin";
+                    if(ordi && joueur) std::cout << "Mouvement impossible. Case non vide sur le chemin";
                     return 0;
                 }
             }
@@ -115,6 +115,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 return 1;
             }else if(cases[i_dst][j_dst].getPion().getColor() != cases[i_src][j_src].getPion().getColor()){
                 if(cases[i_src][j_src].getPion().getNom().compare(cases[i_dst][j_dst].getPion().getNom()) == 0){
+                    std::cout << "Battu par: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
                     if(joueur){
                         joueur1[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
                         joueur2[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
@@ -138,16 +139,16 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 return 1;
             }else return 0;
         }else{
-            std::cout << "mouvement impossible";
+            if(ordi && joueur) std::cout << "mouvement impossible";
             return 0;
         }
     }else{
-        std::cout << "Out of Bounds" << std::endl;
+        if(ordi && joueur) std::cout << "Out of Bounds" << std::endl;
         return 0;
     }
 }
 
-bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst, bool joueur) {
+bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst, bool joueur, bool ordi) {
     if( i_dst < 10 && j_dst < 10){
         if((i_dst == i_src -1 && j_dst == j_src) || (i_dst == i_src +1 && j_dst == j_src) || (i_dst == i_src && j_dst == j_src -1) || (i_dst == i_src && j_dst == j_src + 1)){
             if(cases[i_dst][j_dst].isEmpty()){
@@ -163,6 +164,7 @@ bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst
 
             }else{
                 if(cases[i_src][j_src].getPion().getNom().compare(cases[i_dst][j_dst].getPion().getNom()) == 0){
+                    std::cout << "Battu par: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
                     if(joueur){
                         joueur1[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
                         joueur2[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
@@ -184,12 +186,12 @@ bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst
                 }
             }
         }else{
-            std::cout << "mouvement impossible";
+            if(ordi && joueur) std::cout << "mouvement impossible";
             return 0;
         }
         return 1;
     }else{
-        std::cout << "Out of Bounds" << std::endl;
+        if(ordi && joueur) std::cout << "Out of Bounds" << std::endl;
         return 0;
     }
 }
@@ -297,11 +299,26 @@ void PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
         if(piece.compare("charger") == 0){
             mettrePionOrdiSurPlateau(joueur);
             cacherPieceJoueur(joueur);
-            h = 40;
-            break;
+            goto end;
         }
+
         std::cin >> ii;
         std::cin >> jj;
+
+        while(ii.size() != 1 || jj.size() != 1){
+            std::cout << "Mauvaise entrée. Veuillez recommencer" << std::endl;
+            std::cin >> piece;
+            if(piece.compare("charger") == 0){
+                mettrePionOrdiSurPlateau(joueur);
+                cacherPieceJoueur(joueur);
+                goto end;
+            }
+
+            std::cin >> ii;
+            std::cin >> jj;
+
+        }
+
 
         int i = std::stoi(ii);
         int j = std::stoi(jj);
@@ -317,7 +334,6 @@ void PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
                 if(joueur) {
                     if (joueur1[renvoiePionsNbr(piece)] > 0) {
                         std::string imag = std::get<1>(img[renvoiePionsNbr(piece)]);
-                        std::cout << "i: " << i << " j: " << j << std::endl;
                         cases[i][j].setPion(Pion(piece, imag, Couleur::BLANC));
                         joueur1[renvoiePionsNbr(piece)]--;
                     } else {
@@ -344,6 +360,7 @@ void PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
             h--;
         }
     }
+    end:
     std::cout << "Let's the game begin!" << std::endl;
 }
 
@@ -358,10 +375,10 @@ void PlateauStratego::mettrePionOrdiSurPlateau(bool joueur) {
     std::string path = "";
     if(joueur){
         nom = "joueur" + std::to_string(r) + ".txt";
-        path = "/home/merat/Bureau/Master/M1/CppBoardGames/joueur/" + nom;
+        path = "../joueur/" + nom;
     }else{
         nom = "ordi" + std::to_string(r) + ".txt";
-        path = "/home/merat/Bureau/Master/M1/CppBoardGames/ordi/" + nom;
+        path = "../ordi/" + nom;
     }
 
     std::cout << path << std::endl;
@@ -421,6 +438,7 @@ void PlateauStratego::revelerUnePiece(int i, int j) {
     cases[i][j].setPionImg(std::get<1>(img[n]));
 }
 
+
 bool PlateauStratego::queBombeEtDrapeau(bool joueur) {
     if(joueur){
         return (joueur1[1] == 0 && joueur1[2] == 0 && joueur1[3] == 0 && joueur1[4] == 0 && joueur1[5] == 0 && joueur1[6] == 0 && joueur1[7] == 0 && joueur1[8] == 0 && joueur1[9] == 0 && joueur1[10] == 0);
@@ -471,7 +489,6 @@ void PlateauStratego::launchStratego(bool ordi) {
                 i_dst = rand() % 10;
                 j_dst = rand() % 10;
                 if((i_dst != i_src && j_dst != j_src) || (i_dst == i_src && j_dst == j_src)) goto again;
-                // std::cout << "i_dst: " << i_dst << "   j_dst: " << j_dst << std::endl;
 
             }else {
                 int set_i_dst[2] = {i_src + 1, i_src + 1};
@@ -488,12 +505,22 @@ void PlateauStratego::launchStratego(bool ordi) {
             }
             std::cin >> jj;
 
+            while(ii.size() != 1 || jj.size() != 1){
+                std::cout << "Mauvaise entrée. Veuillez recommencer" << std::endl;
+                goto next_loop;
+            }
+
 
             i_src = std::stoi(ii);
             j_src = std::stoi(jj);
 
             std::cin >> ii;
             std::cin >> jj;
+
+            while(ii.size() != 1 || jj.size() != 1){
+                std::cout << "Mauvaise entrée. Veuillez recommencer" << std::endl;
+                goto next_loop;
+            }
 
             i_dst = std::stoi(ii);
             j_dst = std::stoi(jj);
@@ -511,20 +538,20 @@ void PlateauStratego::launchStratego(bool ordi) {
             }
         }
         if((i_dst == 4 || i_dst == 5) && (j_dst == 2 || j_dst == 3 || j_dst == 6 || j_dst == 7)){
-            std::cout << "Case invalide" << std::endl;
-            std::cout << "Veuillez entrer de nouvelles valeurs" << std::endl;
+            if(ordi && quiJoue) std::cout << "Case invalide" << std::endl;
+            if(ordi && quiJoue) std::cout << "Veuillez entrer de nouvelles valeurs" << std::endl;
             goto next_loop;
         }
 
 
         if (cases[i_src][j_src].getPion().getNom().compare("Bombe") == 0 || cases[i_src][j_src].getPion().getNom().compare("Drapeau") == 0 || cases[i_src][j_src].getPion().getNom().compare("") == 0){
-            std::cout << "Mouvement impossible\n" << std::endl;
+            if(ordi && quiJoue) std::cout << "Mouvement impossible\n" << std::endl;
             goto next_loop;
         }else if (cases[i_src][j_src].getPion().getNom().compare("Eclaireur") == 0){
-            if(!mouvement_eclaireur(i_src, j_src, i_dst, j_dst, quiJoue)) goto next_loop;
+            if(!mouvement_eclaireur(i_src, j_src, i_dst, j_dst, quiJoue, ordi)) goto next_loop;
         }
         else{
-            if(!mouvement_autre(i_src, j_src, i_dst, j_dst, quiJoue)) goto next_loop;
+            if(!mouvement_autre(i_src, j_src, i_dst, j_dst, quiJoue, ordi)) goto next_loop;
         }
         quiJoue = !quiJoue;
         if(queBombeEtDrapeau(quiJoue)) quiJoue = !quiJoue;
