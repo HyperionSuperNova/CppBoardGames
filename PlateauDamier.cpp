@@ -59,13 +59,16 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                 Pion p2("KING", "\u26C1", Couleur::BLANC);
                 cases[i_dst][j_dst] = Case(i_dst, j_dst);
                 cases[i_dst][j_dst].setPionBis(p2);
-            }else if (i_dst == dimension -1){
+                return true;
+            } else if (i_dst == dimension - 1) {
                 Pion p2("KING", "\u26C3", Couleur::NOIR);
                 cases[i_dst][j_dst] = Case(i_dst, j_dst);
                 cases[i_dst][j_dst].setPionBis(p2);
+                return true;
             }
             if (((j_dst == j_src + 1) || j_dst == j_src - 1)) {
-                if (!cases[i_dst][j_dst].isEmpty() && cases[i_dst][j_dst].getPion().getColor() == Couleur::NOIR && !(cases[i_dst][j_dst].getPion().getNom() == "KING")) {
+                if (!cases[i_dst][j_dst].isEmpty() && cases[i_dst][j_dst].getPion().getColor() == Couleur::NOIR &&
+                    !(cases[i_dst][j_dst].getPion().getNom() == "KING")) {
                     if (i_dst == i_src - 1) {
                         if (j_dst == j_src + 1 && j_dst + 1 < dimension && j_dst + 1 > 0) {
                             if (cases[i_dst - 1][j_dst + 1].isEmpty()) {
@@ -144,7 +147,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                 std::cout << "Illegal movement" << std::endl;
                 return false;
             }
-        } else if (cases[i_src][j_src].getPion().getColor() == Couleur::NOIR && c == Couleur::NOIR && !(cases[i_dst][j_dst].getPion().getNom() == "KING")) {
+        } else if (cases[i_src][j_src].getPion().getColor() == Couleur::NOIR && c == Couleur::NOIR &&
+                   !(cases[i_dst][j_dst].getPion().getNom() == "KING")) {
             if (((j_dst == j_src + 1) || j_dst == j_src - 1)) {
                 if (i_dst == i_src + 1) {
                     if (!cases[i_dst][j_dst].isEmpty() && cases[i_dst][j_dst].getPion().getColor() == Couleur::BLANC) {
@@ -274,14 +278,14 @@ const void PlateauDamier::playerTurn() {
         std::string x;
         std::cin >> x;
         std::vector<int> h = split(x, ',');
-        if(cases[t[0]][t[1]].getPion().getNom() == "PION"){
+        if (cases[t[0]][t[1]].getPion().getNom() == "PION") {
             if ((h.size() != 2 || !pionMove(t[0], t[1], h[0], h[1], Couleur::BLANC))) {
                 std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
                 /*std::cin >> x;
                 h = split(x, ',');*/
                 goto firstSelect;
             }
-        }else if(cases[t[0]][t[1]].getPion().getNom() == "KING"){
+        } else if (cases[t[0]][t[1]].getPion().getNom() == "KING") {
             if ((h.size() != 2 || !kingMove(t[0], t[1], h[0], h[1], Couleur::BLANC))) {
                 std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
                 /*std::cin >> x;
@@ -352,33 +356,63 @@ const bool PlateauDamier::pionSelect(int i_src, int j_src, Couleur c) {
 const bool PlateauDamier::kingMove(int i_src, int j_src, int i_dst, int j_dst, Couleur c) {
     int lambda = 1;
     int alpha = 1;
-    std::map<int,int> m;
-    if(i_dst < i_src){
-        if (j_dst < j_src){
-            if(cases[i_dst][j_dst].isEmpty()){
-                while(i_dst + lambda != i_src && j_dst + lambda != j_src){
-                    if(!cases[i_dst+lambda][j_dst+lambda].isEmpty() && c != cases[i_dst+lambda][j_dst+lambda].getPion().getColor()){
-                        m[i_dst+lambda] = j_dst + lambda;
-                    }else if(c != cases[i_dst+lambda][j_dst+lambda].getPion().getColor()){
+    std::map<int, int> m;
+    if (cases[i_dst][j_dst].isEmpty()) {
+        if (i_dst < i_src) {
+            if (j_dst < j_src) {
+
+                while (i_dst + lambda != i_src && j_dst + lambda != j_src) {
+                    if (!cases[i_dst + lambda][j_dst + lambda].isEmpty() &&
+                        c != cases[i_dst + lambda][j_dst + lambda].getPion().getColor()) {
+                        m[i_dst + lambda] = j_dst + lambda;
+                    } else if (c != cases[i_dst + lambda][j_dst + lambda].getPion().getColor()) {
                         return false;
                     }
                     lambda++;
                 }
-            }else{
-                return false;
-            }
-        }else if(j_dst > j_src){
-            while(i_dst + lambda != i_src && (j_dst - lambda) != j_src){
-                if(!cases[i_dst+lambda][j_dst-lambda].isEmpty() && c != cases[i_dst+lambda][j_dst-lambda].getPion().getColor()){
-                    m[i_dst+lambda] = j_dst - lambda;
-                }else if(c != cases[i_dst+lambda][j_dst+lambda].getPion().getColor()){
-                    return false;
+
+            } else if (j_dst > j_src) {
+                while (i_dst + lambda != i_src && (j_dst - lambda) != j_src) {
+                    if (!cases[i_dst + lambda][j_dst - lambda].isEmpty() &&
+                        c != cases[i_dst + lambda][j_dst - lambda].getPion().getColor()) {
+                        m[i_dst + lambda] = j_dst - lambda;
+                    } else if (c != cases[i_dst + lambda][j_dst - lambda].getPion().getColor()) {
+                        return false;
+                    }
+                    lambda++;
                 }
-                lambda++;
+            }
+        } else if (i_dst > i_src) {
+            if (j_dst < j_src) {
+
+                while (i_dst - lambda != i_src && j_dst + lambda != j_src) {
+                    if (!cases[i_dst - lambda][j_dst + lambda].isEmpty() &&
+                        c != cases[i_dst - lambda][j_dst + lambda].getPion().getColor()) {
+                        m[i_dst - lambda] = j_dst + lambda;
+                    } else if (c != cases[i_dst - lambda][j_dst + lambda].getPion().getColor()) {
+                        return false;
+                    }
+                    lambda++;
+                }
+
+            } else if (j_dst > j_src) {
+                while (i_dst - lambda != i_src && (j_dst - lambda) != j_src) {
+                    if (!cases[i_dst - lambda][j_dst - lambda].isEmpty() &&
+                        c != cases[i_dst - lambda][j_dst - lambda].getPion().getColor()) {
+                        m[i_dst - lambda] = j_dst - lambda;
+                    } else if (c != cases[i_dst - lambda][j_dst - lambda].getPion().getColor()) {
+                        return false;
+                    }
+                    lambda++;
+                }
             }
         }
-    }else if(i_dst > i_src){
-
+    } else {
+        return false;
+    }
+    std::map<int,int>::iterator it;
+    for(it = m.begin();it != m.end();++it){
+        cases[it->first][it->second] = Case(it->first,it->second);
     }
     return true;
 }
