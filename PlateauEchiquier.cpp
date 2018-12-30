@@ -72,6 +72,10 @@ int PlateauEchiquier::getEquivalenceAlpha(char c) {
     return -1;
 }
 
+char PlateauEchiquier::getEquivalenceNum(int a) {
+    return std::get<1>(alpha[a]);
+}
+
 bool PlateauEchiquier::mouvement(std::string x, bool joueur, std::string piece) {
     std::cout << x.at(1) << std::endl;
     int i_dst = (int)(x.at(2)-'0');
@@ -934,23 +938,23 @@ std::string PlateauEchiquier::helpPion(bool joueur) {
             int j = std::get<1>(joueur1[h]);
             if(i == 6){
                 res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
-                       std::to_string(j) + " -> ";
-                res += std::to_string(i-2) + " " + std::to_string(j) + "\n";
+                       getEquivalenceNum(j) + " -> ";
+                res += std::to_string(i-2) + " " + getEquivalenceNum(j) + "\n";
             }
             if(i-1 >= 0 && cases[i-1][j].isEmpty()){
                 res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
-                       std::to_string(j) + " -> ";
-                res += std::to_string(i-1) + " " + std::to_string(j) + "\n";
+                        getEquivalenceNum(j) + " -> ";
+                res += std::to_string(i-1) + " " + getEquivalenceNum(j) + "\n";
             }
             if(i-1 >= 0 && j-1 >= 0 && !cases[i-1][j-1].isEmpty()){
                 res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
-                       std::to_string(j) + " -> ";
-                res += std::to_string(i-1) + " " + std::to_string(j-1) + "\n";
+                        getEquivalenceNum(j) + " -> ";
+                res += std::to_string(i-1) + " " + getEquivalenceNum(j-1) + "\n";
             }
             if(i-1 >= 0 && j+1 < 8 && !cases[i-1][j+1].isEmpty()){
                 res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
-                       std::to_string(j) + " -> ";
-                res += std::to_string(i-1) + " " + std::to_string(j+1) + "\n";
+                        getEquivalenceNum(j) + " -> ";
+                res += std::to_string(i-1) + " " + getEquivalenceNum(j+1) + "\n";
             }
 
         }
@@ -961,22 +965,22 @@ std::string PlateauEchiquier::helpPion(bool joueur) {
             if(i == 1){
                 res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
                        std::to_string(j) + " -> ";
-                res += std::to_string(i+2) + " " + std::to_string(j) + "\n";
+                res += std::to_string(i+2) + " " + getEquivalenceNum(j) + "\n";
             }
             if(i+1 < 8 && cases[i+1][j].isEmpty()){
                 res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
                        std::to_string(j) + " -> ";
-                res += std::to_string(i+1) + " " + std::to_string(j) + "\n";
+                res += std::to_string(i+1) + " " + getEquivalenceNum(j) + "\n";
             }
             if(i+1 < 8 && j-1 >= 0 && !cases[i+1][j-1].isEmpty()){
                 res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
                        std::to_string(j) + " -> ";
-                res += std::to_string(i+1) + " " + std::to_string(j-1) + "\n";
+                res += std::to_string(i+1) + " " + getEquivalenceNum(j-1) + "\n";
             }
             if(i+1 < 8 && j+1 < 8 && !cases[i+1][j+1].isEmpty()){
                 res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
                        std::to_string(j) + " -> ";
-                res += std::to_string(i+1) + " " + std::to_string(j+1) + "\n";
+                res += std::to_string(i+1) + " " + getEquivalenceNum(j+1) + "\n";
             }
 
         }
@@ -986,6 +990,101 @@ std::string PlateauEchiquier::helpPion(bool joueur) {
 
 std::string PlateauEchiquier::helpTour(bool joueur) {
     std::string res = "";
+    int i_tour1 = -1;
+    int j_tour1 = -1;
+    int i_tour2 = -1;
+    int j_tour2 = -1;
+    if(joueur){
+        i_tour1 = std::get<0>(joueur1[0]);
+        j_tour1 = std::get<1>(joueur1[0]);
+        i_tour2 = std::get<0>(joueur1[7]);
+        j_tour2 = std::get<1>(joueur1[7]);
+    }else{
+        i_tour1 = std::get<0>(joueur2[0]);
+        j_tour1 = std::get<1>(joueur2[0]);
+        i_tour2 = std::get<0>(joueur2[7]);
+        j_tour2 = std::get<1>(joueur2[7]);
+    }
+    int h = i_tour1 + 1;
+    while (h < 8 && cases[h][j_tour1].isEmpty()) {
+        h++;
+    }
+    if(h-1 != i_tour1) {
+        res += "Tour " + std::to_string(i_tour1) + " " + getEquivalenceNum(j_tour1) +
+               " -> ";
+        res += std::to_string(h - 1) + " " + getEquivalenceNum(j_tour1) + "\n";
+    }
+
+    h = i_tour1 - 1;
+    while (h >= 0 && cases[h][j_tour1].isEmpty()) {
+        h--;
+    }
+    if(h+1 != i_tour1) {
+        res += "Tour " + std::to_string(i_tour1) + " " + getEquivalenceNum(j_tour1) +
+               " -> ";
+        res += std::to_string(h + 1) + " " + getEquivalenceNum(j_tour1) + "\n";
+    }
+
+    h = j_tour1 + 1;
+    while (h < 8 && cases[i_tour1][h].isEmpty()) {
+        h++;
+    }
+    if(h-1 != j_tour1){
+        res += "Tour " + std::to_string(i_tour1) + " " + getEquivalenceNum(j_tour1) +
+               " -> ";
+        res += std::to_string(i_tour1) + " " + getEquivalenceNum(h-1) + "\n";
+    }
+
+    h = j_tour1 - 1;
+    while (h >= 0 && cases[i_tour1][h].isEmpty()) {
+        h--;
+    }
+    if(h+1 != j_tour1) {
+        res += "Tour " + std::to_string(i_tour1) + " " + getEquivalenceNum(j_tour1) +
+               " -> ";
+        res += std::to_string(i_tour1) + " " + getEquivalenceNum(h+1) + "\n";
+    }
+
+
+    h = i_tour2 + 1;
+    while (h < 8 && cases[h][j_tour2].isEmpty()) {
+        h++;
+    }
+    if(h-1 != i_tour2) {
+        res += "Tour " + std::to_string(i_tour2) + " " + getEquivalenceNum(j_tour2) +
+               " -> ";
+        res += std::to_string(h - 1) + " " + getEquivalenceNum(j_tour2) + "\n";
+    }
+
+    h = i_tour2 - 1;
+    while (h >= 0 && cases[h][j_tour2].isEmpty()) {
+        h--;
+    }
+    if(h+1 != i_tour2) {
+        res += "Tour " + std::to_string(i_tour2) + " " + getEquivalenceNum(j_tour2) +
+               " -> ";
+        res += std::to_string(h + 1) + " " + getEquivalenceNum(j_tour2) + "\n";
+    }
+
+    h = j_tour2 + 1;
+    while (h < 8 && cases[i_tour2][h].isEmpty()) {
+        h++;
+    }
+    if(h-1 != j_tour2){
+        res += "Tour " + std::to_string(i_tour2) + " " + getEquivalenceNum(j_tour2) +
+               " -> ";
+        res += std::to_string(i_tour2) + " " + getEquivalenceNum(h-1) + "\n";
+    }
+
+    h = j_tour2 - 1;
+    while (h >= 0 && cases[i_tour2][h].isEmpty()) {
+        h--;
+    }
+    if(h+1 != j_tour2) {
+        res += "Tour " + std::to_string(i_tour2) + " " + getEquivalenceNum(j_tour2) +
+               " -> ";
+        res += std::to_string(i_tour2) + " " + getEquivalenceNum(h+1) + "\n";
+    }
     return res;
 }
 
@@ -1011,119 +1110,366 @@ std::string PlateauEchiquier::helpCavalier(bool joueur) {
     if (i_cava1-2 >= 0 && j_cava1-1 >= 0 &&
     cases[i_cava1 - 2][j_cava1 - 1].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava1) + " " +
-               std::to_string(j_cava1) + " -> ";
-        res += std::to_string(i_cava1-2) + " " + std::to_string(j_cava1-1) + "\n";
+                getEquivalenceNum(j_cava1) + " -> ";
+        res += std::to_string(i_cava1-2) + " " + getEquivalenceNum(j_cava1-1) + "\n";
     }
     if (i_cava2-2 >= 0 && j_cava2-1 >= 0 &&
     cases[i_cava2 - 2][j_cava2 - 1].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
-               std::to_string(j_cava2) + " -> ";
-        res += std::to_string(i_cava2-2) + " " + std::to_string(j_cava2-1) + "\n";
+                getEquivalenceNum(j_cava2) + " -> ";
+        res += std::to_string(i_cava2-2) + " " + getEquivalenceNum(j_cava2-1) + "\n";
     }
     if (i_cava1-1 >= 0 && j_cava1-2 >= 0 &&
     cases[i_cava1 - 1][j_cava1 - 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava1) + " " +
-               std::to_string(j_cava1) + " -> ";
-        res += std::to_string(i_cava1-1) + " " + std::to_string(j_cava1-2) + "\n";
+                getEquivalenceNum(j_cava1) + " -> ";
+        res += std::to_string(i_cava1-1) + " " + getEquivalenceNum(j_cava1-2) + "\n";
     }
     if (i_cava2-1 >= 0 && j_cava2-2 >= 0 &&
     cases[i_cava2 - 1][j_cava2 - 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
-               std::to_string(j_cava2) + " -> ";
-        res += std::to_string(i_cava2-1) + " " + std::to_string(j_cava2-2) + "\n";
+                getEquivalenceNum(j_cava2) + " -> ";
+        res += std::to_string(i_cava2-1) + " " + getEquivalenceNum(j_cava2-2) + "\n";
     }
     if (i_cava1+1 < 8 && j_cava1-2 >= 0 &&
             cases[i_cava1 + 1][j_cava1 - 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava1) + " " +
-               std::to_string(j_cava1) + " -> ";
-        res += std::to_string(i_cava1+1) + " " + std::to_string(j_cava1-2) + "\n";
+                getEquivalenceNum(j_cava1) + " -> ";
+        res += std::to_string(i_cava1+1) + " " + getEquivalenceNum(j_cava1-2) + "\n";
     }
     if (i_cava2+1 < 8 && j_cava2-2 >= 0 &&
         cases[i_cava2 + 1][j_cava2 - 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
-               std::to_string(j_cava2) + " -> ";
-        res += std::to_string(i_cava2+1) + " " + std::to_string(j_cava2-2) + "\n";
+                getEquivalenceNum(j_cava2) + " -> ";
+        res += std::to_string(i_cava2+1) + " " + getEquivalenceNum(j_cava2-2) + "\n";
     }
         if (i_cava1+2 < 8 && j_cava1-1 >= 0 &&
             cases[i_cava1 + 2][j_cava1 - 1].getPion().getColor() != bon) {
             res += "Cavalier " + std::to_string(i_cava1) + " " +
-                   std::to_string(j_cava1) + " -> ";
-            res += std::to_string(i_cava1+2) + " " + std::to_string(j_cava1-1) + "\n";
+                    getEquivalenceNum(j_cava1) + " -> ";
+            res += std::to_string(i_cava1+2) + " " + getEquivalenceNum(j_cava1-1) + "\n";
         }
     if (i_cava2+2 < 8 && j_cava2-1 >= 0 &&
         cases[i_cava2 + 2][j_cava2 - 1].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
-               std::to_string(j_cava2) + " -> ";
-        res += std::to_string(i_cava2+2) + " " + std::to_string(j_cava2-1) + "\n";
+                getEquivalenceNum(j_cava2) + " -> ";
+        res += std::to_string(i_cava2+2) + " " + getEquivalenceNum(j_cava2-1) + "\n";
     }
     if (i_cava1+2 < 8 && j_cava1+1 < 8 &&
             cases[i_cava1 + 2][j_cava1 + 1].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava1) + " " +
-               std::to_string(j_cava1) + " -> ";
-        res += std::to_string(i_cava1+2) + " " + std::to_string(j_cava1+1) + "\n";
+                getEquivalenceNum(j_cava1) + " -> ";
+        res += std::to_string(i_cava1+2) + " " + getEquivalenceNum(j_cava1+1) + "\n";
     }
     if (i_cava2+2 < 8 && j_cava2+1 < 8 &&
         cases[i_cava2 + 2][j_cava2 + 1].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
-               std::to_string(j_cava2) + " -> ";
-        res += std::to_string(i_cava2+2) + " " + std::to_string(j_cava2+1) + "\n";
+                getEquivalenceNum(j_cava2) + " -> ";
+        res += std::to_string(i_cava2+2) + " " + getEquivalenceNum(j_cava2+1) + "\n";
     }
     if (i_cava1+1 < 8 && j_cava1+2 < 8 &&
             cases[i_cava1 + 1][j_cava1 + 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava1) + " " +
-               std::to_string(j_cava1) + " -> ";
-        res += std::to_string(i_cava1+1) + " " + std::to_string(j_cava1+2) + "\n";
+                getEquivalenceNum(j_cava1) + " -> ";
+        res += std::to_string(i_cava1+1) + " " + getEquivalenceNum(j_cava1+2) + "\n";
     }
     if (i_cava2+1 < 8 && j_cava2+2 < 8 &&
         cases[i_cava2 + 1][j_cava2 + 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
-               std::to_string(j_cava2) + " -> ";
-        res += std::to_string(i_cava2+1) + " " + std::to_string(j_cava2+2) + "\n";
+                getEquivalenceNum(j_cava2) + " -> ";
+        res += std::to_string(i_cava2+1) + " " + getEquivalenceNum(j_cava2+2) + "\n";
     }
     if (i_cava1-1 >= 0 && j_cava1+2 < 8 &&
     cases[i_cava1 - 1][j_cava1 + 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava1) + " " +
-               std::to_string(j_cava1) + " -> ";
-        res += std::to_string(i_cava1-1) + " " + std::to_string(j_cava1+2) + "\n";
+                getEquivalenceNum(j_cava1) + " -> ";
+        res += std::to_string(i_cava1-1) + " " + getEquivalenceNum(j_cava1+2) + "\n";
     }
     if (i_cava2-1 >= 0 && j_cava2+2 < 8 &&
         cases[i_cava2 - 1][j_cava2 + 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
-               std::to_string(j_cava2) + " -> ";
-        res += std::to_string(i_cava2-1) + " " + std::to_string(j_cava2+2) + "\n";
+                getEquivalenceNum(j_cava2) + " -> ";
+        res += std::to_string(i_cava2-1) + " " + getEquivalenceNum(j_cava2+2) + "\n";
     }
     if (i_cava1-2 >= 0 && j_cava1+1 < 8 &&
     cases[i_cava1 - 2][j_cava1 + 1].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava1) + " " +
-               std::to_string(j_cava1) + " -> ";
-        res += std::to_string(i_cava1-2) + " " + std::to_string(j_cava1+1) + "\n";
+                getEquivalenceNum(j_cava1) + " -> ";
+        res += std::to_string(i_cava1-2) + " " + getEquivalenceNum(j_cava1+1) + "\n";
     }
     if (i_cava2-2 >= 0 && j_cava2+1 < 8 &&
         cases[i_cava2 - 2][j_cava2 + 1].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
-               std::to_string(j_cava2) + " -> ";
-        res += std::to_string(i_cava2-2) + " " + std::to_string(j_cava2+1) + "\n";
+                getEquivalenceNum(j_cava2) + " -> ";
+        res += std::to_string(i_cava2-2) + " " + getEquivalenceNum(j_cava2+1) + "\n";
     }
     return res;
 }
 
 std::string PlateauEchiquier::helpFou(bool joueur) {
     std::string res = "";
+    int i_fou1 = -1;
+    int j_fou1 = -1;
+    int i_fou2 = -1;
+    int j_fou2 = -1;
+    if(joueur){
+        i_fou1 = std::get<0>(joueur1[2]);
+        j_fou1 = std::get<1>(joueur1[2]);
+        i_fou2 = std::get<0>(joueur1[5]);
+        j_fou2 = std::get<1>(joueur1[5]);
+    }else{
+        i_fou1 = std::get<0>(joueur2[2]);
+        j_fou1 = std::get<1>(joueur2[2]);
+        i_fou2 = std::get<0>(joueur2[5]);
+        j_fou2 = std::get<1>(joueur2[5]);
+    }
+    int h = i_fou1 + 1;
+    int hh = j_fou1 +1;
+    while (h < 8 && hh < 8 && cases[h][hh].isEmpty()) {
+        h++;
+        hh++;
+    }
+    if(h-1 != i_fou1 && hh-1 != j_fou1) {
+        res += "Fou " + std::to_string(i_fou1) + " " + getEquivalenceNum(j_fou1) +
+               " -> ";
+        res += std::to_string(h - 1) + " " + getEquivalenceNum(hh-1) + "\n";
+    }
+
+    h = i_fou1 - 1;
+    hh = j_fou1 + 1;
+    while (h >= 0 && hh < 8 && cases[h][hh].isEmpty()) {
+        h--;
+        hh++;
+    }
+    if(h+1 != i_fou1 && hh-1 != j_fou1) {
+        res += "Fou " + std::to_string(i_fou1) + " " + getEquivalenceNum(j_fou1) +
+               " -> ";
+        res += std::to_string(h + 1) + " " + getEquivalenceNum(hh-1) + "\n";
+    }
+
+    h = i_fou1 + 1;
+    hh = j_fou1 -1;
+    while (h < 8 && hh >= 0 && cases[h][hh].isEmpty()) {
+        h++;
+        hh--;
+    }
+    if(h-1 != i_fou1 && hh+1 != j_fou1){
+        res += "Fou " + std::to_string(i_fou1) + " " + getEquivalenceNum(j_fou1) +
+               " -> ";
+        res += std::to_string(h -1) + " " + getEquivalenceNum(hh+1) + "\n";
+    }
+
+    h = i_fou1 - 1;
+    hh = j_fou1 -1;
+    while (h >= 0 && hh >= 0 && cases[h][hh].isEmpty()) {
+        h--;
+        hh--;
+    }
+    if(h+1 != i_fou1 && hh+1 != j_fou1) {
+        res += "Fou " + std::to_string(i_fou1) + " " + getEquivalenceNum(j_fou1) +
+               " -> ";
+        res += std::to_string(h + 1) + " " + getEquivalenceNum(hh+1) + "\n";
+    }
+
+
+    h = i_fou2 + 1;
+    hh = j_fou2 +1;
+    while (h < 8 && hh < 8 && cases[h][hh].isEmpty()) {
+        h++;
+        hh++;
+    }
+    if(h-1 != i_fou2 && hh-1 != j_fou2) {
+        res += "Fou " + std::to_string(i_fou2) + " " + getEquivalenceNum(j_fou2) +
+               " -> ";
+        res += std::to_string(h - 1) + " " + getEquivalenceNum(hh-1) + "\n";
+    }
+
+    h = i_fou2 - 1;
+    hh = j_fou2 + 1;
+    while (h >= 0 && hh < 8 && cases[h][hh].isEmpty()) {
+        h--;
+        hh++;
+    }
+    if(h+1 != i_fou2 && hh-1 != j_fou2) {
+        res += "Fou " + std::to_string(i_fou2) + " " + getEquivalenceNum(j_fou2) +
+               " -> ";
+        res += std::to_string(h + 1) + " " + getEquivalenceNum(hh-1) + "\n";
+    }
+
+    h = i_fou2 + 1;
+    hh = j_fou2 -1;
+    while (h < 8 && hh >= 0 && cases[h][hh].isEmpty()) {
+        h++;
+        hh--;
+    }
+    if(h-1 != i_fou2 && hh+1 != j_fou2){
+        res += "Fou " + std::to_string(i_fou2) + " " + getEquivalenceNum(j_fou2) +
+               " -> ";
+        res += std::to_string(h - 1) + " " + getEquivalenceNum(hh+1) + "\n";
+    }
+
+    h = i_fou2 - 1;
+    hh = j_fou2 -1;
+    while (h >= 0 && hh >= 0 && cases[h][hh].isEmpty()) {
+        h--;
+        hh--;
+    }
+    if(h+1 != i_fou2 && hh+1 != j_fou2) {
+        res += "Fou " + std::to_string(i_fou2) + " " + getEquivalenceNum(j_fou2) +
+               " -> ";
+        res += std::to_string(h +1) + " " + getEquivalenceNum(hh+1) + "\n";
+    }
     return res;
 }
 
 std::string PlateauEchiquier::helpDame(bool joueur) {
     std::string res = "";
+    int i_dame = -1;
+    int j_dame = -1;
+    if(joueur){
+        i_dame = std::get<0>(joueur1[3]);
+        j_dame = std::get<1>(joueur1[3]);
+    }else{
+        i_dame = std::get<0>(joueur2[3]);
+        j_dame = std::get<1>(joueur2[3]);
+    }
+
+    int h = i_dame + 1;
+    while (h < 8 && cases[h][j_dame].isEmpty()) {
+        h++;
+    }
+    if(h-1 != i_dame) {
+        res += "Dame " + std::to_string(i_dame) + " " + getEquivalenceNum(j_dame) +
+               " -> ";
+        res += std::to_string(h - 1) + " " + getEquivalenceNum(j_dame) + "\n";
+    }
+
+    h = i_dame - 1;
+    while (h >= 0 && cases[h][j_dame].isEmpty()) {
+        h--;
+    }
+    if(h+1 != i_dame) {
+        res += "Dame " + std::to_string(i_dame) + " " + getEquivalenceNum(j_dame) +
+               " -> ";
+        res += std::to_string(h + 1) + " " + getEquivalenceNum(j_dame) + "\n";
+    }
+
+    h = j_dame + 1;
+    while (h < 8 && cases[i_dame][h].isEmpty()) {
+        h++;
+    }
+    if(h-1 != j_dame){
+        res += "Dame " + std::to_string(i_dame) + " " + getEquivalenceNum(j_dame) +
+               " -> ";
+        res += std::to_string(i_dame) + " " + getEquivalenceNum(h-1) + "\n";
+    }
+
+    h = j_dame - 1;
+    while (h >= 0 && cases[i_dame][h].isEmpty()) {
+        h--;
+    }
+    if(h+1 != j_dame) {
+        res += "Dame " + std::to_string(i_dame) + " " + getEquivalenceNum(j_dame) +
+               " -> ";
+        res += std::to_string(i_dame) + " " + getEquivalenceNum(h+1) + "\n";
+    }
+
+    h = i_dame + 1;
+    int hh = j_dame +1;
+    while (h < 8 && hh < 8 && cases[h][hh].isEmpty()) {
+        h++;
+        hh++;
+    }
+    if(h-1 != i_dame && hh-1 != j_dame) {
+        res += "Dame " + std::to_string(i_dame) + " " + getEquivalenceNum(j_dame) +
+               " -> ";
+        res += std::to_string(h - 1) + " " + getEquivalenceNum(hh-1) + "\n";
+    }
+
+    h = i_dame - 1;
+    hh = j_dame + 1;
+    while (h >= 0 && hh < 8 && cases[h][hh].isEmpty()) {
+        h--;
+        hh++;
+    }
+    if(h+1 != i_dame && hh-1 != j_dame) {
+        res += "Dame " + std::to_string(i_dame) + " " + getEquivalenceNum(j_dame) +
+               " -> ";
+        res += std::to_string(h + 1) + " " + getEquivalenceNum(hh-1) + "\n";
+    }
+
+    h = i_dame + 1;
+    hh = j_dame -1;
+    while (h < 8 && hh >= 0 && cases[h][hh].isEmpty()) {
+        h++;
+        hh--;
+    }
+    if(h-1 != i_dame && hh+1 != j_dame){
+        res += "Dame " + std::to_string(i_dame) + " " + getEquivalenceNum(j_dame) +
+               " -> ";
+        res += std::to_string(h -1) + " " + getEquivalenceNum(hh+1) + "\n";
+    }
+
+    h = i_dame - 1;
+    hh = j_dame -1;
+    while (h >= 0 && hh >= 0 && cases[h][hh].isEmpty()) {
+        h--;
+        hh--;
+    }
+    if(h+1 != i_dame && hh+1 != j_dame) {
+        res += "Dame " + std::to_string(i_dame) + " " + getEquivalenceNum(j_dame) +
+               " -> ";
+        res += std::to_string(h + 1) + " " + getEquivalenceNum(hh+1) + "\n";
+    }
     return res;
 }
 
 std::string PlateauEchiquier::helpRoi(bool joueur) {
     std::string res = "";
+    int i_roi = -1;
+    int j_roi = -1;
+    if(joueur){
+        i_roi = std::get<0>(joueur1[4]);
+        j_roi = std::get<1>(joueur1[4]);
+    }else{
+        i_roi = std::get<0>(joueur2[4]);
+        j_roi = std::get<1>(joueur2[4]);
+    }
+    if(i_roi + 1 < 8 && j_roi + 1 < 8){
+        res += "Roi " + std::to_string(i_roi) + " " +
+                getEquivalenceNum(j_roi) + " -> ";
+        res += std::to_string(i_roi + 1) + " " + getEquivalenceNum(j_roi+1) + "\n";
+    }
+    if(i_roi + 1 < 8 && j_roi-1 >= 0){
+        res += "Roi " + std::to_string(i_roi) + " " +
+                getEquivalenceNum(j_roi) + " -> ";
+        res += std::to_string(i_roi + 1) + " " + getEquivalenceNum(j_roi-1) + "\n";
+    }
+    if(i_roi - 1 >= 0 && j_roi + 1 < 8){
+        res += "Roi " + std::to_string(i_roi) + " " +
+                getEquivalenceNum(j_roi) + " -> ";
+        res += std::to_string(i_roi - 1) + " " + getEquivalenceNum(j_roi+1) + "\n";
+    }
+    if(i_roi - 1 >= 0 && j_roi - 1 >= 0){
+        res += "Roi " + std::to_string(i_roi) + " " +
+                getEquivalenceNum(j_roi) + " -> ";
+        res += std::to_string(i_roi - 1) + " " + getEquivalenceNum(j_roi-1) + "\n";
+    }
+    if(j_roi - 1 >= 0){
+        res += "Roi " + std::to_string(i_roi) + " " +
+                getEquivalenceNum(j_roi) + " -> ";
+        res += std::to_string(i_roi) + " " + getEquivalenceNum(j_roi-1) + "\n";
+    }
+    if(j_roi + 1 < 8){
+        res += "Roi " + std::to_string(i_roi) + " " +
+                getEquivalenceNum(j_roi) + " -> ";
+        res += std::to_string(i_roi) + " " + getEquivalenceNum(j_roi+1) + "\n";
+    }
     return res;
 }
 
 std::string PlateauEchiquier::help(bool joueur) {
     std::string res = "";
-    res += helpPion(joueur) + helpCavalier(joueur); //+ helpTour(joueur) + helpCavalier(joueur) + helpFou(joueur) + helpDame(joueur) + helpRoi(joueur);
+    res += helpPion(joueur) +  helpTour(joueur) + helpCavalier(joueur) + helpFou(joueur) + helpDame(joueur) + helpRoi(joueur);
     return res;
 }

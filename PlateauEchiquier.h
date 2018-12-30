@@ -62,6 +62,7 @@ public:
     bool tourPeutElleYAller(int, int, int, int);
 
     int getEquivalenceAlpha(char);
+    char getEquivalenceNum(int);
 
     void pionDetruit(int, int, bool);
 
