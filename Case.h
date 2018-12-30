@@ -1,7 +1,3 @@
-//
-// Created by merat on 15/11/18.
-//
-
 #ifndef CPLUSPROJ_CASE_H
 #define CPLUSPROJ_CASE_H
 

@@ -1,7 +1,3 @@
-//
-// Created by merat on 15/11/18.
-//
-
 #include "Case.h"
 
 Case::Case() {}

@@ -1,7 +1,3 @@
-//
-// Created by merat on 16/11/18.
-//
-
 #ifndef CPLUSPROJ_PLATEAUSTRATEGO_H
 #define CPLUSPROJ_PLATEAUSTRATEGO_H
 

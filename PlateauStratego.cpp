@@ -1,7 +1,3 @@
-//
-// Created by merat on 16/11/18.
-//
-
 #include <fstream>
 #include <time.h>
 #include "PlateauStratego.h"

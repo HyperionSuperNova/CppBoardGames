@@ -1,7 +1,3 @@
-//
-// Created by merat on 22/12/18.
-//
-
 #ifndef BOARDGAMES_PLATEAUECHIQUIER_H
 #define BOARDGAMES_PLATEAUECHIQUIER_H
 
@@ -62,6 +58,7 @@ public:
     bool tourPeutElleYAller(int, int, int, int);
 
     int getEquivalenceAlpha(char);
+    char getEquivalenceNum(int);
 
     void pionDetruit(int, int, bool);
 
