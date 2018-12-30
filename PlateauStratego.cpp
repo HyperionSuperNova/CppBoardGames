@@ -537,6 +537,27 @@ void PlateauStratego::launchStratego(bool ordi) {
     else if(joueur2[0] == 0) std::cout << "C'est le joueur 1 qui gagne!" << std::endl;
 }
 
+bool PlateauStratego::pieceEstdeplacable(int i, int j) {
+    if(i == 0 && j == 0){
+        return (cases[i+1][j].isEmpty() || cases[i+1][j+1].isEmpty() || cases[i][j+1].isEmpty());
+    }else if(i == 9 && j == 0){
+        return (cases[i][j+1].isEmpty() || cases[i-1][j].isEmpty() ||  cases[i-1][j+1].isEmpty());
+    }else if(i == 9 && j == 9){
+        return (cases[i][j-1].isEmpty() || cases[i-1][j].isEmpty() || cases[i-1][j-1].isEmpty());
+    }else if(i == 0 && j == 9){
+        return (cases[i+1][j].isEmpty() || cases[i+1][j-1].isEmpty() || cases[i][j-1].isEmpty());
+    }else if(i == 0){
+        return (cases[i+1][j].isEmpty() || cases[i+1][j+1].isEmpty() || cases[i+1][j-1].isEmpty() || cases[i][j+1].isEmpty() || cases[i][j-1].isEmpty());
+    }else if(i == 9){
+        return (cases[i][j+1].isEmpty() || cases[i][j-1].isEmpty() || cases[i-1][j].isEmpty() || cases[i-1][j-1].isEmpty() || cases[i-1][j+1].isEmpty());
+    }else if(j == 0){
+        return (cases[i+1][j].isEmpty() || cases[i+1][j+1].isEmpty() || cases[i][j+1].isEmpty() || cases[i-1][j].isEmpty() || cases[i-1][j+1].isEmpty());
+    }else if(j == 9){
+        return (cases[i+1][j].isEmpty() || cases[i+1][j-1].isEmpty() || cases[i][j-1].isEmpty() || cases[i-1][j].isEmpty() || cases[i-1][j-1].isEmpty());
+    }else
+    return (cases[i+1][j].isEmpty() || cases[i+1][j+1].isEmpty() || cases[i+1][j-1].isEmpty() || cases[i][j+1].isEmpty() || cases[i][j-1].isEmpty() || cases[i-1][j].isEmpty() || cases[i-1][j-1].isEmpty() || cases[i-1][j+1].isEmpty());
+}
+
 std::string PlateauStratego::help(bool joueur) {
     std::string res = "";
     Couleur c;
@@ -544,73 +565,76 @@ std::string PlateauStratego::help(bool joueur) {
     else c = Couleur::NOIR;
 
     for(int i = 0; i < 10; i++){
-        for(int j = 0; j < 10; j++){
-            if(cases[i][j].getPion().getColor() == c && cases[i][j].getPion().getNom().compare("Drapeau") != 0 && cases[i][j].getPion().getNom().compare("Bombe") != 0){
-                if(cases[i][j].getPion().getNom().compare("Eclaireur") == 0){
-                    for(int h = i+1; h < 10; h++){
-                        if(!cases[h][j].isEmpty() && h != i){
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
-                            res += std::to_string(h-1) + " " + std::to_string(j) + "\n";
-                            h = 100;
+        for(int j = 0; j < 10; j++) {
+            if (pieceEstdeplacable(i, j)) {
+                if (cases[i][j].getPion().getColor() == c && cases[i][j].getPion().getNom().compare("Drapeau") != 0 &&
+                    cases[i][j].getPion().getNom().compare("Bombe") != 0) {
+                    if (cases[i][j].getPion().getNom().compare("Eclaireur") == 0) {
+                        int h = i + 1;
+                        while (h < 10 && cases[h][j].isEmpty()) {
+                            h++;
                         }
-                        else if(h == 8 && cases[h+1][j].isEmpty()){
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
-                            res += std::to_string(h+1) + " " + std::to_string(j) + "\n";
+                        if(h-1 != i) {
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
+                                   " -> ";
+                            res += std::to_string(h - 1) + " " + std::to_string(j) + "\n";
                         }
-                    }
-                    for(int h = i-1; h >= 0; h--){
-                        if(!cases[h][j].isEmpty() && h != i){
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
-                            res += std::to_string(h+1) + " " + std::to_string(j) + "\n";
-                            h = -1;
-                        }
-                        else if(h == 1 && cases[0][j].isEmpty()){
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
-                            res += std::to_string(0) + " " + std::to_string(j) + "\n";
-                        }
-                    }
-                    for(int h = j+1; h < 10; h++){
-                        if(!cases[i][h].isEmpty() && h != j){
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
-                            res += std::to_string(i) + " " + std::to_string(h-1) + "\n";
-                            h = 100;
-                        }
-                        else if(h == 8 && cases[i][h+1].isEmpty()){
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
-                            res += std::to_string(i) + " " + std::to_string(h+1) + "\n";
-                        }
-                    }
-                    for(int h = j-1; h >= 0; h--){
-                        if(!cases[i][h].isEmpty() && h != j){
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
-                            res += std::to_string(i) + " " + std::to_string(h+1) + "\n";
-                            h = -1;
-                        }
-                        else if(h == 1 && cases[i][0].isEmpty()){
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " -> ";
-                            res += std::to_string(i) + " " + std::to_string(0) + "\n";
-                        }
-                    }
-                }else{
-                    if( i+1 < 10 && j+1 < 10 && i-1 >= 0 && j-1 >= 0){
-                        if(cases[i-1][j].isEmpty()){
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " ";
-                            res += std::to_string(i-1) + " " + std::to_string(j) + "\n";
 
+                        h = i - 1;
+                        while (h >= 0 && cases[h][j].isEmpty()) {
+                            h--;
                         }
-                        if(cases[i+1][j].isEmpty()){
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " ";
-                            res += std::to_string(i+1) + " " + std::to_string(j) + "\n";
+                        if(h+1 != i) {
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
+                                   " -> ";
+                            res += std::to_string(h + 1) + " " + std::to_string(j) + "\n";
+                        }
 
+                        h = j + 1;
+                        while (h < 10 && cases[i][h].isEmpty()) {
+                            h++;
                         }
-                        if(cases[i][j-1].isEmpty()){
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " ";
-                            res += std::to_string(i) + " " + std::to_string(j-1) + "\n";
+                        if(h-1 != j){
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
+                                   " -> ";
+                            res += std::to_string(i) + " " + std::to_string(h - 1) + "\n";
+                        }
 
+                        h = j - 1;
+                        while (h >= 0 && cases[i][h].isEmpty()) {
+                            h--;
                         }
-                        if(cases[i][j+1].isEmpty()){
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) + " ";
-                            res += std::to_string(i) + " " + std::to_string(j+1) + "\n";
+                        if(h+1 != j) {
+                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
+                                   " -> ";
+                            res += std::to_string(i) + " " + std::to_string(h + 1) + "\n";
+                        }
+
+                    } else {
+                        if (i + 1 < 10 && j + 1 < 10 && i - 1 >= 0 && j - 1 >= 0) {
+                            if (cases[i - 1][j].isEmpty()) {
+                                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                                       std::to_string(j) + " -> ";
+                                res += std::to_string(i - 1) + " " + std::to_string(j) + "\n";
+
+                            }
+                            if (cases[i + 1][j].isEmpty()) {
+                                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                                       std::to_string(j) + " -> ";
+                                res += std::to_string(i + 1) + " " + std::to_string(j) + "\n";
+
+                            }
+                            if (cases[i][j - 1].isEmpty()) {
+                                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                                       std::to_string(j) + " -> ";
+                                res += std::to_string(i) + " " + std::to_string(j - 1) + "\n";
+
+                            }
+                            if (cases[i][j + 1].isEmpty()) {
+                                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                                       std::to_string(j) + " -> ";
+                                res += std::to_string(i) + " " + std::to_string(j + 1) + "\n";
+                            }
                         }
                     }
                 }

@@ -42,6 +42,7 @@ public:
     int getNbrMarechal(bool joueur);
 
     bool queBombeEtDrapeau(bool joueur);
+    bool pieceEstdeplacable(int, int);
 
     std::vector <std::tuple<int, int>> getLigneColonne();
 
