@@ -6,7 +6,7 @@
 
 class Plateau {
 protected:
-    const int dimension;
+    int dimension;
     Case ** cases;
 public:
     Plateau(int dimension);

@@ -10,7 +10,7 @@
 
 class PlateauAnglais: public PlateauCombinatoireAbstrait {
 public:
-    PlateauAnglais(int dimension);
+    PlateauAnglais();
     const void playerTurn();
 };
 

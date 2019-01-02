@@ -1,7 +1,7 @@
 #include "PlateauDamier.h"
 
-PlateauDamier::PlateauDamier(int dimension) : PlateauCombinatoireAbstrait(dimension) {
-    if(dimension != 10) throw std::invalid_argument( "received wrong value" );
+PlateauDamier::PlateauDamier() : PlateauCombinatoireAbstrait(10) {
+    dimension = 10;
 }
 
 const void PlateauDamier::playerTurn() {

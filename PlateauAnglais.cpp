@@ -1,7 +1,7 @@
 #include "PlateauAnglais.h"
 
-PlateauAnglais::PlateauAnglais(int dimension) : PlateauCombinatoireAbstrait(dimension) {
-    if(dimension != 8) throw std::invalid_argument( "received wrong value" );
+PlateauAnglais::PlateauAnglais() : PlateauCombinatoireAbstrait(8) {
+    dimension = 8;
 }
 
 const void PlateauAnglais::playerTurn() {
