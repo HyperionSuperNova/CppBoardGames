@@ -1,11 +1,6 @@
-#include <sstream>
-#include <algorithm>
-#include <map>
 #include "PlateauDamier.h"
 
 PlateauDamier::PlateauDamier(int dimension) : PlateauCombinatoireAbstrait(dimension) {}
-
-
 
 const void PlateauDamier::playerTurn() {
     firstSelect:

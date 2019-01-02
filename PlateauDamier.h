@@ -2,6 +2,9 @@
 #define CPLUSPROJ_PLATEAUDAMIER_H
 
 #include <ostream>
+#include <sstream>
+#include <algorithm>
+#include <map>
 #include <vector>
 #include "PlateauCombinatoireAbstrait.h"
 

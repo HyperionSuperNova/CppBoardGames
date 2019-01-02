@@ -18,7 +18,7 @@ private:
     int scoreJ2 = 0;
 public:
     int turn = 0;
-    PlateauCombinatoireAbstrait(int dimension);
+    explicit PlateauCombinatoireAbstrait(int dimension);
     const void initialize() const;
     friend std::ostream &operator<<(std::ostream &, const Plateau &);
     const bool pionMove(int i_src, int j_src, int i_dst, int j_dst, Couleur c);
