@@ -843,10 +843,27 @@ std::string PlateauEchiquier::quelleImage(std::string nom, bool joueur) {
     }
 }
 
+void PlateauEchiquier::posOrdiPiece() {
+    int k = 0;
+    for(int h = 0; h < 16; h++){
+        std::string tmp = "";
+        if(std::get<2>(joueur2[h]) != "Pion") {
+            tmp = (std::get<2>(joueur2[h])).at(0) + getEquivalenceNum(std::get<1>(joueur2[h]));
+            tmp += std::to_string(std::get<0>(joueur2[h]));
+        }else{
+            tmp = getEquivalenceNum(std::get<1>(joueur2[h]));
+            tmp += std::to_string(std::get<0>(joueur2[h]));
+        }
+            ordiPiece[k] = tmp;
+            k++;
+    }
+}
+
 void PlateauEchiquier::launchEchiquier(bool ordi) {
     bool quiJoue = true; //joueur 1
 
     std::string ii = "";
+    srand(time(NULL));
     while(les2RoisontSurLePlateau) {
         next_loop:
         std::cout << *(this) << std::endl;
@@ -854,29 +871,55 @@ void PlateauEchiquier::launchEchiquier(bool ordi) {
         if(quiJoue) std::cout << "Tour joueur 1: " << std::endl;
         else if(!ordi) std::cout << "Tour joueur 2: " << std::endl;
 
-        std::cin >> ii;
-        if(ii.compare("help") == 0){
-            std::cout << help(quiJoue) << std::endl;
-            goto next_loop;
-        }
 
-        if(ii.size() == 2){
-            if(!mouvement_pion(ii, quiJoue)) goto next_loop;
-        }
-        else if(ii.at(0) == 'T'){
-            if(!mouvement_tour(ii, quiJoue)) goto next_loop;
-        }
-        else if(ii.at(0) == 'C'){
-            if(!mouvement_cavalier(ii, quiJoue)) goto next_loop;
-        }
-        else if(ii.at(0) == 'F'){
-            if(!mouvement_fou(ii, quiJoue)) goto next_loop;
-        }
-        else if(ii.at(0) == 'D'){
-            if(!mouvement_dame(ii, quiJoue)) goto next_loop;
-        }
-        else{
-            if(!mouvement_roi(ii, quiJoue)) goto next_loop;
+        if(ordi && !quiJoue){
+            int i = rand() % 8;
+            int j = rand() % 8;
+            int jj = getEquivalenceNum(j);
+            std::string mouv = "";
+            std::cout << "i: "<< i << " et " << "j: " << jj << j << std::endl;
+            if(cases[i][j].getPion().getColor() == Couleur::NOIR) {
+                if (cases[i][j].getPion().getNom() == "Pion") {
+                    mouv = std::to_string(jj+'0') + std::to_string(i);
+                    if (!mouvement_pion(mouv, quiJoue)) goto next_loop;
+                } else if (cases[i][j].getPion().getNom() == "Tour") {
+                    mouv = "T" + std::to_string(jj+'0') + std::to_string(i);
+                    if (!mouvement_tour(mouv, quiJoue)) goto next_loop;
+                } else if (cases[i][j].getPion().getNom() == "Cavalier") {
+                    mouv = "C" + std::to_string(jj+'0') + std::to_string(i);
+                    if (!mouvement_cavalier(mouv, quiJoue)) goto next_loop;
+                } else if (cases[i][j].getPion().getNom() == "Fou") {
+                    mouv = "F" + std::to_string(jj+'0') + std::to_string(i);
+                    if (!mouvement_fou(mouv, quiJoue)) goto next_loop;
+                } else if (cases[i][j].getPion().getNom() == "Dame") {
+                    mouv = "D" + std::to_string(jj+'0') + std::to_string(i);
+                    if (!mouvement_dame(mouv, quiJoue)) goto next_loop;
+                } else {
+                    mouv = "R" + std::to_string(jj+'0') + std::to_string(i);
+                    if (!mouvement_roi(mouv, quiJoue)) goto next_loop;
+                }
+            }else goto next_loop;
+
+        }else {
+            std::cin >> ii;
+            if(ii.compare("help") == 0){
+                std::cout << help(quiJoue) << std::endl;
+                goto next_loop;
+            }
+
+            if (ii.size() == 2) {
+                if (!mouvement_pion(ii, quiJoue)) goto next_loop;
+            } else if (ii.at(0) == 'T') {
+                if (!mouvement_tour(ii, quiJoue)) goto next_loop;
+            } else if (ii.at(0) == 'C') {
+                if (!mouvement_cavalier(ii, quiJoue)) goto next_loop;
+            } else if (ii.at(0) == 'F') {
+                if (!mouvement_fou(ii, quiJoue)) goto next_loop;
+            } else if (ii.at(0) == 'D') {
+                if (!mouvement_dame(ii, quiJoue)) goto next_loop;
+            } else {
+                if (!mouvement_roi(ii, quiJoue)) goto next_loop;
+            }
         }
         if(roiEStEnEchec(quiJoue)){
             // TODO undo mouvement:: reste a gere cas ou mouvement a detruit une piece
