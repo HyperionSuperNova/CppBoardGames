@@ -158,8 +158,8 @@ const bool PlateauCombinatoireAbstrait::pionMove(int i_src, int j_src, int i_dst
                                 move(i_src, j_src, i_dst - 1, j_dst + 1);
                                 bool l = pionMove(i_dst - 1, j_dst + 1, i_dst - 1, j_dst - 1, Couleur::BLANC);
                                 bool ld = pionMove(i_dst - 1, j_dst + 1, i_dst - 1, j_dst + 1, Couleur::BLANC);
-                                if(!anglais || (anglais && cases[i_src][j_src].getPion().getNom() == "KING")) bool rd = pionMove(i_dst - 1, j_dst + 1, i_dst + 1, j_dst - 1, Couleur::BLANC);
-                                if(!anglais || (anglais && cases[i_src][j_src].getPion().getNom() == "KING")) bool r = pionMove(i_dst - 1, j_dst + 1, i_dst + 1, j_dst + 1, Couleur::BLANC);
+                                if(!anglais) bool rd = pionMove(i_dst - 1, j_dst + 1, i_dst + 1, j_dst - 1, Couleur::BLANC);
+                                if(!anglais) bool r = pionMove(i_dst - 1, j_dst + 1, i_dst + 1, j_dst + 1, Couleur::BLANC);
                             } else {
                                 return false;
                             }
@@ -171,8 +171,8 @@ const bool PlateauCombinatoireAbstrait::pionMove(int i_src, int j_src, int i_dst
                                 move(i_src, j_src, i_dst - 1, j_dst - 1);
                                 bool l = pionMove(i_dst - 1, j_dst - 1, i_dst - 1, j_dst - 1, Couleur::BLANC);
                                 bool ld = pionMove(i_dst - 1, j_dst - 1, i_dst - 1, j_dst + 1, Couleur::BLANC);
-                                if(!anglais || (anglais && cases[i_src][j_src].getPion().getNom() == "KING")) bool rd = pionMove(i_dst - 1, j_dst - 1, i_dst + 1, j_dst - 1, Couleur::BLANC);
-                                if(!anglais || (anglais && cases[i_src][j_src].getPion().getNom() == "KING")) bool r = pionMove(i_dst - 1, j_dst - 1, i_dst + 1, j_dst + 1, Couleur::BLANC);
+                                if(!anglais) bool rd = pionMove(i_dst - 1, j_dst - 1, i_dst + 1, j_dst - 1, Couleur::BLANC);
+                                if(!anglais) bool r = pionMove(i_dst - 1, j_dst - 1, i_dst + 1, j_dst + 1, Couleur::BLANC);
                             } else {
                                 return false;
                             }
@@ -238,8 +238,8 @@ const bool PlateauCombinatoireAbstrait::pionMove(int i_src, int j_src, int i_dst
                                 scoreJ2 += 1;
                                 cases[i_dst][j_dst] = Case(i_dst, j_dst);
                                 move(i_src, j_src, i_dst + 1, j_dst + 1);
-                                if(!anglais || (anglais && cases[i_src][j_src].getPion().getNom() == "KING")) bool l = pionMove(i_dst + 1, j_dst + 1, i_dst - 1, j_dst - 1, Couleur::NOIR);
-                                if(!anglais || (anglais && cases[i_src][j_src].getPion().getNom() == "KING")) bool ld = pionMove(i_dst + 1, j_dst + 1, i_dst - 1, j_dst + 1, Couleur::NOIR);
+                                if(!anglais) bool l = pionMove(i_dst + 1, j_dst + 1, i_dst - 1, j_dst - 1, Couleur::NOIR);
+                                if(!anglais) bool ld = pionMove(i_dst + 1, j_dst + 1, i_dst - 1, j_dst + 1, Couleur::NOIR);
                                 bool rd = pionMove(i_dst + 1, j_dst + 1, i_dst + 1, j_dst - 1, Couleur::NOIR);
                                 bool r = pionMove(i_dst + 1, j_dst + 1, i_dst + 1, j_dst + 1, Couleur::NOIR);
                             } else {
@@ -250,8 +250,8 @@ const bool PlateauCombinatoireAbstrait::pionMove(int i_src, int j_src, int i_dst
                                 scoreJ1 += 1;
                                 cases[i_dst][j_dst] = Case(i_dst, j_dst);
                                 move(i_src, j_src, i_dst + 1, j_dst - 1);
-                                if(!anglais || (anglais && cases[i_src][j_src].getPion().getNom() == "KING")) bool l = pionMove(i_dst + 1, j_dst - 1, i_dst - 1, j_dst - 1, Couleur::NOIR);
-                                if(!anglais || (anglais && cases[i_src][j_src].getPion().getNom() == "KING")) bool ld = pionMove(i_dst + 1, j_dst - 1, i_dst - 1, j_dst + 1, Couleur::NOIR);
+                                if(!anglais) bool l = pionMove(i_dst + 1, j_dst - 1, i_dst - 1, j_dst - 1, Couleur::NOIR);
+                                if(!anglais) bool ld = pionMove(i_dst + 1, j_dst - 1, i_dst - 1, j_dst + 1, Couleur::NOIR);
                                 bool rd = pionMove(i_dst + 1, j_dst - 1, i_dst + 1, j_dst - 1, Couleur::NOIR);
                                 bool r = pionMove(i_dst + 1, j_dst - 1, i_dst + 1, j_dst + 1, Couleur::NOIR);
                             } else {
