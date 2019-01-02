@@ -1,7 +1,3 @@
-//
-// Created by merat on 30/12/18.
-//
-
 #include "PlateauCombinatoireAbstrait.h"
 
 PlateauCombinatoireAbstrait::PlateauCombinatoireAbstrait(int dimension): Plateau(dimension) {
@@ -44,6 +40,94 @@ const void PlateauCombinatoireAbstrait::initialize() const {
         }
     }
 }
+
+bool PlateauCombinatoireAbstrait::bot() {
+    for (int i = 0; i < dimension; i++) {
+        for (int j = 0; j < dimension; j++) {
+            if (pionSelect(i, j, Couleur::NOIR)) {
+                bool move1 = pionMove(i, j, i + 1, j - 1, Couleur::NOIR);
+                bool move2 = pionMove(i, j, i + 1, j + 1, Couleur::NOIR);
+                if (move1) {
+                    turn -= 1;
+                    return true;
+                } else if (move2) {
+                    turn -= 1;
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+std::vector<int> PlateauCombinatoireAbstrait::split(const std::string &s, char delimiter) {
+    std::vector<int> Data;
+    std::vector<std::string> tokens;
+    std::string token;
+    std::istringstream tokenStream(s);
+    while (std::getline(tokenStream, token, delimiter)) {
+        tokens.push_back(token);
+    }
+    std::transform(tokens.begin(), tokens.end(), std::back_inserter(Data),
+                   [](const std::string &str) { return std::stoi(str); });
+    return Data;
+}
+
+const void PlateauCombinatoireAbstrait::launcher() {
+    std::cout << "Jeu de dames International:" << std::endl;
+    std::cout << "Menu Principal:" << std::endl;
+    std::cout << "Selectionnez votre type de jeu :" << std::endl;
+    std::cout << "\t 1) Single Player" << std::endl;
+    std::cout << "\t 2) 2P Game" << std::endl;
+    int gameType = 0;
+    std::cin >> gameType;
+    if (gameType != 1 && gameType != 2) {
+        std::cout << "Mauvais Choix : Veuillez Selectionner 1 ou 2" << std::endl;
+        launcher();
+    } else {
+        if (gameType == 1) {
+            this->singlePlayer();
+        }
+    }
+    return;
+}
+
+const void PlateauCombinatoireAbstrait::singlePlayer() {
+    this->initialize();
+    std::cout << "IT'S P1 TURN !!" << std::endl;
+    while (true) {
+        std::cout << *(this) << std::endl;
+        this->playerTurn();
+        this->bot();
+        std::cout << *(this) << std::endl;
+
+    }
+}
+
+const bool PlateauCombinatoireAbstrait::pionSelect(int i_src, int j_src, Couleur c) {
+    bool selectOk = false;
+    if (i_src >= 0 && i_src < dimension && j_src >= 0 && j_src < dimension) {
+        if (cases[i_src][j_src].getPion().getColor() == c) {
+            selectOk = true;
+        }
+    }
+    return selectOk;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const bool PlateauCombinatoireAbstrait::posOk(int i_src, int j_src, int i_dst, int j_dst) const {
     bool cartesianConstraint =
