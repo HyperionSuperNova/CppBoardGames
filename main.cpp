@@ -10,6 +10,6 @@ int main() {
     //e.launchEchiquier(true);
     //PlateauStratego p;
     //p.launchStratego(true);
-    PlateauAnglais p(8);
+    PlateauDamier p(8);
     p.launcher();
 }

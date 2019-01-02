@@ -1,6 +1,8 @@
 #include "PlateauAnglais.h"
 
-PlateauAnglais::PlateauAnglais(int dimension) : PlateauCombinatoireAbstrait(dimension) {}
+PlateauAnglais::PlateauAnglais(int dimension) : PlateauCombinatoireAbstrait(dimension) {
+    if(dimension != 8) throw std::invalid_argument( "received wrong value" );
+}
 
 const void PlateauAnglais::playerTurn() {
     firstSelect:

@@ -136,12 +136,12 @@ const bool PlateauCombinatoireAbstrait::pionMove(int i_src, int j_src, int i_dst
         if (cases[i_src][j_src].getPion().getColor() == Couleur::BLANC && c == Couleur::BLANC) {
             ////////////////////////////////////////////////////////////////////////////////
             //TODO: if check gut : SET WHITE DAME HERE DUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDE
-            if (i_dst == 0) {
+            if (i_dst == 0 && !anglais) {
                 Pion p2("KING", "\u26C1", Couleur::BLANC);
                 cases[i_dst][j_dst] = Case(i_dst, j_dst);
                 cases[i_dst][j_dst].setPionBis(p2);
                 return true;
-            } else if (i_dst == dimension - 1) {
+            } else if (i_dst == dimension - 1 && !anglais) {
                 Pion p2("KING", "\u26C3", Couleur::NOIR);
                 cases[i_dst][j_dst] = Case(i_dst, j_dst);
                 cases[i_dst][j_dst].setPionBis(p2);
