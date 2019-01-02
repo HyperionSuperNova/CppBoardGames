@@ -3,4 +3,4 @@ project(BoardGames)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(BoardGames main.cpp Plateau.cpp Plateau.h Case.cpp Case.h Pion.cpp Pion.h PlateauDamier.cpp PlateauDamier.h PlateauStratego.cpp PlateauStratego.h PlateauEchiquier.cpp PlateauEchiquier.h PlateauCombinatoireAbstrait.cpp PlateauCombinatoireAbstrait.h)
+add_executable(BoardGames main.cpp Plateau.cpp Plateau.h Case.cpp Case.h Pion.cpp Pion.h PlateauDamier.cpp PlateauDamier.h PlateauStratego.cpp PlateauStratego.h PlateauEchiquier.cpp PlateauEchiquier.h PlateauCombinatoireAbstrait.cpp PlateauCombinatoireAbstrait.h PlateauAnglais.cpp PlateauAnglais.h)

@@ -3,18 +3,14 @@
 
 #include <ostream>
 #include <vector>
-#include "Plateau.h"
+#include "PlateauCombinatoireAbstrait.h"
 
-class PlateauDamier : public Plateau {
+class PlateauDamier : public PlateauCombinatoireAbstrait {
 public:
-    int scoreJ1 = 0;
-    int scoreJ2 = 0;
     int turn = 0;
     PlateauDamier(int dimension);
     friend std::ostream &operator<<(std::ostream &os, const PlateauDamier &damier);
-    const void initialize() const;
-    const bool posOk(int i_src, int j_src,int i_dst, int j_dst) const;
-    const bool pionMove(int i_src, int j_src,int i_dst, int j_dst, Couleur c);
+    const bool kingMove(int i_src, int j_src,int i_dst, int j_dst, Couleur c);
     bool bot();
     const void playerTurn();
     std::vector <int> split(const std::string &s, char delimiter);
