@@ -9,7 +9,6 @@
 
 class PlateauCombinatoireAbstrait: public Plateau {
 public:
-    int dimension;
     PlateauCombinatoireAbstrait(int dimension);
 };
 

@@ -1,10 +1,10 @@
 #ifndef BOARDGAMES_PLATEAUECHIQUIER_H
 #define BOARDGAMES_PLATEAUECHIQUIER_H
 
-#include "Plateau.h"
+#include "PlateauCombinatoireAbstrait.h"
 #include <tuple>
 
-class PlateauEchiquier: public Plateau {
+class PlateauEchiquier: public PlateauCombinatoireAbstrait {
 private:
     std::tuple<int,char>alpha[8] = {{0, 'A'}, {1, 'B'}, {2, 'C'}, {3, 'D'}, {4, 'E'}, {5, 'F'}, {6, 'G'}, {7, 'H'}};
     std::tuple<int, int, std::string>joueur1[16] = {{7,0, "Tour"},{7,1,"Cavalier"},{7,2,"Fou"},{7,3,"Dame"},{7,4,"Roi"},{7,5,"Fou"},{7,6,"Cavalier"},{7,7,"Tour"},{6,0,"Pion"},{6,1,"Pion"},{6,2,"Pion"},{6,3,"Pion"},{6,4,"Pion"},{6,5,"Pion"},{6,6,"Pion"},{6,7,"Pion"}};

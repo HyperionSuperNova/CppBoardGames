@@ -1,6 +1,6 @@
 #include "PlateauEchiquier.h"
 
-PlateauEchiquier::PlateauEchiquier() : Plateau(8){
+PlateauEchiquier::PlateauEchiquier() : PlateauCombinatoireAbstrait(8){
     cases[0][0].setPion(Pion("Tour", "\u2656", Couleur::NOIR));
     cases[0][1].setPion(Pion("Cavalier", "\u2658", Couleur::NOIR));
     cases[0][2].setPion(Pion("Fou", "\u2657", Couleur::NOIR));
