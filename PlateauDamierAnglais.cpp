@@ -1,10 +1,10 @@
-#include "PlateauAnglais.h"
+#include "PlateauDamierAnglais.h"
 
-PlateauAnglais::PlateauAnglais() : PlateauCombinatoireAbstrait(8) {
+PlateauDamierAnglais::PlateauDamierAnglais() : PlateauDamier(8) {
     dimension = 8;
 }
 
-const void PlateauAnglais::playerTurn() {
+const void PlateauDamierAnglais::playerTurn() {
     firstSelect:
     if (turn == 0) {
         std::cout << "Veuillez entrez les coordonnées du pion que vous souhaitez deplacer " << "Exemple: 2,0"
@@ -51,7 +51,7 @@ const void PlateauAnglais::playerTurn() {
     return;
 }
 
-const void PlateauAnglais::playerTurn2() {
+const void PlateauDamierAnglais::playerTurn2() {
     firstSelect:
     if (turn == 1) {
         std::cout << "Veuillez entrez les coordonnées du pion que vous souhaitez deplacer " << "Exemple: 2,0"

@@ -1,9 +1,9 @@
 #include <iostream>
 #include "Plateau.h"
-#include "PlateauDamier.h"
+#include "PlateauDamierInternational.h"
 #include "PlateauStratego.h"
 #include "PlateauEchiquier.h"
-#include "PlateauAnglais.h"
+#include "PlateauDamierAnglais.h"
 
 int main() {
     std::cout << "A quel jeu voulez vous jouer?" << std::endl;
@@ -15,10 +15,10 @@ int main() {
         std::cout << "I pour dame international, A pour dame anglaise" << std::endl;
         std::cin >> rep;
         if(rep == "I"){
-            PlateauDamier d;
+            PlateauDamierInternational d;
             d.launcher();
         }else if(rep == "A"){
-            PlateauAnglais a;
+            PlateauDamierAnglais a;
             a.launcher();
         }else goto again1;
     }else if(rep == "E"){
