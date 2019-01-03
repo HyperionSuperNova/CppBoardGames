@@ -26,9 +26,11 @@ public:
 
     bool bot();
     virtual const void playerTurn() = 0;
+    virtual const void playerTurn2() = 0;
     std::vector <int> split(const std::string &s, char delimiter);
     const void launcher();
     const void singlePlayer();
+    const void twoPlayer();
     const bool pionSelect(int i_src,int j_src,Couleur c);
 
 

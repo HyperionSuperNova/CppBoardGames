@@ -12,6 +12,7 @@ class PlateauAnglais: public PlateauCombinatoireAbstrait {
 public:
     PlateauAnglais();
     const void playerTurn();
+    const void playerTurn2();
 };
 
 

@@ -104,9 +104,24 @@ const void PlateauCombinatoireAbstrait::launcher() {
     } else {
         if (gameType == 1) {
             this->singlePlayer();
+        }else if(gameType == 2){
+            this->twoPlayer();
         }
     }
     return;
+}
+
+const void PlateauCombinatoireAbstrait::twoPlayer() {
+    this->initialize();
+    std::cout << "IT'S P1 TURN !!" << std::endl;
+    while (true) {
+        std::cout << *(this) << std::endl;
+        this->playerTurn();
+        std::cout << *(this) << std::endl;
+        this->playerTurn2();
+        std::cout << *(this) << std::endl;
+
+    }
 }
 
 const void PlateauCombinatoireAbstrait::singlePlayer() {
@@ -135,6 +150,7 @@ const bool PlateauCombinatoireAbstrait::pionMove(int i_src, int j_src, int i_dst
     if (posOk(i_src, j_src, i_dst, j_dst)) {
         if (cases[i_src][j_src].getPion().getColor() == Couleur::BLANC && c == Couleur::BLANC) {
             ////////////////////////////////////////////////////////////////////////////////
+            //TODO: king anglais peut bouger dans tous les sens
             //TODO: if check gut : SET WHITE DAME HERE DUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDE
             if (i_dst == 0) {
                 Pion p2("KING", "\u26C1", Couleur::BLANC);
@@ -149,7 +165,7 @@ const bool PlateauCombinatoireAbstrait::pionMove(int i_src, int j_src, int i_dst
             }
             if (((j_dst == j_src + 1) || j_dst == j_src - 1)) {
                 if (!cases[i_dst][j_dst].isEmpty() && cases[i_dst][j_dst].getPion().getColor() == Couleur::NOIR &&
-                    !(cases[i_dst][j_dst].getPion().getNom() == "KING")) {
+                        (!(cases[i_dst][j_dst].getPion().getNom() == "KING") || (cases[i_dst][j_dst].getPion().getNom() == "KING" && anglais))) {
                     if (i_dst == i_src - 1) {
                         if (j_dst == j_src + 1 && j_dst + 1 < dimension && j_dst + 1 > 0) {
                             if (cases[i_dst - 1][j_dst + 1].isEmpty()) {
@@ -229,7 +245,7 @@ const bool PlateauCombinatoireAbstrait::pionMove(int i_src, int j_src, int i_dst
                 return false;
             }
         } else if (cases[i_src][j_src].getPion().getColor() == Couleur::NOIR && c == Couleur::NOIR &&
-                   !(cases[i_dst][j_dst].getPion().getNom() == "KING")) {
+                (!(cases[i_dst][j_dst].getPion().getNom() == "KING") || (cases[i_dst][j_dst].getPion().getNom() == "KING" && anglais))) {
             if (((j_dst == j_src + 1) || j_dst == j_src - 1)) {
                 if (i_dst == i_src + 1) {
                     if (!cases[i_dst][j_dst].isEmpty() && cases[i_dst][j_dst].getPion().getColor() == Couleur::BLANC) {
