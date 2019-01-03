@@ -1,0 +1,162 @@
+@startuml
+
+interface Plateau{
+    int dimension
+    Case ** cases
+
+    Plateau(int dimension)
+    
+    virtual ~Plateau()
+    
+    virtual Case getCase(int, int)
+    virtual void setCase(int, int, Pion)
+    virtual const void move(int i_src, int j_src, int i_dst, int j_dst) const
+    friend std::ostream &operator<<(std::ostream &, const Plateau &)
+}
+abstract PlateauCombinatoireAbstrait{
+
+}
+
+abstract class PlateauDamier{
+    bool anglais
+    int scoreJ1
+    int scoreJ2
+    int turn
+
+    explicit PlateauDamier(int dimension)
+    const void initialize() const
+    friend std::ostream &operator<<(std::ostream &, const PlateauDamier &)
+    const bool pionMove(int i_src, int j_src, int i_dst, int j_dst, Couleur c)
+    const bool posOk(int i_src, int j_src, int i_dst, int j_dst) const
+
+    bool bot()
+    virtual const void playerTurn() = 0
+    virtual const void playerTurn2() = 0
+    std::vector <int> split(const std::string &s, char delimiter)
+    const void launcher()
+    const void singlePlayer()
+    const void twoPlayer()
+    const bool pionSelect(int i_src,int j_src,Couleur c)
+}
+
+class PlateauDamierInternational{
+    PlateauDamierInternational()
+    const bool kingMove(int i_src, int j_src,int i_dst, int j_dst, Couleur c)
+    const void playerTurn()
+    const void playerTurn2()
+}
+
+class PlateauDamierAnglais{
+    PlateauDamierAnglais()
+    const void playerTurn()
+    const void playerTurn2()
+}
+
+class PlateauEchiquier{
+    std::tuple<int,char>alpha[8]
+    std::tuple<int, int, std::string>joueur1[16]
+    std::tuple<int, int, std::string>joueur2[16]
+    std::string ordiPiece[16]
+    std::tuple<int, int>coord
+    std::tuple<int,int,std::string>dernier_mouv[2]
+    std::string piece_bouffee
+    bool les2RoisontSurLePlateau
+
+    PlateauEchiquier()
+    friend std::ostream &operator<<(std::ostream &os, const PlateauEchiquier &echiquier)
+
+    bool mouvement_pion(std::string, bool)
+    bool mouvement_tour(std::string, bool)
+    bool mouvement_cavalier(std::string, bool)
+    bool mouvement_fou(std::string, bool)
+    bool mouvement_dame(std::string, bool)
+    bool mouvement_roi(std::string, bool)
+
+    bool mouvement(std::string,bool, std::string)
+
+    bool roiEStEnEchec(bool)
+    bool roiEstSurDiagonaleDeFou(bool)
+    bool roiEstSurCaseCavalier(bool)
+    bool roiACotePion(bool)
+
+    std::tuple<int,int> ouEstCavalier(int, int, bool)
+    std::tuple<int,int> ouEstFou(int,int,bool)
+    std::tuple<int,int> ouEstTour(int, int, bool)
+    std::tuple<int,int> ouEstRoi(int, int, bool)
+    std::tuple<int,int> ouEstDame(int, int, bool)
+
+
+    std::string quelleImage(std::string, bool)
+
+    std::string helpCavalier(bool)
+    std::string helpTour(bool)
+    std::string helpFou(bool)
+    std::string helpPion(bool)
+    std::string helpDame(bool)
+    std::string helpRoi(bool)
+    std::string help(bool)
+
+    void posOrdiPiece()
+
+
+    bool tourPeutElleYAller(int, int, int, int)
+
+    int getEquivalenceAlpha(char)
+    char getEquivalenceNum(int)
+    void pionDetruit(int, int, bool)
+
+    void launchEchiquier(bool)
+}
+class PlateauStratego{
+    std::tuple<int, std::string> pions[12]
+    std::tuple<int, std::string> img[12]
+    int joueur1[12]
+    int joueur2[12]
+
+    PlateauStratego()
+    friend std::ostream &operator<<(std::ostream &os, const PlateauStratego &stratego)
+    bool mouvement_eclaireur(int , int, int, int, bool, bool)
+    bool mouvement_autre(int, int, int, int, bool, bool)
+    bool estPlusFortQue(Pion p1, Pion p2)
+    void mettrePionJoueurSurPlateau(bool)
+    void cacherPieceJoueur(bool)
+    void revelerUnePiece(int, int)
+    void mettrePionOrdiSurPlateau(bool)
+    
+    int getNbrBombe(bool joueur)
+    int getNbrDrapeau(bool joueur)
+    int getNbrEspion(bool joueur)
+    int getNbrEclaireur(bool joueur)
+    int getNbrDemineur(bool joueur)
+    int getNbrSergent(bool joueur)
+    int getNbrLieutenant(bool joueur)
+    int getNbrCapitaine(bool joueur)
+    int getNbrCommandant(bool joueur)
+    int getNbrColonnel(bool joueur)
+    int getNbrGeneral(bool joueur)
+    int getNbrMarechal(bool joueur)
+    
+    bool queBombeEtDrapeau(bool joueur)
+    bool pieceEstdeplacable(int, int)
+
+    std::vector <std::tuple<int, int>> getLigneColonne()
+
+    std::string help(bool joueur)
+
+    int renvoiePionsNbr(std::string)
+    
+    void launchStratego(bool)
+}
+
+Plateau <|-- PlateauCombinatoireAbstrait
+Plateau <|-- PlateauStratego
+PlateauCombinatoireAbstrait <|-- PlateauEchiquier
+PlateauCombinatoireAbstrait <|-- PlateauDamier
+
+PlateauDamier <|-- PlateauDamierInternational
+PlateauDamier <|-- PlateauDamierAnglais
+
+
+
+
+@enduml
