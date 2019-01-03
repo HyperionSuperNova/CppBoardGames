@@ -1,7 +1,3 @@
-//
-// Created by merat on 30/12/18.
-//
-
 #ifndef BOARDGAMES_PlateauDamier_H
 #define BOARDGAMES_PlateauDamier_H
 
