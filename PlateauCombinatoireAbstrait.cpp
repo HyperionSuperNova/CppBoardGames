@@ -1,3 +1,3 @@
 #include "PlateauCombinatoireAbstrait.h"
 
-PlateauCombinatoireAbstrait::PlateauCombinatoireAbstrait(int dimension): Plateau(dimension) {}
+PlateauCombinatoireAbstrait::plateaucombinatoireabstrait(int dimension): Plateau(dimension) {}

@@ -9,20 +9,15 @@ void Plateau::setCase(int i, int j, Pion p) {
 }
 
 std:: ostream& operator<<(std::ostream & out, const Plateau &p) {
-    out << "---------------------------------\n";
-    out << "  ";
-    for(int j = 0; j < p.dimension; j++){
-        out << j << "  ";
-    }
-    out << "\n";
+    out << "-------------------------------------------\n";
     for(int i = 0; i < p.dimension; i++){
-        out << i << "| ";
+        out << "| ";
         for(int j = 0; j < p.dimension; j++){
             out << p.cases[i][j].getPion().getImg() << " | ";
         }
         out << "\n";
     }
-    out << "---------------------------------";
+    out << "-------------------------------------------";
     return out;
 }
 
