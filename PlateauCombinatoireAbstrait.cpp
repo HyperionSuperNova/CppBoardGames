@@ -93,18 +93,19 @@ std::vector<int> PlateauCombinatoireAbstrait::split(const std::string &s, char d
 const void PlateauCombinatoireAbstrait::launcher() {
     std::cout << "Jeu de dames International:" << std::endl;
     std::cout << "Menu Principal:" << std::endl;
+    again:
     std::cout << "Selectionnez votre type de jeu :" << std::endl;
     std::cout << "\t 1) Single Player" << std::endl;
     std::cout << "\t 2) 2P Game" << std::endl;
-    int gameType = 0;
+    std::string gameType = "";
     std::cin >> gameType;
-    if (gameType != 1 && gameType != 2) {
+    if (gameType != "1" && gameType != "2") {
         std::cout << "Mauvais Choix : Veuillez Selectionner 1 ou 2" << std::endl;
-        launcher();
+        goto again;
     } else {
-        if (gameType == 1) {
+        if (gameType == "1") {
             this->singlePlayer();
-        }else if(gameType == 2){
+        }else if(gameType == "2"){
             this->twoPlayer();
         }
     }
