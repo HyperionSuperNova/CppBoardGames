@@ -130,19 +130,6 @@ bool PlateauDamier::bot() {
     return false;
 }
 
-std::vector<int> PlateauDamier::split(const std::string &s, char delimiter) {
-    std::vector<int> Data;
-    std::vector<std::string> tokens;
-    std::string token;
-    std::istringstream tokenStream(s);
-    while (std::getline(tokenStream, token, delimiter)) {
-        tokens.push_back(token);
-    }
-    std::transform(tokens.begin(), tokens.end(), std::back_inserter(Data),
-                   [](const std::string &str) { return std::stoi(str); });
-    return Data;
-}
-
 const void PlateauDamier::launcher() {
     std::cout << "Jeu de dames International:" << std::endl;
     std::cout << "Menu Principal:" << std::endl;
