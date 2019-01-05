@@ -1,6 +1,7 @@
 #include <sstream>
 #include <algorithm>
 #include <map>
+#include <fstream>
 #include "PlateauDamier.h"
 #include "Plateau.h"
 
@@ -10,9 +11,35 @@ PlateauDamier::PlateauDamier(int dimension) : PlateauCombinatoireAbstrait(dimens
     else anglais = false;
 }
 
-std::ostream &operator<<(std::ostream &os, const PlateauDamier &damier) {
-    os << static_cast<const Plateau &>(damier);
-    return os;
+std::ostream &operator<<(std::ostream &out, const PlateauDamier &damier) {
+    if(!damier.anglais)out << "-------------------------------------------          ------------------------------------------- \n";
+    else out << "-----------------------------------          ----------------------------------- \n";
+    int h = 0;
+    for(int i = 0; i < damier.dimension; i++){
+        out << "| ";
+        for(int j = 0; j < damier.dimension; j++){
+            out << damier.cases[i][j].getPion().getImg() << " | ";
+        }
+        out << "         | ";
+        for(int j = 0; j < damier.dimension; j++){
+            if(i%2 == 0){
+                if(j%2 == 1) {
+                    out << std::get<0>(damier.posCase[h])+1 << " | ";
+                    h++;
+                }
+                else out << "  | ";
+            }else{
+                if(j%2 != 1){
+                    out << std::get<0>(damier.posCase[h])+1 << " | ";
+                    h++;
+                }else out << "  | ";
+            }
+        }
+        out << "\n";
+    }
+    if(!damier.anglais) out << "-------------------------------------------          -------------------------------------------";
+    else out << "-----------------------------------          ----------------------------------- \n";
+    return out;
 }
 
 const void PlateauDamier::initialize() const {
@@ -369,4 +396,30 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
         return false;
     }
     return true;
+}
+
+void PlateauDamier::lectureFichierTest() {
+    std::string path = "";
+    if(anglais) path = "../dame_anglaise/test1.txt";
+    else path = "../dame_international/test1.txt";
+    std::ifstream infile(path);
+    std::string line = "";
+    std::string delimiter = " ";
+    Couleur c = Couleur ::BLANC;
+    int case_src = 0;
+    int case_dst = 0;
+    while(std::getline(infile, line)){
+        case_src = std::stoi(line.substr(0, line.find(delimiter)));
+        case_dst = std::stoi(line.substr(std::to_string(case_src).length()+1, 1));
+        std::tuple<int,int> src = nbCasetoCoord(case_src);
+        std::tuple<int,int> dst = nbCasetoCoord(case_dst);
+        int i_src = std::get<0>(src);
+        int j_src = std::get<1>(src);
+        int i_dst = std::get<0>(dst);
+        int j_dst = std::get<1>(dst);
+        if(!anglais) {
+            if (cases[i_src][j_src].getPion().getNom() == "Pion") pionMove(i_src, j_src, i_dst, j_dst, c);
+        }
+
+    }
 }
