@@ -24,14 +24,14 @@ const void PlateauDamier::initialize() const {
     for (int i = 0; i < i_borne; i++) {
         for (int j = 0; j < dimension; j++) {
             if (i % 2 == 0) {
-                if (j % 2 == 0) {
+                if (j % 2 == 1) {
                     cases[i][j].setPion(p);
                     std::tuple<int, int,int> tmp  = {nb,i,j};
                     posCase[nb] = tmp;
                     nb++;
                 }
             } else {
-                if (j % 2 != 0) {
+                if (j % 2 != 1) {
                     cases[i][j].setPion(p);
                     std::tuple<int,int,int> tmp = {nb,i,j};
                     posCase[nb] = tmp;
@@ -53,13 +53,13 @@ const void PlateauDamier::initialize() const {
     for (int i = i_borne; i < ii_borne; i++) {
         for (int j = 0; j < dimension; j++) {
             if (i % 2 == 0) {
-                if (j % 2 == 0) {
+                if (j % 2 == 1) {
                     std::tuple<int,int,int> tmp = {nb,i,j};
                     posCase[nb] = tmp;
                     nb++;
                 }
             } else {
-                if (j % 2 != 0) {
+                if (j % 2 != 1) {
                     std::tuple<int,int,int> tmp = {nb,i,j};
                     posCase[nb] = tmp;
                     nb++;
@@ -74,14 +74,14 @@ const void PlateauDamier::initialize() const {
     for (int i = i_borne; i < dimension; i++) {
         for (int j = 0; j < dimension; j++) {
             if (i % 2 == 0) {
-                if (j % 2 == 0) {
+                if (j % 2 == 1) {
                     cases[i][j].setPionBis(p2);
                     std::tuple<int,int,int> tmp = {nb,i,j};
                     posCase[nb] = tmp;
                     nb++;
                 }
             } else {
-                if (j % 2 != 0) {
+                if (j % 2 != 1) {
                     cases[i][j].setPionBis(p2);
                     std::tuple<int,int,int> tmp = {nb,i,j};
                     posCase[nb] = tmp;
