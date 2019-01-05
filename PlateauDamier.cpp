@@ -5,6 +5,7 @@
 #include "Plateau.h"
 
 PlateauDamier::PlateauDamier(int dimension) : PlateauCombinatoireAbstrait(dimension) {
+    posCase = new std::tuple<int,int,int>;
     if(dimension == 8) anglais = true;
     else anglais = false;
 }
@@ -18,36 +19,87 @@ const void PlateauDamier::initialize() const {
     int i_borne = 0;
     if(anglais) i_borne = 3;
     else i_borne = 4;
+    int nb = 0;
     Pion p("PION", "\u26C0", Couleur::NOIR);
     for (int i = 0; i < i_borne; i++) {
         for (int j = 0; j < dimension; j++) {
             if (i % 2 == 0) {
-                if (j % 2 == 0) {
+                if (j % 2 == 1) {
                     cases[i][j].setPion(p);
+                    std::tuple<int, int,int> tmp  = {nb,i,j};
+                    posCase[nb] = tmp;
+                    nb++;
                 }
             } else {
-                if (j % 2 != 0) {
+                if (j % 2 != 1) {
                     cases[i][j].setPion(p);
+                    std::tuple<int,int,int> tmp = {nb,i,j};
+                    posCase[nb] = tmp;
+                    nb++;
                 }
             }
         }
     }
+    int ii_borne = 0;
+    if(anglais){
+        i_borne = 3;
+        ii_borne = 5;
+    }
+    else {
+
+        i_borne = 4;
+        ii_borne = 6;
+    }
+    for (int i = i_borne; i < ii_borne; i++) {
+        for (int j = 0; j < dimension; j++) {
+            if (i % 2 == 0) {
+                if (j % 2 == 1) {
+                    std::tuple<int,int,int> tmp = {nb,i,j};
+                    posCase[nb] = tmp;
+                    nb++;
+                }
+            } else {
+                if (j % 2 != 1) {
+                    std::tuple<int,int,int> tmp = {nb,i,j};
+                    posCase[nb] = tmp;
+                    nb++;
+                }
+            }
+        }
+    }
+
     if(anglais) i_borne = 5;
     else i_borne = 6;
     Pion p2("PION", "\u26C2", Couleur::BLANC);
     for (int i = i_borne; i < dimension; i++) {
         for (int j = 0; j < dimension; j++) {
             if (i % 2 == 0) {
-                if (j % 2 == 0) {
+                if (j % 2 == 1) {
                     cases[i][j].setPionBis(p2);
+                    std::tuple<int,int,int> tmp = {nb,i,j};
+                    posCase[nb] = tmp;
+                    nb++;
                 }
             } else {
-                if (j % 2 != 0) {
+                if (j % 2 != 1) {
                     cases[i][j].setPionBis(p2);
+                    std::tuple<int,int,int> tmp = {nb,i,j};
+                    posCase[nb] = tmp;
+                    nb++;
                 }
             }
         }
     }
+}
+
+std::tuple<int,int> PlateauDamier::nbCasetoCoord(int a) {
+    int i_borne = 0;
+    if(anglais) i_borne = 32;
+    else i_borne = 50;
+    for(int i = 0; i < i_borne; i++){
+        if(std::get<0>(posCase[i]) == a-1) return {std::get<1>(posCase[i]), std::get<2>(posCase[i])};
+    }
+    return {-1,-1};
 }
 
 
@@ -78,19 +130,6 @@ bool PlateauDamier::bot() {
     return false;
 }
 
-std::vector<int> PlateauDamier::split(const std::string &s, char delimiter) {
-    std::vector<int> Data;
-    std::vector<std::string> tokens;
-    std::string token;
-    std::istringstream tokenStream(s);
-    while (std::getline(tokenStream, token, delimiter)) {
-        tokens.push_back(token);
-    }
-    std::transform(tokens.begin(), tokens.end(), std::back_inserter(Data),
-                   [](const std::string &str) { return std::stoi(str); });
-    return Data;
-}
-
 const void PlateauDamier::launcher() {
     std::cout << "Jeu de dames International:" << std::endl;
     std::cout << "Menu Principal:" << std::endl;
@@ -117,6 +156,7 @@ const void PlateauDamier::twoPlayer() {
     this->initialize();
     std::cout << "IT'S P1 TURN !!" << std::endl;
     while (true) {
+
         std::cout << *(this) << std::endl;
         this->playerTurn();
         std::cout << *(this) << std::endl;
