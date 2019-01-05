@@ -22,6 +22,8 @@ public:
     const bool posOk(int i_src, int j_src, int i_dst, int j_dst) const;
     std::tuple<int,int> nbCasetoCoord(int);
 
+    void lectureFichierTest();
+
     bool bot();
     virtual const void playerTurn() = 0;
     virtual const void playerTurn2() = 0;
