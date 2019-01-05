@@ -35,8 +35,8 @@ public:
     void lectureFichierTest();
 
     bool bot();
-    virtual const void playerTurn() = 0;
-    virtual const void playerTurn2() = 0;
+    virtual const void playerTurn(int,int,int,int) = 0;
+    virtual const void playerTurn2(int,int,int,int) = 0;
     const void launcher();
     const void singlePlayer();
     const void twoPlayer();

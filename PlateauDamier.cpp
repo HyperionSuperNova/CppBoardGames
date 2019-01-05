@@ -183,11 +183,34 @@ const void PlateauDamier::twoPlayer() {
     this->initialize();
     std::cout << "IT'S P1 TURN !!" << std::endl;
     while (true) {
+        std::cout << *(this) << std::endl;
+        std::cout << "Veuillez entrez les coordonnées du pion que vous souhaitez deplacer " << "Exemple: 14"
+                  << std::endl;
+        std::string s;
+        std::cin >> s;
 
+        int nbCase = std::stoi(s);
+        std::tuple<int,int> coord_src = nbCasetoCoord(nbCase);
+
+        int i_src = std::get<0>(coord_src);
+        int j_src = std::get<1>(coord_src);
+        bool pionSel_src = pionSelect(i_src, j_src, Couleur::BLANC);
+        std::cout << "i_src: " << i_src << " et j_src: " << j_src << std::endl;
+
+
+        std::cout << "Veuillez entrez les coordonnées de la case ou vous souhaitez le deplacer" << "Exemple: 14"
+                  << std::endl;
+        std::string x;
+        std::cin >> x;
+        int nbCase_dst = std::stoi(x);
+        std::tuple<int,int> coord_dst = nbCasetoCoord(nbCase_dst);
+        int i_dst = std::get<0>(coord_dst);
+        int j_dst = std::get<1>(coord_dst);
+        bool pionSel_dst = pionSelect(i_dst, j_dst, Couleur::BLANC);
         std::cout << *(this) << std::endl;
-        this->playerTurn();
+        this->playerTurn(i_src, j_src, i_dst, j_dst);
         std::cout << *(this) << std::endl;
-        this->playerTurn2();
+        this->playerTurn2(i_src, j_src, i_dst, j_dst);
         std::cout << *(this) << std::endl;
 
     }
@@ -198,7 +221,30 @@ const void PlateauDamier::singlePlayer() {
     std::cout << "IT'S P1 TURN !!" << std::endl;
     while (true) {
         std::cout << *(this) << std::endl;
-        this->playerTurn();
+        std::cout << "Veuillez entrez les coordonnées du pion que vous souhaitez deplacer " << "Exemple: 14"
+                  << std::endl;
+        std::string s;
+        std::cin >> s;
+
+        int nbCase = std::stoi(s);
+        std::tuple<int,int> coord_src = nbCasetoCoord(nbCase);
+
+        int i_src = std::get<0>(coord_src);
+        int j_src = std::get<1>(coord_src);
+        bool pionSel_src = pionSelect(i_src, j_src, Couleur::BLANC);
+        std::cout << "i_src: " << i_src << " et j_src: " << j_src << std::endl;
+
+
+        std::cout << "Veuillez entrez les coordonnées de la case ou vous souhaitez le deplacer" << "Exemple: 14"
+                  << std::endl;
+        std::string x;
+        std::cin >> x;
+        int nbCase_dst = std::stoi(x);
+        std::tuple<int,int> coord_dst = nbCasetoCoord(nbCase_dst);
+        int i_dst = std::get<0>(coord_dst);
+        int j_dst = std::get<1>(coord_dst);
+        bool pionSel_dst = pionSelect(i_dst, j_dst, Couleur::BLANC);
+        this->playerTurn(i_src, j_src, i_dst, j_dst);
         this->bot();
         std::cout << *(this) << std::endl;
 
