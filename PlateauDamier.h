@@ -19,7 +19,6 @@ public:
     friend std::ostream &operator<<(std::ostream &, const PlateauDamier &);
     const bool pionMove(int i_src, int j_src, int i_dst, int j_dst, Couleur c);
     const bool posOk(int i_src, int j_src, int i_dst, int j_dst) const;
-
     bool bot();
     virtual const void playerTurn() = 0;
     virtual const void playerTurn2() = 0;
