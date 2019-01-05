@@ -18,8 +18,7 @@ public:
     int turn = 0;
     explicit PlateauDamier(int dimension);
     const void initialize() const;
-    friend std::ostream &operator<<(std::ostream &, const PlateauDamier &);
-    const bool pionMove(int i_src, int j_src, int i_dst, int j_dst, Couleur c);
+        const bool pionMove(int i_src, int j_src, int i_dst, int j_dst, Couleur c);
     const bool posOk(int i_src, int j_src, int i_dst, int j_dst) const;
     std::tuple<int,int> nbCasetoCoord(int);
 
@@ -30,6 +29,8 @@ public:
     const void singlePlayer();
     const void twoPlayer();
     const bool pionSelect(int i_src,int j_src,Couleur c);
+
+    friend std::ostream &operator<<(std::ostream &os, const PlateauDamier &damier);
 
 
 };

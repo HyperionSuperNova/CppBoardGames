@@ -10,9 +10,35 @@ PlateauDamier::PlateauDamier(int dimension) : PlateauCombinatoireAbstrait(dimens
     else anglais = false;
 }
 
-std::ostream &operator<<(std::ostream &os, const PlateauDamier &damier) {
-    os << static_cast<const Plateau &>(damier);
-    return os;
+std::ostream &operator<<(std::ostream &out, const PlateauDamier &damier) {
+    if(!damier.anglais)out << "-------------------------------------------          ------------------------------------------- \n";
+    else out << "-----------------------------------          ----------------------------------- \n";
+    int h = 0;
+    for(int i = 0; i < damier.dimension; i++){
+        out << "| ";
+        for(int j = 0; j < damier.dimension; j++){
+            out << damier.cases[i][j].getPion().getImg() << " | ";
+        }
+        out << "         | ";
+        for(int j = 0; j < damier.dimension; j++){
+            if(i%2 == 0){
+                if(j%2 == 1) {
+                    out << std::get<0>(damier.posCase[h])+1 << " | ";
+                    h++;
+                }
+                else out << "  | ";
+            }else{
+                if(j%2 != 1){
+                    out << std::get<0>(damier.posCase[h])+1 << " | ";
+                    h++;
+                }else out << "  | ";
+            }
+        }
+        out << "\n";
+    }
+    if(!damier.anglais) out << "-------------------------------------------          -------------------------------------------";
+    else out << "-----------------------------------          ----------------------------------- \n";
+    return out;
 }
 
 const void PlateauDamier::initialize() const {
