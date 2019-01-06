@@ -54,7 +54,7 @@ const void PlateauDamierAnglais::playerTurn2(int i_src, int j_src, int i_dst, in
         }
 
     }
-    turn += 1;
+    turn -= 1;
     return;
 }
 
