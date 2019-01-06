@@ -15,13 +15,13 @@ const void PlateauDamierAnglais::playerTurn(int i_src, int j_src, int i_dst, int
 
         if (cases[i_src][j_src].getPion().getNom() == "PION") {
             std::cout << "passe par la" << std::endl;
-            if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::BLANC))) {
+            if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::BLANC, false))) {
                 std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
 
                 goto firstSelect;
             }
         } else if (cases[i_src][j_src].getPion().getNom() == "KING") {
-            if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::BLANC))) {
+            if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::BLANC, false))) {
                 std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
 
                 goto firstSelect;
@@ -40,13 +40,13 @@ const void PlateauDamierAnglais::playerTurn2(int i_src, int j_src, int i_dst, in
         bool pionSel_dst = pionSelect(i_dst, j_dst, Couleur::NOIR);
 
         if (cases[i_src][j_src].getPion().getNom() == "PION") {
-            if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::NOIR))) {
+            if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::NOIR, false))) {
                 std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
 
                 goto firstSelect;
             }
         } else if (cases[i_src][j_src].getPion().getNom() == "KING") {
-            if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::NOIR))) {
+            if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::NOIR, false))) {
                 std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
 
                 goto firstSelect;
