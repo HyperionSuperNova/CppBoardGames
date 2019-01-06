@@ -4,6 +4,7 @@ PlateauDamierInternational::PlateauDamierInternational() : PlateauDamier(10) {
     dimension = 10;
 }
 
+
 const void PlateauDamierInternational::playerTurn(int i_src, int j_src, int i_dst, int j_dst) {
     firstSelect:
     if (turn == 0) {
@@ -28,6 +29,7 @@ const void PlateauDamierInternational::playerTurn(int i_src, int j_src, int i_ds
     turn += 1;
     return;
 }
+
 
 const void PlateauDamierInternational::playerTurn2(int i_src, int j_src, int i_dst, int j_dst) {
     firstSelect:
@@ -118,6 +120,7 @@ const bool PlateauDamierInternational::kingMove(int i_src, int j_src, int i_dst,
     }
     return true;
 }
+
 
 
 

@@ -5,6 +5,8 @@
 #include "PlateauEchiquier.h"
 #include "PlateauDamierAnglais.h"
 
+
+
 int main() {
     std::cout << "A quel jeu voulez vous jouer?" << std::endl;
     std::cout << "D pour dame, E pour Echec, S pour stratego" << std::endl;

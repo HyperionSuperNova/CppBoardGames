@@ -13,6 +13,7 @@ public:
     PlateauDamierAnglais();
     const void playerTurn(int, int,int,int);
     const void playerTurn2(int,int,int,int);
+
 };
 
 

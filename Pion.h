@@ -4,6 +4,7 @@
 
 
 #include <iostream>
+#include <boost/serialization/access.hpp>
 
 enum class Couleur {BLANC, NOIR};
 
@@ -19,6 +20,7 @@ private:
     std::string name;
     std::string img;
     Couleur color;
+
     public:
 
     Pion();
