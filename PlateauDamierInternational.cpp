@@ -13,7 +13,7 @@ const void PlateauDamierInternational::playerTurn(int i_src, int j_src, int i_ds
         std::cout << "i_dst: " << i_dst << " et j_dst: " << j_dst << std::endl;
         if (cases[i_src][j_src].getPion().getNom() == "PION") {
             std::cout << "passe par la" << std::endl;
-            if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::BLANC))) {
+            if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::BLANC, false))) {
 
                 goto firstSelect;
             }
@@ -36,7 +36,7 @@ const void PlateauDamierInternational::playerTurn2(int i_src, int j_src, int i_d
         bool pionSel_dst = pionSelect(i_dst, j_dst, Couleur::NOIR);
 
         if (cases[i_src][j_src].getPion().getNom() == "PION") {
-            if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::NOIR))) {
+            if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::NOIR, false))) {
                 std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
 
                 goto firstSelect;
