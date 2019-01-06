@@ -328,8 +328,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                                 std::cout << "i_dst-2: " << i_dst-2 << " et j_dst+2: " << j_dst+2 << std::endl;
                                 bool l = pionMove(i_dst - 1, j_dst + 1, i_dst - 2, j_dst, Couleur::BLANC);
                                 bool ld = pionMove(i_dst - 1, j_dst + 1, i_dst - 2, j_dst + 1+1, Couleur::BLANC);
-                                if(!anglais) bool rd = pionMove(i_dst - 1, j_dst + 1, i_dst + 1, j_dst - 1, Couleur::BLANC);
-                                if(!anglais) bool r = pionMove(i_dst - 1, j_dst + 1, i_dst + 1, j_dst + 1, Couleur::BLANC);
+                                if(!anglais) bool rd = pionMove(i_dst - 1, j_dst + 1, i_dst, j_dst, Couleur::BLANC);
+                                if(!anglais) bool r = pionMove(i_dst - 1, j_dst + 1, i_dst, j_dst + 1+1, Couleur::BLANC);
                             } else {
                                 return false;
                             }
@@ -344,8 +344,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                                 std::cout << "i_dst-2: " << i_dst-2 << " et j_dst+2: " << j_dst+2 << std::endl;
                                 bool l = pionMove(i_dst - 1, j_dst - 1, i_dst - 2, j_dst - 1-1, Couleur::BLANC);
                                 bool ld = pionMove(i_dst - 1, j_dst - 1, i_dst - 2, j_dst, Couleur::BLANC);
-                                if(!anglais) bool rd = pionMove(i_dst - 1, j_dst - 1, i_dst + 1, j_dst - 1, Couleur::BLANC);
-                                if(!anglais) bool r = pionMove(i_dst - 1, j_dst - 1, i_dst + 1, j_dst + 1, Couleur::BLANC);
+                                if(!anglais) bool rd = pionMove(i_dst - 1, j_dst - 1, i_dst, j_dst - 1 -1, Couleur::BLANC);
+                                if(!anglais) bool r = pionMove(i_dst - 1, j_dst - 1, i_dst, j_dst, Couleur::BLANC);
                             } else {
                                 return false;
                             }
