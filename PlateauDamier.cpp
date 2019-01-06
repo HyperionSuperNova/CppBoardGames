@@ -426,10 +426,10 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                                     cases[i_dst+1][j_dst+1].setPionBis(p2);
                                     return true;
                                 }
-                                if(!anglais) bool l = pionMove(i_dst + 1, j_dst + 1, i_dst - 1, j_dst - 1, Couleur::NOIR);
-                                if(!anglais) bool ld = pionMove(i_dst + 1, j_dst + 1, i_dst - 1, j_dst + 1, Couleur::NOIR);
-                                bool rd = pionMove(i_dst + 1, j_dst + 1, i_dst + 1, j_dst - 1, Couleur::NOIR);
-                                bool r = pionMove(i_dst + 1, j_dst + 1, i_dst + 1, j_dst + 1, Couleur::NOIR);
+                                if(!anglais) bool l = pionMove(i_dst + 1, j_dst + 1, i_dst, j_dst, Couleur::NOIR);
+                                if(!anglais) bool ld = pionMove(i_dst + 1, j_dst + 1, i_dst, j_dst + 2, Couleur::NOIR);
+                                bool rd = pionMove(i_dst + 1, j_dst + 1, i_dst + 2, j_dst, Couleur::NOIR);
+                                bool r = pionMove(i_dst + 1, j_dst + 1, i_dst + 2, j_dst + 2, Couleur::NOIR);
                             } else {
                                 return false;
                             }
@@ -444,10 +444,10 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                                     cases[i_dst+1][j_dst-1].setPionBis(p2);
                                     return true;
                                 }
-                                if(!anglais) bool l = pionMove(i_dst + 1, j_dst - 1, i_dst - 1, j_dst - 1, Couleur::NOIR);
-                                if(!anglais) bool ld = pionMove(i_dst + 1, j_dst - 1, i_dst - 1, j_dst + 1, Couleur::NOIR);
-                                bool rd = pionMove(i_dst + 1, j_dst - 1, i_dst + 1, j_dst - 1, Couleur::NOIR);
-                                bool r = pionMove(i_dst + 1, j_dst - 1, i_dst + 1, j_dst + 1, Couleur::NOIR);
+                                if(!anglais) bool l = pionMove(i_dst + 1, j_dst - 1, i_dst, j_dst - 2, Couleur::NOIR);
+                                if(!anglais) bool ld = pionMove(i_dst + 1, j_dst - 1, i_dst, j_dst, Couleur::NOIR);
+                                bool rd = pionMove(i_dst + 1, j_dst - 1, i_dst + 2, j_dst - 2, Couleur::NOIR);
+                                bool r = pionMove(i_dst + 1, j_dst - 1, i_dst + 2, j_dst, Couleur::NOIR);
                             } else {
                                 return false;
                             }
@@ -601,6 +601,7 @@ const void PlateauDamier::lectureFichierTest() {
         int j_src = std::get<1>(src);
         int i_dst = std::get<0>(dst);
         int j_dst = std::get<1>(dst);
+        std::cout << "case_src: " << case_src << " et case_dst: " << case_dst << std::endl;
         std::cout << i_src << " " << j_src << " " << i_dst << " " << j_dst <<std::endl;
         if(c == Couleur::BLANC) this->playerTurn(i_src, j_src, i_dst, j_dst);
         else this->playerTurn2(i_src,j_src,i_dst,j_dst);
