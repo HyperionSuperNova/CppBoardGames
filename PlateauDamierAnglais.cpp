@@ -32,7 +32,6 @@ const bool PlateauDamierAnglais::playerTurn(int i_src, int j_src, int i_dst, int
 }
 
 const bool PlateauDamierAnglais::playerTurn2(int i_src, int j_src, int i_dst, int j_dst) {
-    firstSelect:
     if (turn == 1) {
         bool pionSel_src = pionSelect(i_src, j_src, Couleur::NOIR);
         bool pionSel_dst = pionSelect(i_dst, j_dst, Couleur::NOIR);
@@ -109,10 +108,15 @@ const bool PlateauDamierAnglais::kingMove(int i_src, int j_src, int i_dst, int j
                             bool ld = pionMove(i_dst - 1, j_dst + 1, i_dst - 2, j_dst + 1+1, c, true);
                             bool rd = pionMove(i_dst - 1, j_dst + 1, i_dst, j_dst, c, true);
                             bool r = pionMove(i_dst - 1, j_dst + 1, i_dst, j_dst + 1 + 1, c, true);
-                        } else {
+                        } else if(cases[i_dst][j_dst].isEmpty()) {
+                            move(i_src, j_src, i_dst, j_dst);
+                            return true;
+                        }else{
                             return false;
                         }
-                    } else if (j_dst == j_src - 1 && j_dst - 1 < dimension && j_dst - 1 > 0) {
+                    } else if (j_dst == j_src - 1 && j_dst - 1 >= 0) {
+                        std::cout << "la4 avec nom case" << cases[i_dst+1][j_dst-1].getPion().getNom() << "lsqldkqkd" << cases[i_dst+1][j_dst-1].getPion().getColor() <<std::endl;
+
                         if (cases[i_dst + 1][j_dst - 1].isEmpty()) {
                             std::cout << "here" << std::endl;
                             scoreJ1 += 1;
@@ -122,7 +126,10 @@ const bool PlateauDamierAnglais::kingMove(int i_src, int j_src, int i_dst, int j
                             bool ld = pionMove(i_dst - 1, j_dst - 1, i_dst - 2, j_dst, c, true);
                             bool rd = pionMove(i_dst - 1, j_dst - 1, i_dst, j_dst - 1 - 1, c, true);
                             bool r = pionMove(i_dst - 1, j_dst - 1, i_dst, j_dst, c, true);
-                        } else {
+                        } else if(cases[i_dst][j_dst].isEmpty()) {
+                            move(i_src, j_src, i_dst, j_dst);
+                            return true;
+                        }else {
                             return false;
                         }
                     } else if (i_dst == i_src - 1) {
@@ -156,11 +163,13 @@ const bool PlateauDamierAnglais::kingMove(int i_src, int j_src, int i_dst, int j
                     }
                 } else if (cases[i_dst][j_dst].isEmpty() && i_dst == i_src - 1) {
                     move(i_src, j_src, i_dst, j_dst);
+                    return true;
                     } else {
                         return false;
                     }
                 } else if ((cases[i_dst][j_dst].isEmpty() && i_dst == i_src - 1)) {
                     move(i_src, j_src, i_dst, j_dst);
+                    return true;
                 } else {
                     return false;
                 }

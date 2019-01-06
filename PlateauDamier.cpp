@@ -313,9 +313,11 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
     if (posOk(i_src, j_src, i_dst, j_dst)) {
         if (cases[i_src][j_src].getPion().getColor() == Couleur::BLANC && c == Couleur::BLANC) {
             ////////////////////////////////////////////////////////////////////////////////
+            //TODO: king anglais peut bouger dans tous les sens
+            //TODO: if check gut : SET WHITE DAME HERE DUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDE
             if (((j_dst == j_src + 1) || j_dst == j_src - 1)) {
-                if (!cases[i_dst][j_dst].isEmpty() && cases[i_dst][j_dst].getPion().getColor() == Couleur::NOIR &&
-                    !(cases[i_dst][j_dst].getPion().getNom() == "KING")) {
+                if (!cases[i_dst][j_dst].isEmpty() && cases[i_dst][j_dst].getPion().getColor() == Couleur::NOIR) {
+                    std::cout << "I am the king!" << std::endl;
                     if (i_dst == i_src - 1) {
                         std::cout << "ici" << std::endl;
                         if (j_dst == j_src + 1 && j_dst + 1 < dimension && j_dst + 1 > 0 && i_dst-1 >= 0) {
@@ -329,6 +331,9 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                                     cases[i_dst-1][j_dst+1].setPionBis(p2);
                                     return true;
                                 }
+                                std::cout << "i_dst-1: " << i_dst-1 << " et j_dst+1: " << j_dst+1 << std::endl;
+                                std::cout << "i_dst-2: " << i_dst-2 << " et j_dst: " << j_dst << std::endl;
+                                std::cout << "i_dst-2: " << i_dst-2 << " et j_dst+2: " << j_dst+2 << std::endl;
                                 bool l = pionMove(i_dst - 1, j_dst + 1, i_dst - 2, j_dst, Couleur::BLANC, true);
                                 bool ld = pionMove(i_dst - 1, j_dst + 1, i_dst - 2, j_dst + 1+1, Couleur::BLANC, true);
                                 if(!anglais || (anglais && cases[i_src][j_src].getPion().getNom() == "KING")) {
@@ -369,7 +374,6 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                             return false;
                         }
                     } else if (cases[i_dst][j_dst].isEmpty() && i_dst == i_src - 1 && !dejaPasse) {
-                        cases[i_dst][j_dst] = Case(i_dst, j_dst);
                         move(i_src, j_src, i_dst, j_dst);
                         if (i_dst == 0) {
                             Pion p2("KING", "\u26C1", Couleur::BLANC);
@@ -386,6 +390,13 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                             scoreJ1 += 1;
                             cases[i_dst][j_dst] = Case(i_dst, j_dst);
                             move(i_src, j_src, i_dst + 1, j_dst + 1);
+                            /*
+                            bool l = pionMove(i_dst + 1, j_dst + 1, i_dst - 1, j_dst - 1, Couleur::BLANC, true);
+                            bool ld = pionMove(i_dst + 1, j_dst + 1, i_dst - 1, j_dst + 1, Couleur::BLANC, true);
+                            bool rd = pionMove(i_dst + 1, j_dst + 1, i_dst + 1, j_dst - 1, Couleur::BLANC, true);
+                            bool r = pionMove(i_dst + 1, j_dst + 1, i_dst + 1, j_dst + 1, Couleur::BLANC, true);
+                             */
+
 
                             bool l = pionMove(i_dst - 1, j_dst + 1, i_dst - 2, j_dst, Couleur::BLANC, true);
                             bool ld = pionMove(i_dst - 1, j_dst + 1, i_dst - 2, j_dst + 1+1, Couleur::BLANC, true);
@@ -400,6 +411,12 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                             scoreJ1 += 1;
                             cases[i_dst][j_dst] = Case(i_dst, j_dst);
                             move(i_src, j_src, i_dst + 1, j_dst - 1);
+                            /*
+                            bool l = pionMove(i_dst + 1, j_dst - 1, i_dst - 1, j_dst - 1, Couleur::BLANC, true);
+                            bool ld = pionMove(i_dst + 1, j_dst - 1, i_dst - 1, j_dst + 1, Couleur::BLANC, true);
+                            bool rd = pionMove(i_dst + 1, j_dst - 1, i_dst + 1, j_dst - 1, Couleur::BLANC, true);
+                            bool r = pionMove(i_dst + 1, j_dst - 1, i_dst + 1, j_dst + 1, Couleur::BLANC, true);
+                             */
 
 
                             bool l = pionMove(i_dst - 1, j_dst - 1, i_dst - 2, j_dst - 1-1, Couleur::BLANC, true);
@@ -413,9 +430,7 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                         return false;
                     }
                 } else if ((cases[i_dst][j_dst].isEmpty() && i_dst == i_src - 1 && !dejaPasse)) {
-                    cases[i_dst][j_dst] = Case(i_dst, j_dst);
                     move(i_src, j_src, i_dst, j_dst);
-
                     if (i_dst == 0) {
                         Pion p2("KING", "\u26C3", Couleur::BLANC);
                         cases[i_dst][j_dst] = Case(i_dst, j_dst);
@@ -431,6 +446,7 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
             }
         } else if (cases[i_src][j_src].getPion().getColor() == Couleur::NOIR && c == Couleur::NOIR &&
                    (!(cases[i_dst][j_dst].getPion().getNom() == "KING"))) {
+            std::cout << "ICI c est le code" << std::endl;
             if (((j_dst == j_src + 1) || j_dst == j_src - 1)) {
                 if (i_dst == i_src + 1) {
                     if (!cases[i_dst][j_dst].isEmpty() && cases[i_dst][j_dst].getPion().getColor() == Couleur::BLANC) {
@@ -478,7 +494,6 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                             return false;
                         }
                     } else if (i_dst == i_src + 1 && cases[i_dst][j_dst].isEmpty() && !dejaPasse) {
-                        cases[i_dst][j_dst] = Case(i_dst, j_dst);
                         move(i_src, j_src, i_dst, j_dst);
                         if (i_dst == dimension-1) {
                             Pion p2("KING", "\u26C1", Couleur::NOIR);
@@ -519,7 +534,6 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                         return false;
                     }
                 } else if (cases[i_dst][j_dst].isEmpty() && i_dst == i_src - 1) {
-                    cases[i_dst][j_dst] = Case(i_dst, j_dst);
                     move(i_src, j_src, i_dst, j_dst);
                     if (i_dst == dimension-1) {
                         Pion p2("KING", "\u26C1", Couleur::NOIR);
