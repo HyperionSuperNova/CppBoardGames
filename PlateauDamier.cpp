@@ -1,12 +1,12 @@
 #include <sstream>
 #include <algorithm>
 #include <map>
+#include <time.h>
 #include <fstream>
 #include "PlateauDamier.h"
 #include "Plateau.h"
 
 PlateauDamier::PlateauDamier(int dimension) : PlateauCombinatoireAbstrait(dimension) {
-    posCase = new std::tuple<int,int,int>;
     if(dimension == 8) anglais = true;
     else anglais = false;
 }
@@ -14,7 +14,7 @@ PlateauDamier::PlateauDamier(int dimension) : PlateauCombinatoireAbstrait(dimens
 std::ostream &operator<<(std::ostream &out, const PlateauDamier &damier) {
     if(!damier.anglais)out << "-------------------------------------------          ------------------------------------------- \n";
     else out << "-----------------------------------          ----------------------------------- \n";
-    int h = 0;
+    int h = 1;
     for(int i = 0; i < damier.dimension; i++){
         out << "| ";
         for(int j = 0; j < damier.dimension; j++){
@@ -24,13 +24,13 @@ std::ostream &operator<<(std::ostream &out, const PlateauDamier &damier) {
         for(int j = 0; j < damier.dimension; j++){
             if(i%2 == 0){
                 if(j%2 == 1) {
-                    out << std::get<0>(damier.posCase[h])+1 << " | ";
+                    out << h << " | ";
                     h++;
                 }
                 else out << "  | ";
             }else{
                 if(j%2 != 1){
-                    out << std::get<0>(damier.posCase[h])+1 << " | ";
+                    out << h << " | ";
                     h++;
                 }else out << "  | ";
             }
@@ -42,7 +42,11 @@ std::ostream &operator<<(std::ostream &out, const PlateauDamier &damier) {
     return out;
 }
 
-const void PlateauDamier::initialize() const {
+void PlateauDamier::ajoutePosCase(tuple* tmp) {
+    posCase.push_back(tmp);
+}
+
+const void PlateauDamier::initialize() {
     int i_borne = 0;
     if(anglais) i_borne = 3;
     else i_borne = 4;
@@ -53,16 +57,14 @@ const void PlateauDamier::initialize() const {
             if (i % 2 == 0) {
                 if (j % 2 == 1) {
                     cases[i][j].setPion(p);
-                    std::tuple<int, int,int> tmp  = {nb,i,j};
-                    posCase[nb] = tmp;
-                    nb++;
+                    tuple *tmp = new tuple(nb,i,j);
+                    ajoutePosCase(tmp);
                 }
             } else {
                 if (j % 2 != 1) {
                     cases[i][j].setPion(p);
-                    std::tuple<int,int,int> tmp = {nb,i,j};
-                    posCase[nb] = tmp;
-                    nb++;
+                    tuple *tmp = new tuple(nb,i,j);
+                    ajoutePosCase(tmp);
                 }
             }
         }
@@ -81,15 +83,13 @@ const void PlateauDamier::initialize() const {
         for (int j = 0; j < dimension; j++) {
             if (i % 2 == 0) {
                 if (j % 2 == 1) {
-                    std::tuple<int,int,int> tmp = {nb,i,j};
-                    posCase[nb] = tmp;
-                    nb++;
+                    tuple *tmp = new tuple(nb,i,j);
+                    ajoutePosCase(tmp);
                 }
             } else {
                 if (j % 2 != 1) {
-                    std::tuple<int,int,int> tmp = {nb,i,j};
-                    posCase[nb] = tmp;
-                    nb++;
+                    tuple *tmp = new tuple(nb,i,j);
+                    ajoutePosCase(tmp);
                 }
             }
         }
@@ -103,16 +103,14 @@ const void PlateauDamier::initialize() const {
             if (i % 2 == 0) {
                 if (j % 2 == 1) {
                     cases[i][j].setPionBis(p2);
-                    std::tuple<int,int,int> tmp = {nb,i,j};
-                    posCase[nb] = tmp;
-                    nb++;
+                    tuple *tmp = new tuple(nb,i,j);
+                    ajoutePosCase(tmp);
                 }
             } else {
                 if (j % 2 != 1) {
                     cases[i][j].setPionBis(p2);
-                    std::tuple<int,int,int> tmp = {nb,i,j};
-                    posCase[nb] = tmp;
-                    nb++;
+                    tuple *tmp = new tuple(nb,i,j);
+                    ajoutePosCase(tmp);
                 }
             }
         }
@@ -120,13 +118,7 @@ const void PlateauDamier::initialize() const {
 }
 
 std::tuple<int,int> PlateauDamier::nbCasetoCoord(int a) {
-    int i_borne = 0;
-    if(anglais) i_borne = 32;
-    else i_borne = 50;
-    for(int i = 0; i < i_borne; i++){
-        if(std::get<0>(posCase[i]) == a-1) return {std::get<1>(posCase[i]), std::get<2>(posCase[i])};
-    }
-    return {-1,-1};
+    return {std::get<1>(*posCase[a-1]), std::get<2>(*posCase[a-1])};
 }
 
 
@@ -164,9 +156,10 @@ const void PlateauDamier::launcher() {
     std::cout << "Selectionnez votre type de jeu :" << std::endl;
     std::cout << "\t 1) Single Player" << std::endl;
     std::cout << "\t 2) 2P Game" << std::endl;
+    std::cout << "\t 3) lancer partie automatique" << std::endl;
     std::string gameType = "";
     std::cin >> gameType;
-    if (gameType != "1" && gameType != "2") {
+    if (gameType != "1" && gameType != "2" && gameType != "3") {
         std::cout << "Mauvais Choix : Veuillez Selectionner 1 ou 2" << std::endl;
         goto again;
     } else {
@@ -174,6 +167,8 @@ const void PlateauDamier::launcher() {
             this->singlePlayer();
         }else if(gameType == "2"){
             this->twoPlayer();
+        }else if(gameType == "3"){
+            this->lectureFichierTest();
         }
     }
     return;
@@ -183,11 +178,16 @@ const void PlateauDamier::twoPlayer() {
     this->initialize();
     std::cout << "IT'S P1 TURN !!" << std::endl;
     while (true) {
+        std::cout << "Pour avoir de l'aide, Tapez help" <<std::endl;
         std::cout << *(this) << std::endl;
         std::cout << "Veuillez entrez les coordonnées du pion que vous souhaitez deplacer " << "Exemple: 14"
                   << std::endl;
         std::string s;
         std::cin >> s;
+        if(s == "help"){
+            help(Couleur::BLANC);
+            std::cin >> s;
+        }
 
         int nbCase = std::stoi(s);
         std::tuple<int,int> coord_src = nbCasetoCoord(nbCase);
@@ -210,6 +210,36 @@ const void PlateauDamier::twoPlayer() {
         std::cout << *(this) << std::endl;
         this->playerTurn(i_src, j_src, i_dst, j_dst);
         std::cout << *(this) << std::endl;
+
+
+        std::cout << "Pour avoir de l'aide, Tapez help" <<std::endl;
+        std::cout << *(this) << std::endl;
+        std::cout << "Veuillez entrez les coordonnées du pion que vous souhaitez deplacer " << "Exemple: 14"
+                  << std::endl;
+
+        std::cin >> s;
+        if(s == "help"){
+            help(Couleur::NOIR);
+            std::cin >> s;
+        }
+
+        nbCase = std::stoi(s);
+        coord_src = nbCasetoCoord(nbCase);
+
+        i_src = std::get<0>(coord_src);
+        j_src = std::get<1>(coord_src);
+        pionSel_src = pionSelect(i_src, j_src, Couleur::NOIR);
+        std::cout << "i_src: " << i_src << " et j_src: " << j_src << std::endl;
+
+
+        std::cout << "Veuillez entrez les coordonnées de la case ou vous souhaitez le deplacer" << "Exemple: 14"
+                  << std::endl;
+                std::cin >> x;
+        nbCase_dst = std::stoi(x);
+        coord_dst = nbCasetoCoord(nbCase_dst);
+        i_dst = std::get<0>(coord_dst);
+        j_dst = std::get<1>(coord_dst);
+        pionSel_dst = pionSelect(i_dst, j_dst, Couleur::NOIR);
         this->playerTurn2(i_src, j_src, i_dst, j_dst);
         std::cout << *(this) << std::endl;
 
@@ -221,11 +251,16 @@ const void PlateauDamier::singlePlayer() {
     std::cout << "IT'S P1 TURN !!" << std::endl;
     while (true) {
         std::cout << *(this) << std::endl;
+        std::cout << "Pour avoir de l'aide, tapez help" << std::endl;
         std::cout << "Veuillez entrez les coordonnées du pion que vous souhaitez deplacer " << "Exemple: 14"
                   << std::endl;
         std::string s;
         std::cin >> s;
 
+        if(s == "help"){
+            help(Couleur::BLANC);
+            std::cin >> s;
+        }
         int nbCase = std::stoi(s);
         std::tuple<int,int> coord_src = nbCasetoCoord(nbCase);
 
@@ -282,11 +317,13 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                 if (!cases[i_dst][j_dst].isEmpty() && cases[i_dst][j_dst].getPion().getColor() == Couleur::NOIR &&
                         (!(cases[i_dst][j_dst].getPion().getNom() == "KING") || (cases[i_dst][j_dst].getPion().getNom() == "KING" && anglais))) {
                     if (i_dst == i_src - 1) {
+                        std::cout << "ici" << std::endl;
                         if (j_dst == j_src + 1 && j_dst + 1 < dimension && j_dst + 1 > 0) {
                             if (cases[i_dst - 1][j_dst + 1].isEmpty()) {
                                 scoreJ1 += 1;
                                 cases[i_dst][j_dst] = Case(i_dst, j_dst);
                                 move(i_src, j_src, i_dst - 1, j_dst + 1);
+                                std::cout << "i_dst-1: " << i_dst-1 << " et j_dst+1: " << j_dst+1 << std::endl;
                                 bool l = pionMove(i_dst - 1, j_dst + 1, i_dst - 1, j_dst - 1, Couleur::BLANC);
                                 bool ld = pionMove(i_dst - 1, j_dst + 1, i_dst - 1, j_dst + 1, Couleur::BLANC);
                                 if(!anglais) bool rd = pionMove(i_dst - 1, j_dst + 1, i_dst + 1, j_dst - 1, Couleur::BLANC);
@@ -301,7 +338,7 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                                 cases[i_dst][j_dst] = Case(i_dst, j_dst);
                                 move(i_src, j_src, i_dst - 1, j_dst - 1);
                                 bool l = pionMove(i_dst - 1, j_dst - 1, i_dst - 1, j_dst - 1, Couleur::BLANC);
-                                bool ld = pionMove(i_dst - 1, j_dst - 1, i_dst - 1, j_dst + 1, Couleur::BLANC);
+                                bool ld = pionMove(i_dst - 1, j_dst - 1, i_dst - 1, j_dst, Couleur::BLANC);
                                 if(!anglais) bool rd = pionMove(i_dst - 1, j_dst - 1, i_dst + 1, j_dst - 1, Couleur::BLANC);
                                 if(!anglais) bool r = pionMove(i_dst - 1, j_dst - 1, i_dst + 1, j_dst + 1, Couleur::BLANC);
                             } else {
@@ -444,28 +481,96 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
     return true;
 }
 
-void PlateauDamier::lectureFichierTest() {
-    std::string path = "";
-    if(anglais) path = "../dame_anglaise/test1.txt";
-    else path = "../dame_international/test1.txt";
-    std::ifstream infile(path);
+void PlateauDamier::help(Couleur joueur) {
+    for(int i = 0; i < dimension; i++){
+        for(int j = 0; j < dimension; j++){
+            if(joueur == Couleur::BLANC) {
+                if(cases[i][j].getPion().getColor() == joueur) {
+                    if (anglais) {
+                        if (i+1 < dimension && j+1 < dimension && cases[i +1][j + 1].isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i+1) + " " + std::to_string(j+1) << std::endl;
+                        else if (cases[i+1][j+1].getPion().getColor() == Couleur::NOIR && i+2 < dimension && j+2 < dimension && cases[i +2][j + 2].isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i+2) + " " + std::to_string(j+2) << std::endl;
+                        if (i+1 < dimension && j-1 >= 0 && cases[i +1][j - 1].isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i+1) + " " + std::to_string(j-1) << std::endl;
+                        else if (cases[i+1][j-1].getPion().getColor() == Couleur::NOIR && i+2 < dimension && j-2 >= 0 && cases[i +2][j - 2].isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i+2) + " " + std::to_string(j-2) << std::endl;
+                    }
+                    if (i-1 >= 0 && j+1 < dimension && cases[i -1][j + 1].isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i-1) + " " + std::to_string(j+1) << std::endl;
+                    else if(cases[i-1][j+1].getPion().getColor() == Couleur::NOIR && i-2 >= 0 && j+2 < dimension && cases[i -2][j + 2].isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i-2) + " " + std::to_string(j+2) << std::endl;
+                    if (i-1 >= 0 && j-1 >= 0 && cases[i -1][j - 1].isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i-1) + " " + std::to_string(j-1) << std::endl;
+                    else if (cases[i-1][j-1].getPion().getColor() == Couleur::NOIR && i-2 >= 0 && j-2 >= 0 && cases[i -2][j - 2].isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i-2) + " " + std::to_string(j-2) << std::endl;
+
+
+                }
+            }else{
+                if(cases[i][j].getPion().getColor() == joueur) {
+                    if (anglais) {
+                        if (i - 1 >= 0 && j + 1 < dimension && cases[i - 1][j + 1].isEmpty())
+                            std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i - 1) + " " +
+                                   std::to_string(j + 1) << std::endl;
+                        else if (cases[i-1][j+1].getPion().getColor() == Couleur::BLANC && i - 2 >= 0 && j + 2 < dimension && cases[i - 2][j + 2].isEmpty())
+                        std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i - 2) + " " +
+                               std::to_string(j + 2) << std::endl;
+                        if (i - 1 >= 0 && j - 1 >= 0 && cases[i - 1][j - 1].isEmpty())
+                            std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i - 1) + " " +
+                                   std::to_string(j - 1) << std::endl;
+                        else if (cases[i-1][j-1].getPion().getColor() == Couleur::BLANC && i - 2 >= 0 && j - 2 >= 0 && cases[i - 2][j - 2].isEmpty())
+                            std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i - 2) + " " +
+                                   std::to_string(j - 2) << std::endl;
+
+                    }
+                    if (i + 1 < dimension && j + 1 < dimension && cases[i + 1][j + 1].isEmpty())
+                        std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i + 1) + " " +
+                               std::to_string(j + 1) << std::endl;
+                    else if (cases[i+1][j+1].getPion().getColor() == Couleur::BLANC && i + 2 < dimension && j + 2 < dimension && cases[i + 2][j + 2].isEmpty())
+                        std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i + 2) + " " +
+                               std::to_string(j + 2) << std::endl;
+                    if (i + 1 < dimension && j - 1 >= 0 && cases[i + 1][j - 1].isEmpty())
+                        std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i + 1) + " " +
+                               std::to_string(j - 1) << std::endl;
+                    else if (cases[i+1][j-1].getPion().getColor() == Couleur::BLANC && i + 2 < dimension && j - 2 >= 0 && cases[i + 2][j - 2].isEmpty())
+                        std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i + 2) + " " +
+                               std::to_string(j - 2) << std::endl;
+                }
+
+            }
+
+        }
+    }
+}
+
+const void PlateauDamier::lectureFichierTest() {
+    this->initialize();
+    long usec;
+    struct timespec sleep;
+    usec = (500) % 1000;
+    sleep.tv_sec = (500) / 1000;
+    sleep.tv_nsec = 1000*usec;
+
+    std::string file = "";
+    file = "../dame_international/test1.txt";
+    if(this->anglais) file = "../dame_anglaise/test1.txt";
+    std::ifstream infile(file);
     std::string line = "";
     std::string delimiter = " ";
     Couleur c = Couleur ::BLANC;
     int case_src = 0;
     int case_dst = 0;
+    std::cout << *(this) << std::endl;
     while(std::getline(infile, line)){
         case_src = std::stoi(line.substr(0, line.find(delimiter)));
-        case_dst = std::stoi(line.substr(std::to_string(case_src).length()+1, 1));
-        std::tuple<int,int> src = nbCasetoCoord(case_src);
-        std::tuple<int,int> dst = nbCasetoCoord(case_dst);
+        case_dst = std::stoi(line.substr(std::to_string(case_src).length()+1, 2));
+        std::tuple<int,int> src = this->nbCasetoCoord(case_src);
+        std::tuple<int,int> dst = this->nbCasetoCoord(case_dst);
         int i_src = std::get<0>(src);
         int j_src = std::get<1>(src);
         int i_dst = std::get<0>(dst);
         int j_dst = std::get<1>(dst);
-        if(!anglais) {
-            if (cases[i_src][j_src].getPion().getNom() == "Pion") pionMove(i_src, j_src, i_dst, j_dst, c);
-        }
+        std::cout << i_src << " " << j_src << " " << i_dst << " " << j_dst <<std::endl;
+        if(c == Couleur::BLANC) this->playerTurn(i_src, j_src, i_dst, j_dst);
+        else this->playerTurn2(i_src,j_src,i_dst,j_dst);
+        if(c == Couleur::BLANC) c = Couleur::NOIR;
+        else c = Couleur::BLANC;
+        nanosleep(&sleep, NULL);
+        std::cout << *(this) << std::endl;
 
     }
+    std::cout << *(this) << std::endl;
 }
