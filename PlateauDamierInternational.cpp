@@ -4,8 +4,7 @@ PlateauDamierInternational::PlateauDamierInternational() : PlateauDamier(10) {
     dimension = 10;
 }
 
-const void PlateauDamierInternational::playerTurn(int i_src, int j_src, int i_dst, int j_dst) {
-    firstSelect:
+const bool PlateauDamierInternational::playerTurn(int i_src, int j_src, int i_dst, int j_dst) {
     if (turn == 0) {
         bool pionSel_src = pionSelect(i_src, j_src, Couleur::BLANC);
         bool pionSel_dst = pionSelect(i_dst, j_dst, Couleur::BLANC);
@@ -15,22 +14,21 @@ const void PlateauDamierInternational::playerTurn(int i_src, int j_src, int i_ds
             std::cout << "passe par la" << std::endl;
             if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::BLANC, false))) {
 
-                goto firstSelect;
+                return false;
             }
         } else if (cases[i_src][j_src].getPion().getNom() == "KING") {
             if ((/* h.size() != 2 || */ !kingMove(i_src, j_src, i_dst, j_dst, Couleur::BLANC))) {
                 std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
-                goto firstSelect;
+                return false;
             }
         }
 
     }
     turn += 1;
-    return;
+    return true;
 }
 
-const void PlateauDamierInternational::playerTurn2(int i_src, int j_src, int i_dst, int j_dst) {
-    firstSelect:
+const bool PlateauDamierInternational::playerTurn2(int i_src, int j_src, int i_dst, int j_dst) {
     if (turn == 1) {
         bool pionSel_src = pionSelect(i_src, j_src, Couleur::NOIR);
         bool pionSel_dst = pionSelect(i_dst, j_dst, Couleur::NOIR);
@@ -39,19 +37,19 @@ const void PlateauDamierInternational::playerTurn2(int i_src, int j_src, int i_d
             if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::NOIR, false))) {
                 std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
 
-                goto firstSelect;
+                return false;
             }
         } else if (cases[i_src][j_src].getPion().getNom() == "KING") {
             if ((!kingMove(i_src, j_src, i_dst, j_dst, Couleur::NOIR))) {
                 std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
 
-                goto firstSelect;
+                return false;
             }
         }
 
     }
     turn -= 1;
-    return;
+    return true;
 }
 
 

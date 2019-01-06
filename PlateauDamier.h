@@ -29,6 +29,7 @@ protected:
 public:
     void ajoutePosCase(tuple*);
     int turn = 0;
+    virtual const bool kingMove(int, int,int, int, Couleur) = 0;
     explicit PlateauDamier(int dimension);
     const void initialize();
     const bool pionMove(int i_src, int j_src, int i_dst, int j_dst, Couleur c, bool);
@@ -38,8 +39,8 @@ public:
     const void lectureFichierTest();
 
     bool bot();
-    virtual const void playerTurn(int,int,int,int) = 0;
-    virtual const void playerTurn2(int,int,int,int) = 0;
+    virtual const bool playerTurn(int,int,int,int) = 0;
+    virtual const bool playerTurn2(int,int,int,int) = 0;
     void help(Couleur);
     const void launcher();
     const void singlePlayer();
