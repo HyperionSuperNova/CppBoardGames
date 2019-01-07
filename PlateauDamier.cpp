@@ -615,12 +615,6 @@ void PlateauDamier::help(Couleur joueur) {
 
 const void PlateauDamier::lectureFichierTest() {
     this->initialize();
-    long usec;
-    struct timespec sleep;
-    usec = (500) % 1000;
-    sleep.tv_sec = (500) / 1000;
-    sleep.tv_nsec = 1000*usec;
-
     std::string file = "";
     file = "../dame_international/test1.txt";
     if(this->anglais) file = "../dame_anglaise/test1.txt";
@@ -646,7 +640,7 @@ const void PlateauDamier::lectureFichierTest() {
         else this->playerTurn2(i_src,j_src,i_dst,j_dst);
         if(c == Couleur::BLANC) c = Couleur::NOIR;
         else c = Couleur::BLANC;
-        nanosleep(&sleep, NULL);
+        usleep(5000000);
         std::cout << *(this) << std::endl;
 
     }

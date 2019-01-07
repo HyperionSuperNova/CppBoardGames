@@ -36,8 +36,8 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 min = j_src + 1;
                 max = j_dst;
             }else {
-                min = j_dst;
-                max = j_src - 1;
+                min = j_dst + 1;
+                max = j_src;
             }
             for(int j = min; j < max; j++){
                 if(!cases[i_src][j].isEmpty() || ((i_src == 4 || i_src == 5) && (j == 2 || j == 3 || j == 6 || j == 7))){
@@ -55,7 +55,9 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 }else{
                      joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
                 }
-                move(i_src, j_src, i_dst, j_dst);
+                std:: cout << "Pièce mangée: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
+                cases[i_dst][j_dst] = cases[i_src][j_src];
+                cases[i_src][j_src] = Case(i_src, j_src);
                 return 1;
             }else{
                  if(cases[i_src][j_src].getPion().getNom().compare(cases[i_dst][j_dst].getPion().getNom()) == 0){
@@ -99,7 +101,8 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 }
             }
             if(cases[i_dst][j_dst].isEmpty()){
-                move(i_src, j_src, i_dst, j_dst);
+                cases[i_dst][j_dst] = cases[i_src][j_src];
+                cases[i_src][j_src] = Case(i_src, j_src);
                 return 1;
             }else if(estPlusFortQue(cases[i_src][j_src].getPion(), cases[i_dst][j_dst].getPion()) ){
                 if(joueur){
@@ -107,7 +110,9 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 }else{
                     joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
                 }
-                move(i_src, j_src, i_dst, j_dst);
+                std:: cout << "Pièce mangée: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
+                cases[i_dst][j_dst] = cases[i_src][j_src];
+                cases[i_src][j_src] = Case(i_src, j_src);
                 return 1;
             }else if(cases[i_dst][j_dst].getPion().getColor() != cases[i_src][j_src].getPion().getColor()){
                 if(cases[i_src][j_src].getPion().getNom().compare(cases[i_dst][j_dst].getPion().getNom()) == 0){
@@ -156,7 +161,9 @@ bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst
                 }else{
                     joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
                 }
-                move(i_src, j_src, i_dst, j_dst);
+                std:: cout << "Pièce mangée: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
+                cases[i_dst][j_dst] = cases[i_src][j_src];
+                cases[i_src][j_src] = Case(i_src, j_src);
 
             }else{
                 if(cases[i_src][j_src].getPion().getNom().compare(cases[i_dst][j_dst].getPion().getNom()) == 0){
@@ -172,7 +179,6 @@ bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst
                     cases[i_dst][j_dst] = Case(i_dst, j_dst);
                 }else {
                     std::cout << "Battu par: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
-                    //revelerUnePiece(i_dst, j_dst);
                     if(joueur){ // si c'est le joueur 1 qui joue
                         joueur1[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
                     }else{
@@ -275,7 +281,7 @@ int PlateauStratego::renvoiePionsNbr(std::string s) {
     return -1;
 }
 
-void PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
+bool PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
     if(joueur) cacherPieceJoueur(false);
     else cacherPieceJoueur(true);
     std::string piece= "";
@@ -289,6 +295,7 @@ void PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
         std::cout << "Format: Nom de la piece  cordonnées: x y" << std::endl;
         std::cout << "Par exemple: Demineur 1 1" << std::endl;
         std::cout << "Pour charger des pièces, tapez: charger" << std::endl;
+        std::cout << "Pour lancer la lecture du fichier test, tapez: lecture" << std::endl;
 
         std::cin >> piece;
 
@@ -296,6 +303,10 @@ void PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
             mettrePionOrdiSurPlateau(joueur);
             cacherPieceJoueur(joueur);
             goto end;
+        }
+        if(piece.compare("lecture") == 0){
+                lectureFichierTest();
+                return false;
         }
 
         std::cin >> ii;
@@ -305,7 +316,6 @@ void PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
             std::cout << "Mauvaise entrée. Veuillez recommencer" << std::endl;
             std::cin >> piece;
             if(piece.compare("charger") == 0){
-                mettrePionOrdiSurPlateau(joueur);
                 cacherPieceJoueur(joueur);
                 goto end;
             }
@@ -358,6 +368,7 @@ void PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
     }
     end:
     std::cout << "Let's the game begin!" << std::endl;
+    return true;
 }
 
 void PlateauStratego::mettrePionOrdiSurPlateau(bool joueur) {
@@ -444,7 +455,13 @@ bool PlateauStratego::queBombeEtDrapeau(bool joueur) {
 }
 
 void PlateauStratego::launchStratego(bool ordi) {
-    mettrePionJoueurSurPlateau(true);
+
+   bool lecture = mettrePionJoueurSurPlateau(true);
+   if(!lecture){
+       lectureFichierTest();
+       scoreFinPartie();
+       return;
+   }
 
     if(ordi) mettrePionOrdiSurPlateau(false);
     else mettrePionJoueurSurPlateau(false);
@@ -556,8 +573,12 @@ void PlateauStratego::launchStratego(bool ordi) {
             break;
         }
     }
-    if(joueur1[0] == 0) std::cout << "C'est le joueur 2 qui gagne!" << std::endl;
-    else if(joueur2[0] == 0) std::cout << "C'est le joueur 1 qui gagne!" << std::endl;
+    scoreFinPartie();
+}
+
+void PlateauStratego::scoreFinPartie() {
+    if(joueur1[0] < 0) std::cout << "C'est le joueur 2 qui gagne!" << std::endl;
+    else if(joueur2[0] < 0) std::cout << "C'est le joueur 1 qui gagne!" << std::endl;
 }
 
 bool PlateauStratego::pieceEstdeplacable(int i, int j) {
@@ -665,4 +686,75 @@ std::string PlateauStratego::help(bool joueur) {
         }
     }
     return res;
+}
+
+const void PlateauStratego::lectureFichierTest() {
+    std::string delimiter = " ";
+    std::string nom = "";
+    std::string path = "";
+    std::string piece = "";
+    int i = 0;
+    int j = 0;
+    bool joueur = true;
+    nom = "joueur" + std::to_string(1)+ ".txt";
+    path = "../joueur/" + nom;
+
+    std::cout << path << std::endl;
+    std::ifstream infile(path);
+    std::string line = "";
+    while(std::getline(infile, line)){
+        piece = line.substr(0, line.find(delimiter));
+        i = std::stoi(line.substr(piece.length()+1, 1));
+        j = std::stoi(line.substr(piece.length()+3, 1));
+        if(joueur) cases[i][j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::BLANC));
+        else cases[i][j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
+    }
+
+    i = 0;
+    j = 0;
+    joueur = false;
+    nom = "ordi" + std::to_string(1) + ".txt";
+    path = "../ordi/" + nom;
+
+    std::cout << path << std::endl;
+    std::ifstream infile2(path);
+    line = "";
+    while(std::getline(infile2, line)){
+        piece = line.substr(0, line.find(delimiter));
+        i = std::stoi(line.substr(piece.length()+1, 1));
+        j = std::stoi(line.substr(piece.length()+3, 1));
+        if(joueur) cases[i][j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::BLANC));
+        else cases[i][j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
+    }
+
+
+
+
+
+std::string file = "../stratego/test1.txt";
+    std::ifstream infile3(file);
+    line = "";
+    delimiter = " ";
+    int i_src = -1;
+    int j_src = -1;
+    int i_dst = -1;
+    int j_dst = -1;
+    std::cout << *(this) << std::endl;
+    joueur = true;
+    while(std::getline(infile3, line)){
+        cacherPieceJoueur(joueur);
+        i_src = std::stoi(line.substr(0, line.find(delimiter)));
+        j_src = std::stoi(line.substr(std::to_string(i_src).length()+1, 1));
+        i_dst = std::stoi(line.substr(std::to_string(j_src).length()+3, 1));
+        j_dst = std::stoi(line.substr(std::to_string(i_dst).length()+5, 1));
+        if(cases[i_src][j_src].getPion().getNom() == "Eclaireur") mouvement_eclaireur(i_src,j_src,i_dst,j_dst,joueur,false);
+        else mouvement_autre(i_src,j_src,i_dst,j_dst,joueur,false);
+        joueur = !joueur;
+
+        std::cout << i_src << " " << j_src << " " << i_dst << " " << j_dst <<std::endl;
+        //TODO lancer mouvement
+        usleep(1);//5000000);
+        std::cout << *(this) << std::endl;
+
+    }
 }

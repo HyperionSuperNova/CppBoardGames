@@ -19,10 +19,11 @@ public:
     bool mouvement_eclaireur(int , int, int, int, bool, bool);
     bool mouvement_autre(int, int, int, int, bool, bool);
     bool estPlusFortQue(Pion p1, Pion p2);
-    void mettrePionJoueurSurPlateau(bool);
+    bool mettrePionJoueurSurPlateau(bool);
     void cacherPieceJoueur(bool);
     void revelerUnePiece(int, int);
     void mettrePionOrdiSurPlateau(bool);
+    void scoreFinPartie();
 
     int getNbrBombe(bool joueur);
     int getNbrDrapeau(bool joueur);
@@ -47,6 +48,7 @@ public:
     int renvoiePionsNbr(std::string);
 
     void launchStratego(bool);
+    const void lectureFichierTest();
 };
 
 
