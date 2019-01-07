@@ -21,7 +21,6 @@ public:
     bool estPlusFortQue(Pion p1, Pion p2);
     bool mettrePionJoueurSurPlateau(bool);
     void cacherPieceJoueur(bool);
-    void revelerUnePiece(int, int);
     void mettrePionOrdiSurPlateau(bool);
     void scoreFinPartie();
 

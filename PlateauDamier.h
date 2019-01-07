@@ -27,6 +27,7 @@ protected:
         ar &cases;
     }
 public:
+    void affichageVainqueur();
     void ajoutePosCase(tuple*);
     int turn = 0;
     virtual const bool kingMove(int, int,int, int, Couleur) = 0;

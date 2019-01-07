@@ -441,12 +441,6 @@ std::vector< std::tuple<int, int> > PlateauStratego::getLigneColonne() {
     return pieces;
 }
 
-void PlateauStratego::revelerUnePiece(int i, int j) {
-    std::string nom = cases[i*dimension+j].getPion().getNom();
-    int n = renvoiePionsNbr(nom);
-    cases[i*dimension+j].setPionImg(std::get<1>(img[n]));
-}
-
 
 bool PlateauStratego::queBombeEtDrapeau(bool joueur) {
     if(joueur){
@@ -755,7 +749,7 @@ std::string file = "../stratego/test1.txt";
 
         std::cout << i_src << " " << j_src << " " << i_dst << " " << j_dst <<std::endl;
         //TODO lancer mouvement
-        usleep(5000000);
+        usleep(2500000);
         std::cout << *(this) << std::endl;
 
     }
