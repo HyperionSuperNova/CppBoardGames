@@ -9,7 +9,6 @@ const bool PlateauDamierInternational::playerTurn(int i_src, int j_src, int i_ds
         bool pionSel_src = pionSelect(i_src, j_src, Couleur::BLANC);
         bool pionSel_dst = pionSelect(i_dst, j_dst, Couleur::BLANC);
 
-        std::cout << "i_dst: " << i_dst << " et j_dst: " << j_dst << std::endl;
         if (cases[i_src*dimension+j_src].getPion().getNom() == "PION") {
             std::cout << "passe par la" << std::endl;
             if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::BLANC, false))) {

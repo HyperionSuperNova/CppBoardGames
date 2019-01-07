@@ -8,9 +8,7 @@ PlateauDamierAnglais::PlateauDamierAnglais() : PlateauDamier(8) {
 const bool PlateauDamierAnglais::playerTurn(int i_src, int j_src, int i_dst, int j_dst) {
     if (turn == 0) {
         bool pionSel_src = pionSelect(i_src, j_src, Couleur::BLANC);
-        std::cout << "i_src: " << i_src << " et j_src: " << j_src << std::endl;
         bool pionSel_dst = pionSelect(i_dst, j_dst, Couleur::BLANC);
-        std::cout << "i_dst: " << i_dst << " et j_dst: " << j_dst << std::endl;
 
         if (cases[i_src*dimension+j_src].getPion().getNom() == "PION") {
             std::cout << "passe par la" << std::endl;
@@ -143,7 +141,6 @@ const bool PlateauDamierAnglais::kingMove(int i_src, int j_src, int i_dst, int j
                         }
                     } else if (j_dst == j_src - 1 && j_dst - 1 < dimension && j_dst - 1 > 0) {
                         if (cases[(i_dst - 1)*dimension+j_dst - 1].isEmpty()) {
-                            std::cout << "here" << std::endl;
                             if(c == Couleur::BLANC) scoreJ1 += 1;
                             else scoreJ2 += 2;
                             cases[i_dst*dimension+j_dst] = Case(i_dst, j_dst);
