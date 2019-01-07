@@ -5,7 +5,7 @@
 #include "Case.h"
 
 class Plateau {
-protected:
+private:
     int dimension;
     Case * cases;
 public:
@@ -13,11 +13,12 @@ public:
 
     virtual ~Plateau();
 
-    virtual Case getCase(int, int);
-    virtual void setCase(int, int, Pion);
+    int getDimension() const;
+    void setDimension(int);
+    virtual Case getCase(int) const;
+    virtual void setCase(int, Pion);
     virtual const void move(int i_src, int j_src, int i_dst, int j_dst) const;
-    Case* getCases();
-    void setCases(int,int, Pion);
+    void setCases(int, Pion);
     friend std::ostream &operator<<(std::ostream &, const Plateau &);
 };
 

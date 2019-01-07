@@ -9,7 +9,7 @@ Pion::Pion(const std::string &name) : name(name) {}
 
 Pion::Pion(const std::string &name, const std::string &img, Couleur c) : name(name), img(img), color(c) {}
 
-Pion::Pion() {
+Pion::Pion(): name(""), img(" ") {
 
 }
 

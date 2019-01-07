@@ -1,11 +1,11 @@
 #include "Plateau.h"
 
-Case Plateau::getCase(int i, int j) {
-    return this->cases[i*dimension+j];
+Case Plateau::getCase(int i) const{
+    return this->cases[i];
 }
 
-void Plateau::setCase(int i, int j, Pion p) {
-    cases[i*dimension+j].setPion(p);
+void Plateau::setCase(int i, Pion p) {
+    cases[i].setPion(p);
 }
 
 std:: ostream& operator<<(std::ostream & out, const Plateau &p) {
@@ -19,6 +19,14 @@ std:: ostream& operator<<(std::ostream & out, const Plateau &p) {
     }
     out << "-------------------------------------------";
     return out;
+}
+
+int Plateau::getDimension() const{
+    return dimension;
+}
+
+void Plateau::setDimension(int d) {
+    dimension = d;
 }
 
 Plateau::Plateau(int dimension) : dimension(dimension) {
@@ -36,13 +44,11 @@ const void Plateau::move(int i_src, int j_src, int i_dst, int j_dst) const {
     cases[i_src*dimension+j_src] = c;
 }
 
-Case* Plateau::getCases() {
-    return cases;
+
+void Plateau::setCases(int i, Pion p) {
+    cases[i].setPion(p);
 }
 
-void Plateau::setCases(int i, int j, Pion p) {
-    setCase(i,j,p);
-}
 
 
 Plateau::~Plateau() {}

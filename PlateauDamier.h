@@ -34,7 +34,7 @@ public:
     explicit PlateauDamier(int dimension);
     const void initialize();
     const bool pionMove(int i_src, int j_src, int i_dst, int j_dst, Couleur c, bool);
-    const bool posOk(int i_src, int j_src, int i_dst, int j_dst) const;
+    const bool posOk(int i_src, int j_src, int i_dst, int j_dst);
     std::tuple<int,int> nbCasetoCoord(int);
 
     const void lectureFichierTest();
