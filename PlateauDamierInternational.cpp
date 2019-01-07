@@ -61,22 +61,22 @@ const bool PlateauDamierInternational::kingMove(int i_src, int j_src, int i_dst,
         if (i_dst < i_src) {
             if (j_dst < j_src) {
 
-                while (i_dst + lambda != i_src && j_dst + lambda != j_src) {
-                    if (!cases[i_dst + lambda*dimension+j_dst + lambda].isEmpty() &&
-                        c != cases[i_dst + lambda*dimension+j_dst + lambda].getPion().getColor()) {
-                        m[i_dst + lambda] = j_dst + lambda;
-                    } else if (c != cases[i_dst + lambda*dimension+j_dst + lambda].getPion().getColor()) {
+                while ((i_dst + lambda) != i_src && j_dst + lambda != j_src) {
+                    if (!cases[(i_dst + lambda)*dimension+j_dst + lambda].isEmpty() &&
+                        c != cases[(i_dst + lambda)*dimension+j_dst + lambda].getPion().getColor()) {
+                        m[(i_dst + lambda)] = j_dst + lambda;
+                    } else if (c != cases[(i_dst + lambda)*dimension+j_dst + lambda].getPion().getColor()) {
                         return false;
                     }
                     lambda++;
                 }
 
             } else if (j_dst > j_src) {
-                while (i_dst + lambda != i_src && (j_dst - lambda) != j_src) {
-                    if (!cases[i_dst + lambda*dimension+j_dst - lambda].isEmpty() &&
-                        c != cases[i_dst + lambda*dimension+j_dst - lambda].getPion().getColor()) {
-                        m[i_dst + lambda] = j_dst - lambda;
-                    } else if (c != cases[i_dst + lambda*dimension+j_dst - lambda].getPion().getColor()) {
+                while ((i_dst + lambda) != i_src && (j_dst - lambda) != j_src) {
+                    if (!cases[(i_dst + lambda)*dimension+j_dst - lambda].isEmpty() &&
+                        c != cases[(i_dst + lambda)*dimension+j_dst - lambda].getPion().getColor()) {
+                        m[(i_dst + lambda)] = j_dst - lambda;
+                    } else if (c != cases[(i_dst + lambda)*dimension+j_dst - lambda].getPion().getColor()) {
                         return false;
                     }
                     lambda++;
@@ -85,22 +85,22 @@ const bool PlateauDamierInternational::kingMove(int i_src, int j_src, int i_dst,
         } else if (i_dst > i_src) {
             if (j_dst < j_src) {
 
-                while (i_dst - lambda != i_src && j_dst + lambda != j_src) {
-                    if (!cases[i_dst - lambda*dimension+j_dst + lambda].isEmpty() &&
-                        c != cases[i_dst - lambda*dimension+j_dst + lambda].getPion().getColor()) {
-                        m[i_dst - lambda] = j_dst + lambda;
-                    } else if (c != cases[i_dst - lambda*dimension+j_dst + lambda].getPion().getColor()) {
+                while ((i_dst - lambda) != i_src && j_dst + lambda != j_src) {
+                    if (!cases[(i_dst - lambda)*dimension+j_dst + lambda].isEmpty() &&
+                        c != cases[(i_dst - lambda)*dimension+j_dst + lambda].getPion().getColor()) {
+                        m[(i_dst - lambda)] = j_dst + lambda;
+                    } else if (c != cases[(i_dst - lambda)*dimension+j_dst + lambda].getPion().getColor()) {
                         return false;
                     }
                     lambda++;
                 }
 
             } else if (j_dst > j_src) {
-                while (i_dst - lambda != i_src && (j_dst - lambda) != j_src) {
-                    if (!cases[i_dst - lambda*dimension+j_dst - lambda].isEmpty() &&
-                        c != cases[i_dst - lambda*dimension+j_dst - lambda].getPion().getColor()) {
-                        m[i_dst - lambda] = j_dst - lambda;
-                    } else if (c != cases[i_dst - lambda*dimension+j_dst - lambda].getPion().getColor()) {
+                while ((i_dst - lambda) != i_src && (j_dst - lambda) != j_src) {
+                    if (!cases[(i_dst - lambda)*dimension+j_dst - lambda].isEmpty() &&
+                        c != cases[(i_dst - lambda)*dimension+j_dst - lambda].getPion().getColor()) {
+                        m[(i_dst - lambda)] = j_dst - lambda;
+                    } else if (c != cases[(i_dst - lambda)*dimension+j_dst - lambda].getPion().getColor()) {
                         return false;
                     }
                     lambda++;
