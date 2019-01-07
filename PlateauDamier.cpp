@@ -174,15 +174,15 @@ const void PlateauDamier::launcher() {
     return;
 }
 void PlateauDamier::affichageVainqueur() {
-    if(scoreJ1 == dimension*dimension/2) std::cout << "Le joueur 1 gagne!" << std::endl;
-    else if(scoreJ2 == dimension*dimension/2) std::cout << "Le joueur 2 gagne!" << std::endl;
+    if(scoreJ1 == dimension*dimension/4 - (dimension/2)) std::cout << "Le joueur 1 gagne!" << std::endl;
+    else if(scoreJ2 == dimension*dimension/4 - (dimension/2)) std::cout << "Le joueur 2 gagne!" << std::endl;
 }
 
 const void PlateauDamier::twoPlayer() {
     this->initialize();
     std::cout << "IT'S P1 TURN !!" << std::endl;
     std::cout << *(this) << std::endl;
-    while (scoreJ1 < dimension*dimension/2 || scoreJ2 < dimension*dimension/2) {
+    while (scoreJ1 < dimension*dimension/4  - (dimension/2)|| scoreJ2 < dimension*dimension/4 - (dimension/2)) {
         first:
         std::cout << "Pour avoir de l'aide, Tapez help" <<std::endl;
         std::cout << "Veuillez entrez les coordonnées du pion que vous souhaitez deplacer " << "Exemple: 14"
@@ -263,7 +263,7 @@ const void PlateauDamier::singlePlayer() {
     this->initialize();
     std::cout << "IT'S P1 TURN !!" << std::endl;
     std::cout << *(this) << std::endl;
-    while (scoreJ1 < dimension*dimension/2 || scoreJ2 < dimension*dimension/2) {
+    while (scoreJ1 < dimension*dimension/4  - (dimension/2)|| scoreJ2 < dimension*dimension/4 - (dimension/2)) {
         first:
         std::cout << "Pour avoir de l'aide, tapez help" << std::endl;
         std::cout << "Veuillez entrez les coordonnées du pion que vous souhaitez deplacer " << "Exemple: 14"
@@ -452,7 +452,7 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                             }
                         } else if ((j_dst-1) < dimension && (j_dst-1) > 0) {
                             if (cases[(i_dst+1)*dimension+(j_dst-1)].isEmpty()) {
-                                scoreJ1 += 1;
+                                scoreJ2 += 1;
                                 cases[i_dst*dimension+j_dst] = Case(i_dst, j_dst);
                                 move(i_src, j_src, (i_dst+1), (j_dst-1));
                                 if ((i_dst+1) == dimension-1) {
@@ -487,7 +487,7 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                 } else if (i_dst == i_src - 1) {
                     if (j_dst == j_src + 1 && (j_dst+1) < dimension && (j_dst+1) > 0) {
                         if (cases[(i_dst-1)*dimension+(j_dst+1)].isEmpty()) {
-                            scoreJ1 += 1;
+                            scoreJ2 += 1;
                             cases[i_dst*dimension+j_dst] = Case(i_dst, j_dst);
                             move(i_src, j_src, (i_dst-1), (j_dst+1));
                             bool l = pionMove((i_dst-1), (j_dst+1), (i_dst-1), (j_dst-1), Couleur::NOIR, true);
