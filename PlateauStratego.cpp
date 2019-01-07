@@ -2,21 +2,23 @@
 #include <time.h>
 #include "PlateauStratego.h"
 
-PlateauStratego::PlateauStratego(): Plateau(10) {};
+PlateauStratego::PlateauStratego(): Plateau(10) {
+    dimension = 10;
+};
 
 std::ostream &operator<<(std::ostream &os, const PlateauStratego &stratego) {
     os << "    ";
-    for(int j = 0; j < 10; j++){
+    for(int j = 0; j < stratego.dimension; j++){
         os << j << "   ";
     }
     os << "\n";
     os << "  -----------------------------------------\n";
 
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < stratego.dimension; i++){
         os << i << "|  ";
-        for(int j = 0; j < 10; j++){
+        for(int j = 0; j < stratego.dimension; j++){
             if((i == 4 || i == 5) && (j == 2 || j == 6)) os << "    ";
-            else os << stratego.cases[i][j].getPion().getImg() << " | " ;
+            else os << stratego.cases[i*stratego.dimension+j].getPion().getImg() << " | " ;
 
         }
         os << "\n";
@@ -30,7 +32,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
     bool ok = true;
     int min = 0;
     int max = 0;
-    if( i_dst < 10 && j_dst < 10){
+    if( i_dst < dimension && j_dst < dimension){
         if(i_dst == i_src){
             if(j_dst > j_src) {
                 min = j_src + 1;
@@ -40,47 +42,47 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 max = j_src;
             }
             for(int j = min; j < max; j++){
-                if(!cases[i_src][j].isEmpty() || ((i_src == 4 || i_src == 5) && (j == 2 || j == 3 || j == 6 || j == 7))){
+                if(!cases[i_src*dimension+j].isEmpty() || ((i_src == 4 || i_src == 5) && (j == 2 || j == 3 || j == 6 || j == 7))){
                     if(ordi && joueur) std::cout << "Mouvement impossible. Case non vide sur le chemin";
                     return 0;
                 }
             }
-            if(cases[i_dst][j_dst].isEmpty()){
-                cases[i_dst][j_dst] = cases[i_src][j_src];
-                cases[i_src][j_src] = Case(i_src, j_src);
+            if(cases[i_dst*dimension+j_dst].isEmpty()){
+                cases[i_dst*dimension+j_dst] = cases[i_src*dimension+j_src];
+                cases[i_src*dimension+j_src] = Case(i_src, j_src);
                 return 1;
-            }else if(estPlusFortQue(cases[i_src][j_src].getPion(), cases[i_dst][j_dst].getPion()) ){
+            }else if(estPlusFortQue(cases[i_src*dimension+j_src].getPion(), cases[i_dst*dimension+j_dst].getPion()) ){
                 if(joueur){
-                    joueur2[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
+                    joueur2[renvoiePionsNbr(cases[i_dst*dimension+j_dst].getPion().getNom())] --;
                 }else{
-                     joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
+                     joueur1[renvoiePionsNbr(cases[i_dst*dimension+j_dst].getPion().getNom())] --;
                 }
-                std:: cout << "Pièce mangée: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
-                cases[i_dst][j_dst] = cases[i_src][j_src];
-                cases[i_src][j_src] = Case(i_src, j_src);
+                std:: cout << "Pièce mangée: " << cases[i_dst*dimension+j_dst].getPion().getNom() << std::endl;
+                cases[i_dst*dimension+j_dst] = cases[i_src*dimension+j_src];
+                cases[i_src*dimension+j_src] = Case(i_src, j_src);
                 return 1;
             }else{
-                 if(cases[i_src][j_src].getPion().getNom().compare(cases[i_dst][j_dst].getPion().getNom()) == 0){
-                     std::cout << "Battu par: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
+                 if(cases[i_src*dimension+j_src].getPion().getNom().compare(cases[i_dst*dimension+j_dst].getPion().getNom()) == 0){
+                     std::cout << "Battu par: " << cases[i_dst*dimension+j_dst].getPion().getNom() << std::endl;
                      if(joueur){
-                         joueur1[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
-                         joueur2[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
+                         joueur1[renvoiePionsNbr(cases[i_src*dimension+j_src].getPion().getNom())] --;
+                         joueur2[renvoiePionsNbr(cases[i_dst*dimension+j_dst].getPion().getNom())] --;
                      }else{
-                         joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
-                         joueur2[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
+                         joueur1[renvoiePionsNbr(cases[i_dst*dimension+j_dst].getPion().getNom())] --;
+                         joueur2[renvoiePionsNbr(cases[i_src*dimension+j_src].getPion().getNom())] --;
                      }
-                     cases[i_src][j_src] = Case(i_src, j_src);
-                     cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                     cases[i_src*dimension+j_src] = Case(i_src, j_src);
+                     cases[i_dst*dimension+j_dst] = Case(i_dst, j_dst);
                      return 1;
-                 }else if(cases[i_dst][j_dst].getPion().getColor() != cases[i_src][j_src].getPion().getColor()){
-                     std::cout << "Battu par: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
+                 }else if(cases[i_dst*dimension+j_dst].getPion().getColor() != cases[i_src*dimension+j_src].getPion().getColor()){
+                     std::cout << "Battu par: " << cases[i_dst*dimension+j_dst].getPion().getNom() << std::endl;
                      //revelerUnePiece(i_dst, j_dst);
                      if(joueur){ // si c'est le joueur 1 qui joue
-                         joueur1[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
+                         joueur1[renvoiePionsNbr(cases[i_src*dimension+j_src].getPion().getNom())] --;
                      }else{
-                         joueur2[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
+                         joueur2[renvoiePionsNbr(cases[i_src*dimension+j_src].getPion().getNom())] --;
                      }
-                     cases[i_src][j_src] = Case(i_src, j_src);
+                     cases[i_src*dimension+j_src] = Case(i_src, j_src);
                      return 1;
                  }else return 0;
             }
@@ -95,47 +97,47 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 max = i_src;
             }
             for(int i = min; i < max; i++){
-                if(!cases[i][j_src].isEmpty() ||  ((i == 4 || i == 5) && (j_src == 2 || j_src == 3 || j_src == 6 || j_src == 7))){
+                if(!cases[i*dimension+j_src].isEmpty() ||  ((i == 4 || i == 5) && (j_src == 2 || j_src == 3 || j_src == 6 || j_src == 7))){
                     if(ordi && joueur) std::cout << "Mouvement impossible. Case non vide sur le chemin";
                     return 0;
                 }
             }
-            if(cases[i_dst][j_dst].isEmpty()){
-                cases[i_dst][j_dst] = cases[i_src][j_src];
-                cases[i_src][j_src] = Case(i_src, j_src);
+            if(cases[i_dst*dimension+j_dst].isEmpty()){
+                cases[i_dst*dimension+j_dst] = cases[i_src*dimension+j_src];
+                cases[i_src*dimension+j_src] = Case(i_src, j_src);
                 return 1;
-            }else if(estPlusFortQue(cases[i_src][j_src].getPion(), cases[i_dst][j_dst].getPion()) ){
+            }else if(estPlusFortQue(cases[i_src*dimension+j_src].getPion(), cases[i_dst*dimension+j_dst].getPion()) ){
                 if(joueur){
-                    joueur2[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
+                    joueur2[renvoiePionsNbr(cases[i_dst*dimension+j_dst].getPion().getNom())] --;
                 }else{
-                    joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
+                    joueur1[renvoiePionsNbr(cases[i_dst*dimension+j_dst].getPion().getNom())] --;
                 }
-                std:: cout << "Pièce mangée: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
-                cases[i_dst][j_dst] = cases[i_src][j_src];
-                cases[i_src][j_src] = Case(i_src, j_src);
+                std:: cout << "Pièce mangée: " << cases[i_dst*dimension+j_dst].getPion().getNom() << std::endl;
+                cases[i_dst*dimension+j_dst] = cases[i_src*dimension+j_src];
+                cases[i_src*dimension+j_src] = Case(i_src, j_src);
                 return 1;
-            }else if(cases[i_dst][j_dst].getPion().getColor() != cases[i_src][j_src].getPion().getColor()){
-                if(cases[i_src][j_src].getPion().getNom().compare(cases[i_dst][j_dst].getPion().getNom()) == 0){
-                    std::cout << "Battu par: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
+            }else if(cases[i_dst*dimension+j_dst].getPion().getColor() != cases[i_src*dimension+j_src].getPion().getColor()){
+                if(cases[i_src*dimension+j_src].getPion().getNom().compare(cases[i_dst*dimension+j_dst].getPion().getNom()) == 0){
+                    std::cout << "Battu par: " << cases[i_dst*dimension+j_dst].getPion().getNom() << std::endl;
                     if(joueur){
-                        joueur1[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
-                        joueur2[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
+                        joueur1[renvoiePionsNbr(cases[i_src*dimension+j_src].getPion().getNom())] --;
+                        joueur2[renvoiePionsNbr(cases[i_dst*dimension+j_dst].getPion().getNom())] --;
                     }else{
-                        joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
-                        joueur2[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
+                        joueur1[renvoiePionsNbr(cases[i_dst*dimension+j_dst].getPion().getNom())] --;
+                        joueur2[renvoiePionsNbr(cases[i_src*dimension+j_src].getPion().getNom())] --;
                     }
-                    cases[i_src][j_src] = Case(i_src, j_src);
-                    cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                    cases[i_src*dimension+j_src] = Case(i_src, j_src);
+                    cases[i_dst*dimension+j_dst] = Case(i_dst, j_dst);
                     return 1;
                 }else {
-                    std::cout << "Battu par: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
+                    std::cout << "Battu par: " << cases[i_dst*dimension+j_dst].getPion().getNom() << std::endl;
                     //revelerUnePiece(i_dst, j_dst);
                     if(joueur){ // si c'est le joueur 1 qui joue
-                        joueur1[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
+                        joueur1[renvoiePionsNbr(cases[i_src*dimension+j_src].getPion().getNom())] --;
                     }else{
-                        joueur2[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
+                        joueur2[renvoiePionsNbr(cases[i_src*dimension+j_src].getPion().getNom())] --;
                     }
-                    cases[i_src][j_src] = Case(i_src, j_src);
+                    cases[i_src*dimension+j_src] = Case(i_src, j_src);
                 }
                 return 1;
             }else return 0;
@@ -150,41 +152,41 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
 }
 
 bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst, bool joueur, bool ordi) {
-    if( i_dst < 10 && j_dst < 10){
+    if( i_dst < dimension && j_dst < dimension){
         if((i_dst == i_src -1 && j_dst == j_src) || (i_dst == i_src +1 && j_dst == j_src) || (i_dst == i_src && j_dst == j_src -1) || (i_dst == i_src && j_dst == j_src + 1)){
-            if(cases[i_dst][j_dst].isEmpty()){
+            if(cases[i_dst*dimension+j_dst].isEmpty()){
                 move(i_src, j_src, i_dst, j_dst);
 
-            }else if(estPlusFortQue(cases[i_src][j_src].getPion(), cases[i_dst][j_dst].getPion())){
+            }else if(estPlusFortQue(cases[i_src*dimension+j_src].getPion(), cases[i_dst*dimension+j_dst].getPion())){
                 if(joueur){
-                    joueur2[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
+                    joueur2[renvoiePionsNbr(cases[i_dst*dimension+j_dst].getPion().getNom())] --;
                 }else{
-                    joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
+                    joueur1[renvoiePionsNbr(cases[i_dst*dimension+j_dst].getPion().getNom())] --;
                 }
-                std:: cout << "Pièce mangée: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
-                cases[i_dst][j_dst] = cases[i_src][j_src];
-                cases[i_src][j_src] = Case(i_src, j_src);
+                std:: cout << "Pièce mangée: " << cases[i_dst*dimension+j_dst].getPion().getNom() << std::endl;
+                cases[i_dst*dimension+j_dst] = cases[i_src*dimension+j_src];
+                cases[i_src*dimension+j_src] = Case(i_src, j_src);
 
             }else{
-                if(cases[i_src][j_src].getPion().getNom().compare(cases[i_dst][j_dst].getPion().getNom()) == 0){
-                    std::cout << "Battu par: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
+                if(cases[i_src*dimension+j_src].getPion().getNom().compare(cases[i_dst*dimension+j_dst].getPion().getNom()) == 0){
+                    std::cout << "Battu par: " << cases[i_dst*dimension+j_dst].getPion().getNom() << std::endl;
                     if(joueur){
-                        joueur1[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
-                        joueur2[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
+                        joueur1[renvoiePionsNbr(cases[i_src*dimension+j_src].getPion().getNom())] --;
+                        joueur2[renvoiePionsNbr(cases[i_dst*dimension+j_dst].getPion().getNom())] --;
                     }else{
-                        joueur1[renvoiePionsNbr(cases[i_dst][j_dst].getPion().getNom())] --;
-                        joueur2[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
+                        joueur1[renvoiePionsNbr(cases[i_dst*dimension+j_dst].getPion().getNom())] --;
+                        joueur2[renvoiePionsNbr(cases[i_src*dimension+j_src].getPion().getNom())] --;
                     }
-                    cases[i_src][j_src] = Case(i_src, j_src);
-                    cases[i_dst][j_dst] = Case(i_dst, j_dst);
+                    cases[i_src*dimension+j_src] = Case(i_src, j_src);
+                    cases[i_dst*dimension+j_dst] = Case(i_dst, j_dst);
                 }else {
-                    std::cout << "Battu par: " << cases[i_dst][j_dst].getPion().getNom() << std::endl;
+                    std::cout << "Battu par: " << cases[i_dst*dimension+j_dst].getPion().getNom() << std::endl;
                     if(joueur){ // si c'est le joueur 1 qui joue
-                        joueur1[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
+                        joueur1[renvoiePionsNbr(cases[i_src*dimension+j_src].getPion().getNom())] --;
                     }else{
-                        joueur2[renvoiePionsNbr(cases[i_src][j_src].getPion().getNom())] --;
+                        joueur2[renvoiePionsNbr(cases[i_src*dimension+j_src].getPion().getNom())] --;
                     }
-                    cases[i_src][j_src] = Case(i_src, j_src);
+                    cases[i_src*dimension+j_src] = Case(i_src, j_src);
                 }
             }
         }else{
@@ -336,11 +338,11 @@ bool PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
             if((i == 4 || i == 5) && (j == 2 || j == 3 || j == 6 || j == 7)){
                 std::cout << "Vous ne pouvez pas mettre de pièce ici." << std::endl;
                 h--;
-            }else if(cases[i][j].isEmpty()){
+            }else if(cases[i*dimension+j].isEmpty()){
                 if(joueur) {
                     if (joueur1[renvoiePionsNbr(piece)] > 0) {
                         std::string imag = std::get<1>(img[renvoiePionsNbr(piece)]);
-                        cases[i][j].setPion(Pion(piece, imag, Couleur::BLANC));
+                        cases[i*dimension+j].setPion(Pion(piece, imag, Couleur::BLANC));
                         joueur1[renvoiePionsNbr(piece)]--;
                     } else {
                         std::cout << "Vous n'avez plus ce genre de pièce." << std::endl;
@@ -349,7 +351,7 @@ bool PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
                 }else{
                     if (joueur2[renvoiePionsNbr(piece)] > 0) {
                         std::string imag = std::get<1>(img[renvoiePionsNbr(piece)]);
-                        cases[i][j].setPion(Pion(piece, imag, Couleur::NOIR));
+                        cases[i*dimension+j].setPion(Pion(piece, imag, Couleur::NOIR));
                         joueur2[renvoiePionsNbr(piece)]--;
                     } else {
                         std::cout << "Vous n'avez plus ce genre de pièce." << std::endl;
@@ -395,33 +397,33 @@ void PlateauStratego::mettrePionOrdiSurPlateau(bool joueur) {
         piece = line.substr(0, line.find(delimiter));
         i = std::stoi(line.substr(piece.length()+1, 1));
         j = std::stoi(line.substr(piece.length()+3, 1));
-        if(joueur) cases[i][j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::BLANC));
-        else cases[i][j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
+        if(joueur) cases[i*dimension+j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::BLANC));
+        else cases[i*dimension+j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
     }}
 
 void PlateauStratego::cacherPieceJoueur(bool joueur) {
     if(joueur){// ici joueur1
-        for(int i = 0; i < 10; i++){
-            for(int j = 0; j < 10; j++){
-                if(cases[i][j].getPion().getColor() == Couleur::BLANC) cases[i][j].setPionImg("\u2610");
-                else if(cases[i][j].getPion().getColor() == Couleur::NOIR){
-                    std::string nom = cases[i][j].getPion().getNom();
+        for(int i = 0; i < dimension; i++){
+            for(int j = 0; j < dimension; j++){
+                if(cases[i*dimension+j].getPion().getColor() == Couleur::BLANC) cases[i*dimension+j].setPionImg("\u2610");
+                else if(cases[i*dimension+j].getPion().getColor() == Couleur::NOIR){
+                    std::string nom = cases[i*dimension+j].getPion().getNom();
                     std::string im = std::get<1>(img[renvoiePionsNbr(nom)]);
-                    cases[i][j].setPionImg(im);
+                    cases[i*dimension+j].setPionImg(im);
                 }
 
             }
         }
     }else{
-        for(int i = 0; i < 10; i++){
-            for(int j = 0; j < 10; j++){
-                if(cases[i][j].getPion().getColor() == Couleur::NOIR){
-                    cases[i][j].setPionImg("\u2610");
+        for(int i = 0; i < dimension; i++){
+            for(int j = 0; j < dimension; j++){
+                if(cases[i*dimension+j].getPion().getColor() == Couleur::NOIR){
+                    cases[i*dimension+j].setPionImg("\u2610");
                 }
-                else if(cases[i][j].getPion().getColor() == Couleur::BLANC){
-                    std::string nom = cases[i][j].getPion().getNom();
+                else if(cases[i*dimension+j].getPion().getColor() == Couleur::BLANC){
+                    std::string nom = cases[i*dimension+j].getPion().getNom();
                     std::string im = std::get<1>(img[renvoiePionsNbr(nom)]);
-                    cases[i][j].setPionImg(im);
+                    cases[i*dimension+j].setPionImg(im);
                 }
             }
         }
@@ -431,18 +433,18 @@ void PlateauStratego::cacherPieceJoueur(bool joueur) {
 std::vector< std::tuple<int, int> > PlateauStratego::getLigneColonne() {
     std::vector< std::tuple<int, int> > pieces;
 
-    for(int i = 0; i < 10; i++){
-        for(int j = 0; j < 10; j++){
-            if(cases[i][j].getPion().getColor() == Couleur::NOIR) pieces.push_back({i, j});
+    for(int i = 0; i < dimension; i++){
+        for(int j = 0; j < dimension; j++){
+            if(cases[i*dimension+j].getPion().getColor() == Couleur::NOIR) pieces.push_back({i, j});
         }
     }
     return pieces;
 }
 
 void PlateauStratego::revelerUnePiece(int i, int j) {
-    std::string nom = cases[i][j].getPion().getNom();
+    std::string nom = cases[i*dimension+j].getPion().getNom();
     int n = renvoiePionsNbr(nom);
-    cases[i][j].setPionImg(std::get<1>(img[n]));
+    cases[i*dimension+j].setPionImg(std::get<1>(img[n]));
 }
 
 
@@ -497,10 +499,10 @@ void PlateauStratego::launchStratego(bool ordi) {
             i_src = std::get<0>(coup[r]);
             j_src = std::get<1>(coup[r]);
 
-            if(cases[i_src][j_src].getPion().getNom().compare("Eclaireur") == 0){
+            if(cases[i_src*dimension+j_src].getPion().getNom().compare("Eclaireur") == 0){
                 again:
-                i_dst = rand() % 10;
-                j_dst = rand() % 10;
+                i_dst = rand() % dimension;
+                j_dst = rand() % dimension;
                 if((i_dst != i_src && j_dst != j_src) || (i_dst == i_src && j_dst == j_src)) goto again;
 
             }else {
@@ -541,12 +543,12 @@ void PlateauStratego::launchStratego(bool ordi) {
 
 
         if(quiJoue){
-            if(cases[i_src][j_src].getPion().getColor() == Couleur::NOIR){
+            if(cases[i_src*dimension+j_src].getPion().getColor() == Couleur::NOIR){
                 std::cout << "Ce n'est pas une pièce à vous." << std::endl;
                 goto next_loop;
             }
         }else {
-            if (cases[i_src][j_src].getPion().getColor() == Couleur::BLANC) {
+            if (cases[i_src*dimension+j_src].getPion().getColor() == Couleur::BLANC) {
                 goto next_loop;
             }
         }
@@ -557,10 +559,10 @@ void PlateauStratego::launchStratego(bool ordi) {
         }
 
 
-        if (cases[i_src][j_src].getPion().getNom().compare("Bombe") == 0 || cases[i_src][j_src].getPion().getNom().compare("Drapeau") == 0 || cases[i_src][j_src].getPion().getNom().compare("") == 0){
+        if (cases[i_src*dimension+j_src].getPion().getNom().compare("Bombe") == 0 || cases[i_src*dimension+j_src].getPion().getNom().compare("Drapeau") == 0 || cases[i_src*dimension+j_src].getPion().getNom().compare("") == 0){
             if(ordi && quiJoue) std::cout << "Mouvement impossible\n" << std::endl;
             goto next_loop;
-        }else if (cases[i_src][j_src].getPion().getNom().compare("Eclaireur") == 0){
+        }else if (cases[i_src*dimension+j_src].getPion().getNom().compare("Eclaireur") == 0){
             if(!mouvement_eclaireur(i_src, j_src, i_dst, j_dst, quiJoue, ordi)) goto next_loop;
         }
         else{
@@ -583,23 +585,23 @@ void PlateauStratego::scoreFinPartie() {
 
 bool PlateauStratego::pieceEstdeplacable(int i, int j) {
     if(i == 0 && j == 0){
-        return (cases[i+1][j].isEmpty() || cases[i+1][j+1].isEmpty() || cases[i][j+1].isEmpty());
+        return (cases[i+1*dimension+j].isEmpty() || cases[i+1*dimension+j+1].isEmpty() || cases[i*dimension+j+1].isEmpty());
     }else if(i == 9 && j == 0){
-        return (cases[i][j+1].isEmpty() || cases[i-1][j].isEmpty() ||  cases[i-1][j+1].isEmpty());
+        return (cases[i*dimension+j+1].isEmpty() || cases[i-1*dimension+j].isEmpty() ||  cases[i-1*dimension+j+1].isEmpty());
     }else if(i == 9 && j == 9){
-        return (cases[i][j-1].isEmpty() || cases[i-1][j].isEmpty() || cases[i-1][j-1].isEmpty());
+        return (cases[i*dimension+j-1].isEmpty() || cases[i-1*dimension+j].isEmpty() || cases[i-1*dimension+j-1].isEmpty());
     }else if(i == 0 && j == 9){
-        return (cases[i+1][j].isEmpty() || cases[i+1][j-1].isEmpty() || cases[i][j-1].isEmpty());
+        return (cases[i+1*dimension+j].isEmpty() || cases[i+1*dimension+j-1].isEmpty() || cases[i*dimension+j-1].isEmpty());
     }else if(i == 0){
-        return (cases[i+1][j].isEmpty() || cases[i+1][j+1].isEmpty() || cases[i+1][j-1].isEmpty() || cases[i][j+1].isEmpty() || cases[i][j-1].isEmpty());
+        return (cases[i+1*dimension+j].isEmpty() || cases[i+1*dimension+j+1].isEmpty() || cases[i+1*dimension+j-1].isEmpty() || cases[i*dimension+j+1].isEmpty() || cases[i*dimension+j-1].isEmpty());
     }else if(i == 9){
-        return (cases[i][j+1].isEmpty() || cases[i][j-1].isEmpty() || cases[i-1][j].isEmpty() || cases[i-1][j-1].isEmpty() || cases[i-1][j+1].isEmpty());
+        return (cases[i*dimension+j+1].isEmpty() || cases[i*dimension+j-1].isEmpty() || cases[i-1*dimension+j].isEmpty() || cases[i-1*dimension+j-1].isEmpty() || cases[i-1*dimension+j+1].isEmpty());
     }else if(j == 0){
-        return (cases[i+1][j].isEmpty() || cases[i+1][j+1].isEmpty() || cases[i][j+1].isEmpty() || cases[i-1][j].isEmpty() || cases[i-1][j+1].isEmpty());
+        return (cases[i+1*dimension+j].isEmpty() || cases[i+1*dimension+j+1].isEmpty() || cases[i*dimension+j+1].isEmpty() || cases[i-1*dimension+j].isEmpty() || cases[i-1*dimension+j+1].isEmpty());
     }else if(j == 9){
-        return (cases[i+1][j].isEmpty() || cases[i+1][j-1].isEmpty() || cases[i][j-1].isEmpty() || cases[i-1][j].isEmpty() || cases[i-1][j-1].isEmpty());
+        return (cases[i+1*dimension+j].isEmpty() || cases[i+1*dimension+j-1].isEmpty() || cases[i*dimension+j-1].isEmpty() || cases[i-1*dimension+j].isEmpty() || cases[i-1*dimension+j-1].isEmpty());
     }else
-    return (cases[i+1][j].isEmpty() || cases[i+1][j+1].isEmpty() || cases[i+1][j-1].isEmpty() || cases[i][j+1].isEmpty() || cases[i][j-1].isEmpty() || cases[i-1][j].isEmpty() || cases[i-1][j-1].isEmpty() || cases[i-1][j+1].isEmpty());
+    return (cases[i+1*dimension+j].isEmpty() || cases[i+1*dimension+j+1].isEmpty() || cases[i+1*dimension+j-1].isEmpty() || cases[i*dimension+j+1].isEmpty() || cases[i*dimension+j-1].isEmpty() || cases[i-1*dimension+j].isEmpty() || cases[i-1*dimension+j-1].isEmpty() || cases[i-1*dimension+j+1].isEmpty());
 }
 
 std::string PlateauStratego::help(bool joueur) {
@@ -608,74 +610,74 @@ std::string PlateauStratego::help(bool joueur) {
     if(joueur) c = Couleur::BLANC;
     else c = Couleur::NOIR;
 
-    for(int i = 0; i < 10; i++){
-        for(int j = 0; j < 10; j++) {
+    for(int i = 0; i < dimension; i++){
+        for(int j = 0; j < dimension; j++) {
             if (pieceEstdeplacable(i, j)) {
-                if (cases[i][j].getPion().getColor() == c && cases[i][j].getPion().getNom().compare("Drapeau") != 0 &&
-                    cases[i][j].getPion().getNom().compare("Bombe") != 0) {
-                    if (cases[i][j].getPion().getNom().compare("Eclaireur") == 0) {
+                if (cases[i*dimension+j].getPion().getColor() == c && cases[i*dimension+j].getPion().getNom().compare("Drapeau") != 0 &&
+                    cases[i*dimension+j].getPion().getNom().compare("Bombe") != 0) {
+                    if (cases[i*dimension+j].getPion().getNom().compare("Eclaireur") == 0) {
                         int h = i + 1;
-                        while (h < 10 && cases[h][j].isEmpty()) {
+                        while (h < dimension && cases[h*dimension+j].isEmpty()) {
                             h++;
                         }
                         if(h-1 != i) {
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
+                            res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
                                    " -> ";
                             res += std::to_string(h - 1) + " " + std::to_string(j) + "\n";
                         }
 
                         h = i - 1;
-                        while (h >= 0 && cases[h][j].isEmpty()) {
+                        while (h >= 0 && cases[h*dimension+j].isEmpty()) {
                             h--;
                         }
                         if(h+1 != i) {
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
+                            res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
                                    " -> ";
                             res += std::to_string(h + 1) + " " + std::to_string(j) + "\n";
                         }
 
                         h = j + 1;
-                        while (h < 10 && cases[i][h].isEmpty()) {
+                        while (h < dimension && cases[i*dimension+h].isEmpty()) {
                             h++;
                         }
                         if(h-1 != j){
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
+                            res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
                                    " -> ";
                             res += std::to_string(i) + " " + std::to_string(h - 1) + "\n";
                         }
 
                         h = j - 1;
-                        while (h >= 0 && cases[i][h].isEmpty()) {
+                        while (h >= 0 && cases[i*dimension+h].isEmpty()) {
                             h--;
                         }
                         if(h+1 != j) {
-                            res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
+                            res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
                                    " -> ";
                             res += std::to_string(i) + " " + std::to_string(h + 1) + "\n";
                         }
 
                     } else {
-                        if (i + 1 < 10 && j + 1 < 10 && i - 1 >= 0 && j - 1 >= 0) {
-                            if (cases[i - 1][j].isEmpty()) {
-                                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                        if (i + 1 < dimension && j + 1 < dimension && i - 1 >= 0 && j - 1 >= 0) {
+                            if (cases[i - 1*dimension+j].isEmpty()) {
+                                res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " +
                                        std::to_string(j) + " -> ";
                                 res += std::to_string(i - 1) + " " + std::to_string(j) + "\n";
 
                             }
-                            if (cases[i + 1][j].isEmpty()) {
-                                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                            if (cases[i + 1*dimension+j].isEmpty()) {
+                                res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " +
                                        std::to_string(j) + " -> ";
                                 res += std::to_string(i + 1) + " " + std::to_string(j) + "\n";
 
                             }
-                            if (cases[i][j - 1].isEmpty()) {
-                                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                            if (cases[i*dimension+j - 1].isEmpty()) {
+                                res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " +
                                        std::to_string(j) + " -> ";
                                 res += std::to_string(i) + " " + std::to_string(j - 1) + "\n";
 
                             }
-                            if (cases[i][j + 1].isEmpty()) {
-                                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                            if (cases[i*dimension+j + 1].isEmpty()) {
+                                res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " +
                                        std::to_string(j) + " -> ";
                                 res += std::to_string(i) + " " + std::to_string(j + 1) + "\n";
                             }
@@ -706,8 +708,8 @@ const void PlateauStratego::lectureFichierTest() {
         piece = line.substr(0, line.find(delimiter));
         i = std::stoi(line.substr(piece.length()+1, 1));
         j = std::stoi(line.substr(piece.length()+3, 1));
-        if(joueur) cases[i][j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::BLANC));
-        else cases[i][j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
+        if(joueur) cases[i*dimension+j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::BLANC));
+        else cases[i*dimension+j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
     }
 
     i = 0;
@@ -723,8 +725,8 @@ const void PlateauStratego::lectureFichierTest() {
         piece = line.substr(0, line.find(delimiter));
         i = std::stoi(line.substr(piece.length()+1, 1));
         j = std::stoi(line.substr(piece.length()+3, 1));
-        if(joueur) cases[i][j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::BLANC));
-        else cases[i][j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
+        if(joueur) cases[i*dimension+j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::BLANC));
+        else cases[i*dimension+j].setPion(Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
     }
 
 
@@ -747,13 +749,13 @@ std::string file = "../stratego/test1.txt";
         j_src = std::stoi(line.substr(std::to_string(i_src).length()+1, 1));
         i_dst = std::stoi(line.substr(std::to_string(j_src).length()+3, 1));
         j_dst = std::stoi(line.substr(std::to_string(i_dst).length()+5, 1));
-        if(cases[i_src][j_src].getPion().getNom() == "Eclaireur") mouvement_eclaireur(i_src,j_src,i_dst,j_dst,joueur,false);
+        if(cases[i_src*dimension+j_src].getPion().getNom() == "Eclaireur") mouvement_eclaireur(i_src,j_src,i_dst,j_dst,joueur,false);
         else mouvement_autre(i_src,j_src,i_dst,j_dst,joueur,false);
         joueur = !joueur;
 
         std::cout << i_src << " " << j_src << " " << i_dst << " " << j_dst <<std::endl;
         //TODO lancer mouvement
-        usleep(1);//5000000);
+        usleep(5000000);
         std::cout << *(this) << std::endl;
 
     }

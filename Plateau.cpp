@@ -1,11 +1,11 @@
 #include "Plateau.h"
 
 Case Plateau::getCase(int i, int j) {
-    return this->cases[i][j];
+    return this->cases[i*dimension+j];
 }
 
 void Plateau::setCase(int i, int j, Pion p) {
-    this->cases[i][j].setPion(p);
+    cases[i*dimension+j].setPion(p);
 }
 
 std:: ostream& operator<<(std::ostream & out, const Plateau &p) {
@@ -13,7 +13,7 @@ std:: ostream& operator<<(std::ostream & out, const Plateau &p) {
     for(int i = 0; i < p.dimension; i++){
         out << "| ";
         for(int j = 0; j < p.dimension; j++){
-            out << p.cases[i][j].getPion().getImg() << " | ";
+            out << p.cases[i*p.dimension+j].getPion().getImg() << " | ";
         }
         out << "\n";
     }
@@ -22,19 +22,26 @@ std:: ostream& operator<<(std::ostream & out, const Plateau &p) {
 }
 
 Plateau::Plateau(int dimension) : dimension(dimension) {
-    cases = new Case * [dimension];
+    cases = new Case [dimension*dimension];
     for(int i = 0; i < dimension; i++){
-        cases[i] = new Case[dimension];
         for(int j = 0; j < dimension; j++){
-            cases[i][j] = Case(i,j);
+            cases[i*dimension+j] = Case(i,j);
         }
     }
 }
 
 const void Plateau::move(int i_src, int j_src, int i_dst, int j_dst) const {
-    Case c = cases[i_dst][j_dst];
-    cases[i_dst][j_dst] = cases[i_src][j_src];
-    cases[i_src][j_src] = c;
+    Case c = cases[i_dst*dimension+j_dst];
+    cases[i_dst*dimension+j_dst] = cases[i_src*dimension+j_src];
+    cases[i_src*dimension+j_src] = c;
+}
+
+Case* Plateau::getCases() {
+    return cases;
+}
+
+void Plateau::setCases(int i, int j, Pion p) {
+    setCase(i,j,p);
 }
 
 

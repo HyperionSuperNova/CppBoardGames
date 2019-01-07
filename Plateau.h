@@ -7,7 +7,7 @@
 class Plateau {
 protected:
     int dimension;
-    Case ** cases;
+    Case * cases;
 public:
     Plateau(int dimension);
 
@@ -16,6 +16,8 @@ public:
     virtual Case getCase(int, int);
     virtual void setCase(int, int, Pion);
     virtual const void move(int i_src, int j_src, int i_dst, int j_dst) const;
+    Case* getCases();
+    void setCases(int,int, Pion);
     friend std::ostream &operator<<(std::ostream &, const Plateau &);
 };
 

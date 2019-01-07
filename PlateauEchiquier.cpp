@@ -1,41 +1,41 @@
 #include "PlateauEchiquier.h"
 
 PlateauEchiquier::PlateauEchiquier() : PlateauCombinatoireAbstrait(8){
-    cases[0][0].setPion(Pion("Tour", "\u2656", Couleur::NOIR));
-    cases[0][1].setPion(Pion("Cavalier", "\u2658", Couleur::NOIR));
-    cases[0][2].setPion(Pion("Fou", "\u2657", Couleur::NOIR));
-    cases[0][3].setPion(Pion("Dame", "\u2655", Couleur::NOIR));
-    cases[0][4].setPion(Pion("Roi", "\u2654", Couleur::NOIR));
-    cases[0][5].setPion(Pion("Fou", "\u2657", Couleur::NOIR));
-    cases[0][6].setPion(Pion("Cavalier", "\u2658", Couleur::NOIR));
-    cases[0][7].setPion(Pion("Tour", "\u2656", Couleur::NOIR));
+    cases[0*dimension+0].setPion(Pion("Tour", "\u2656", Couleur::NOIR));
+    cases[0*dimension+1].setPion(Pion("Cavalier", "\u2658", Couleur::NOIR));
+    cases[0*dimension+2].setPion(Pion("Fou", "\u2657", Couleur::NOIR));
+    cases[0*dimension+3].setPion(Pion("Dame", "\u2655", Couleur::NOIR));
+    cases[0*dimension+4].setPion(Pion("Roi", "\u2654", Couleur::NOIR));
+    cases[0*dimension+5].setPion(Pion("Fou", "\u2657", Couleur::NOIR));
+    cases[0*dimension+6].setPion(Pion("Cavalier", "\u2658", Couleur::NOIR));
+    cases[0*dimension+7].setPion(Pion("Tour", "\u2656", Couleur::NOIR));
 
-    cases[1][0].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
-    cases[1][1].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
-    cases[1][2].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
-    cases[1][3].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
-    cases[1][4].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
-    cases[1][5].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
-    cases[1][6].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
-    cases[1][7].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
+    cases[1*dimension+0].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
+    cases[1*dimension+1].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
+    cases[1*dimension+2].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
+    cases[1*dimension+3].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
+    cases[1*dimension+4].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
+    cases[1*dimension+5].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
+    cases[1*dimension+6].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
+    cases[1*dimension+7].setPion(Pion("Pion", "\u2659", Couleur::NOIR));
 
-    cases[7][0].setPion(Pion("Tour", "\u265C", Couleur::BLANC));
-    cases[7][1].setPion(Pion("Cavalier", "\u265E", Couleur::BLANC));
-    cases[7][2].setPion(Pion("Fou", "\u265D", Couleur::BLANC));
-    cases[7][3].setPion(Pion("Dame", "\u265B", Couleur::BLANC));
-    cases[7][4].setPion(Pion("Roi", "\u265A", Couleur::BLANC));
-    cases[7][5].setPion(Pion("Fou", "\u265D", Couleur::BLANC));
-    cases[7][6].setPion(Pion("Cavalier", "\u265E", Couleur::BLANC));
-    cases[7][7].setPion(Pion("Tour", "\u265C", Couleur::BLANC));
+    cases[7*dimension+0].setPion(Pion("Tour", "\u265C", Couleur::BLANC));
+    cases[7*dimension+1].setPion(Pion("Cavalier", "\u265E", Couleur::BLANC));
+    cases[7*dimension+2].setPion(Pion("Fou", "\u265D", Couleur::BLANC));
+    cases[7*dimension+3].setPion(Pion("Dame", "\u265B", Couleur::BLANC));
+    cases[7*dimension+4].setPion(Pion("Roi", "\u265A", Couleur::BLANC));
+    cases[7*dimension+5].setPion(Pion("Fou", "\u265D", Couleur::BLANC));
+    cases[7*dimension+6].setPion(Pion("Cavalier", "\u265E", Couleur::BLANC));
+    cases[7*dimension+7].setPion(Pion("Tour", "\u265C", Couleur::BLANC));
 
-    cases[6][0].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
-    cases[6][1].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
-    cases[6][2].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
-    cases[6][3].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
-    cases[6][4].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
-    cases[6][5].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
-    cases[6][6].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
-    cases[6][7].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
+    cases[6*dimension+0].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
+    cases[6*dimension+1].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
+    cases[6*dimension+2].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
+    cases[6*dimension+3].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
+    cases[6*dimension+4].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
+    cases[6*dimension+5].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
+    cases[6*dimension+6].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
+    cases[6*dimension+7].setPion(Pion("Pion", "\u265F", Couleur::BLANC));
 
     les2RoisontSurLePlateau = true;
 }
@@ -52,7 +52,7 @@ std::ostream &operator<<(std::ostream &os, const PlateauEchiquier &echiquier) {
     for(int i = 0; i < 8; i++){
         os << i << "|  ";
         for(int j = 0; j < 8; j++){
-            os << echiquier.cases[i][j].getPion().getImg() << " | " ;
+            os << echiquier.cases[i*echiquier.dimension+j].getPion().getImg() << " | " ;
 
         }
         os << "\n";
@@ -77,7 +77,7 @@ bool PlateauEchiquier::mouvement(std::string x, bool joueur, std::string piece) 
     int i_dst = (int)(x.at(2)-'0');
     int j_dst = getEquivalenceAlpha(x.at(1));
 
-    if((joueur && cases[i_dst][j_dst].getPion().getColor() == Couleur::BLANC) || (!joueur && cases[i_dst][j_dst].getPion().getColor() == Couleur::NOIR)){
+    if((joueur && cases[i_dst*dimension+j_dst].getPion().getColor() == Couleur::BLANC) || (!joueur && cases[i_dst*dimension+j_dst].getPion().getColor() == Couleur::NOIR)){
         std::cout << "Mouvement impossible" << std::endl;
         return false;
     }
@@ -111,14 +111,14 @@ bool PlateauEchiquier::mouvement(std::string x, bool joueur, std::string piece) 
             std::string jj = "";
             std::cin >> jj;
             int i_src = (int)(jj.at(0)-'0');
-            if(!cases[i_dst][j_dst].isEmpty()){
+            if(!cases[i_dst*dimension+j_dst].isEmpty()){
                 pionDetruit(i_dst, j_dst, !joueur);
             }
             dernier_mouv[0] = {i_src,j_src, piece};
             dernier_mouv[1] = {i_dst, j_dst, piece};
 
-            cases[i_dst][j_dst] = cases[i_src][j_src];
-            cases[i_src][j_src] = Case(i_src,j_src);
+            cases[i_dst*dimension+j_dst] = cases[i_src*dimension+j_src];
+            cases[i_src*dimension+j_src] = Case(i_src,j_src);
             if (joueur)joueur1[tmp] = {i_dst, j_dst, piece};
             else joueur2[tmp] = {i_dst, j_dst, piece};
             piece_bouffee = piece;
@@ -126,14 +126,14 @@ bool PlateauEchiquier::mouvement(std::string x, bool joueur, std::string piece) 
         }else{
             if(joueur){
                 int i_src = std::get<0>(joueur1[tmp]);
-                if(!cases[i_dst][j_dst].isEmpty()){
+                if(!cases[i_dst*dimension+j_dst].isEmpty()){
                     pionDetruit(i_dst, j_dst, !joueur);
                 }
                 dernier_mouv[0] = {i_src,j_src, piece};
                 dernier_mouv[1] = {i_dst, j_dst, piece};
 
-                cases[i_dst][j_dst] = cases[i_src][j_src];
-                cases[i_src][j_src] = Case(i_src,j_src);
+                cases[i_dst*dimension+j_dst] = cases[i_src*dimension+j_src];
+                cases[i_src*dimension+j_src] = Case(i_src,j_src);
                 joueur1[tmp] = {i_dst,j_dst, piece};
                 piece_bouffee = piece;
                 return true;
@@ -142,22 +142,22 @@ bool PlateauEchiquier::mouvement(std::string x, bool joueur, std::string piece) 
                 dernier_mouv[0] = {i_src,j_src, piece};
                 dernier_mouv[1] = {i_dst, j_dst, piece};
 
-                cases[i_dst][j_dst] = cases[i_src][j_src];
-                cases[i_src][j_src] = Case(i_src,j_src);
+                cases[i_dst*dimension+j_dst] = cases[i_src*dimension+j_src];
+                cases[i_src*dimension+j_src] = Case(i_src,j_src);
                 joueur2[tmp] = {i_dst,j_dst, piece};
                 piece_bouffee = piece;
                 return true;
             }
         }
     }else{
-        if(!cases[i_dst][j_dst].isEmpty()){
+        if(!cases[i_dst*dimension+j_dst].isEmpty()){
             pionDetruit(i_dst, j_dst, !joueur);
         }
 
         dernier_mouv[0] = {std::get<0>(coord),std::get<1>(coord), piece};
         dernier_mouv[1] = {i_dst, j_dst, piece};
-        cases[i_dst][j_dst] = cases[std::get<0>(coord)][std::get<1>(coord)];
-        cases[std::get<0>(coord)][std::get<1>(coord)] = Case(std::get<0>(coord),std::get<1>(coord));
+        cases[i_dst*dimension+j_dst] = cases[std::get<0>(coord)*dimension+std::get<1>(coord)];
+        cases[std::get<0>(coord)*dimension+std::get<1>(coord)] = Case(std::get<0>(coord),std::get<1>(coord));
         if(joueur) {
             for(int i = 0; i < 16; i++){
                 if(std::get<0>(joueur1[i]) == std::get<0>(coord) && std::get<1>(joueur1[i]) == std::get<1>(coord)){
@@ -177,10 +177,10 @@ bool PlateauEchiquier::mouvement(std::string x, bool joueur, std::string piece) 
 }
 
 bool PlateauEchiquier::pieceASoi(int i_src, int j_src, bool joueur) {
-    if(joueur && cases[i_src][j_src].getPion().getColor() == Couleur::NOIR){
+    if(joueur && cases[i_src*dimension+j_src].getPion().getColor() == Couleur::NOIR){
         std::cout << "Ce n'est pas un pion à vous" << std::endl;
         return false;
-    }else if(!joueur && cases[i_src][j_src].getPion().getColor() == Couleur::BLANC){
+    }else if(!joueur && cases[i_src*dimension+j_src].getPion().getColor() == Couleur::BLANC){
         std::cout << "Ce n'est pas un pion à vous" << std::endl;
         return false;
     }
@@ -211,29 +211,29 @@ bool PlateauEchiquier::mouvement_pion(std::string x, bool joueur) {
     int i_borne = 0;
     if(joueur) i_borne = i_dst+1;
     else i_borne = i_dst-1;
-    std::cout << (cases[i_dst][j_dst].getPion().getColor()) << std::endl;
-    if((joueur && cases[i_dst][j_dst].getPion().getColor() == Couleur::BLANC) || (!joueur && cases[i_dst][j_dst].getPion().getColor() == Couleur::NOIR)){
+    std::cout << (cases[i_dst*dimension+j_dst].getPion().getColor()) << std::endl;
+    if((joueur && cases[i_dst*dimension+j_dst].getPion().getColor() == Couleur::BLANC) || (!joueur && cases[i_dst*dimension+j_dst].getPion().getColor() == Couleur::NOIR)){
         std::cout << "Mouvement impossible" << std::endl;
         return false;
     }
 
-    if(cases[i_dst][j_dst].isEmpty()){
-        if(joueur && i_borne+1 == 6 && !cases[i_borne+1][j_dst].isEmpty()){
-            if(cases[i_borne+1][j_dst].getPion().getNom() != "Pion"){
+    if(cases[i_dst*dimension+j_dst].isEmpty()){
+        if(joueur && i_borne+1 == 6 && !cases[i_borne+1*dimension+j_dst].isEmpty()){
+            if(cases[i_borne+1*dimension+j_dst].getPion().getNom() != "Pion"){
                 std::cout << "Mouvement impossible" << std::endl;
                 return false;
             }
             move(i_borne+1, j_dst, i_dst, j_dst);
             return true;
-        }else if(!joueur && i_borne-1 == 1 && !cases[i_borne-1][j_dst].isEmpty()){
-            if(cases[i_borne-1][j_dst].getPion().getNom() != "Pion"){
+        }else if(!joueur && i_borne-1 == 1 && !cases[i_borne-1*dimension+j_dst].isEmpty()){
+            if(cases[i_borne-1*dimension+j_dst].getPion().getNom() != "Pion"){
                 std::cout << "Mouvement impossible" << std::endl;
                 return false;
             }
             move(i_borne-1, j_dst, i_dst, j_dst);
             return true;
-        }else if(!cases[i_borne][j_dst].isEmpty()){
-            if(cases[i_borne][j_dst].getPion().getNom() != "Pion"){
+        }else if(!cases[i_borne*dimension+j_dst].isEmpty()){
+            if(cases[i_borne*dimension+j_dst].getPion().getNom() != "Pion"){
                 std::cout << "Mouvement impossible" << std::endl;
                 return false;
             }
@@ -243,37 +243,37 @@ bool PlateauEchiquier::mouvement_pion(std::string x, bool joueur) {
             std::cout << "Aucune pièce dans cette case" << std::endl;
             return false;
         }
-    }else if(!cases[i_dst][j_dst].isEmpty() && cases[i_borne][j_dst+1].isEmpty() && !cases[i_borne][j_dst-1].isEmpty()){
-        if(cases[i_borne][j_dst-1].getPion().getNom() != "Pion"){
+    }else if(!cases[i_dst*dimension+j_dst].isEmpty() && cases[i_borne*dimension+j_dst+1].isEmpty() && !cases[i_borne*dimension+j_dst-1].isEmpty()){
+        if(cases[i_borne*dimension+j_dst-1].getPion().getNom() != "Pion"){
             std::cout << "Mouvement impossible" << std::endl;
             return false;
         }
         pionDetruit(i_dst, j_dst, !joueur);
-        cases[i_dst][j_dst] = cases[i_borne][j_dst-1];
-        cases[i_borne][j_dst-1] = Case(i_borne, j_dst-1);
+        cases[i_dst*dimension+j_dst] = cases[i_borne*dimension+j_dst-1];
+        cases[i_borne*dimension+j_dst-1] = Case(i_borne, j_dst-1);
         return true;
-    }else if(!cases[i_dst][j_dst].isEmpty() && !cases[i_borne][j_dst+1].isEmpty() && cases[i_borne][j_dst-1].isEmpty()){
-        if(cases[i_borne][j_dst+1].getPion().getNom() != "Pion"){
+    }else if(!cases[i_dst*dimension+j_dst].isEmpty() && !cases[i_borne*dimension+j_dst+1].isEmpty() && cases[i_borne*dimension+j_dst-1].isEmpty()){
+        if(cases[i_borne*dimension+j_dst+1].getPion().getNom() != "Pion"){
             std::cout << "Mouvement impossible" << std::endl;
             return false;
         }
         pionDetruit(i_dst, j_dst, !joueur);
-        cases[i_dst][j_dst] = cases[i_borne][j_dst+1];
-        cases[i_borne][j_dst+1] = Case(i_borne, j_dst+1);
+        cases[i_dst*dimension+j_dst] = cases[i_borne*dimension+j_dst+1];
+        cases[i_borne*dimension+j_dst+1] = Case(i_borne, j_dst+1);
         return true;
-    }else if(!cases[i_dst][j_dst].isEmpty() && !cases[i_borne][j_dst+1].isEmpty() && !cases[i_borne][j_dst-1].isEmpty()){
+    }else if(!cases[i_dst*dimension+j_dst].isEmpty() && !cases[i_borne*dimension+j_dst+1].isEmpty() && !cases[i_borne*dimension+j_dst-1].isEmpty()){
         std::cout << "Vous avez deux pièces pouvant faire ce coup.\n Précisez celle que vous voulez bouger" << std::endl;
         std::string ii = "";
         std::cin >> ii;
         int j_src = getEquivalenceAlpha(ii.at(0));
-        if(!cases[i_borne][j_src].isEmpty()){
-            if(cases[i_borne][j_src].getPion().getNom() != "Pion"){
+        if(!cases[i_borne*dimension+j_src].isEmpty()){
+            if(cases[i_borne*dimension+j_src].getPion().getNom() != "Pion"){
                 std::cout << "Mouvement impossible" << std::endl;
                 return false;
             }
             pionDetruit(i_dst, j_dst, !joueur);
-            cases[i_dst][j_dst] = cases[i_borne][j_src];
-            cases[i_borne][j_src] = Case(i_borne, j_src);
+            cases[i_dst*dimension+j_dst] = cases[i_borne*dimension+j_src];
+            cases[i_borne*dimension+j_src] = Case(i_borne, j_src);
             return true;
         }else{
             std::cout << "Vous n'avez pas de pièce à cet endroit" << std::endl;
@@ -288,99 +288,99 @@ bool PlateauEchiquier::mouvement_pion(std::string x, bool joueur) {
 std::tuple<int,int> PlateauEchiquier::ouEstCavalier(int i_dst, int j_dst, bool joueur) {
     int cmp = 0;
     if(joueur) {
-        if (i_dst-2 >= 0 && j_dst-1 >= 0 && cases[i_dst - 2][j_dst - 1].getPion().getNom() == "Cavalier" &&
-            cases[i_dst - 2][j_dst - 1].getPion().getColor() == Couleur::BLANC && joueur) {
+        if (i_dst-2 >= 0 && j_dst-1 >= 0 && cases[i_dst - 2*dimension+j_dst - 1].getPion().getNom() == "Cavalier" &&
+            cases[i_dst - 2*dimension+j_dst - 1].getPion().getColor() == Couleur::BLANC && joueur) {
             cmp++;
             std::get<0>(coord) = i_dst - 2;
             std::get<1>(coord) = j_dst - 1;
         }
-        if (i_dst-1 >= 0 && j_dst-2 >= 0 && cases[i_dst - 1][j_dst - 2].getPion().getNom() == "Cavalier" &&
-                   cases[i_dst - 1][j_dst - 2].getPion().getColor() == Couleur::BLANC && joueur) {
+        if (i_dst-1 >= 0 && j_dst-2 >= 0 && cases[i_dst - 1*dimension+j_dst - 2].getPion().getNom() == "Cavalier" &&
+                   cases[i_dst - 1*dimension+j_dst - 2].getPion().getColor() == Couleur::BLANC && joueur) {
             cmp++;
             std::get<0>(coord) = i_dst - 1;
             std::get<1>(coord) = j_dst - 2;
         }
-        if (i_dst+1 < 8 && j_dst-2 >= 0 && cases[i_dst + 1][j_dst - 2].getPion().getNom() == "Cavalier" &&
-                   cases[i_dst + 1][j_dst - 2].getPion().getColor() == Couleur::BLANC && joueur) {
+        if (i_dst+1 < 8 && j_dst-2 >= 0 && cases[i_dst + 1*dimension+j_dst - 2].getPion().getNom() == "Cavalier" &&
+                   cases[i_dst + 1*dimension+j_dst - 2].getPion().getColor() == Couleur::BLANC && joueur) {
             cmp++;
             std::get<0>(coord) = i_dst + 1;
             std::get<1>(coord) = j_dst - 2;
         }
-        if (i_dst+2 < 8 && j_dst-1 >= 0 && cases[i_dst + 2][j_dst - 1].getPion().getNom() == "Cavalier" &&
-                   cases[i_dst + 2][j_dst - 1].getPion().getColor() == Couleur::BLANC && joueur) {
+        if (i_dst+2 < 8 && j_dst-1 >= 0 && cases[i_dst + 2*dimension+j_dst - 1].getPion().getNom() == "Cavalier" &&
+                   cases[i_dst + 2*dimension+j_dst - 1].getPion().getColor() == Couleur::BLANC && joueur) {
             cmp++;
             std::get<0>(coord) = i_dst + 2;
             std::get<1>(coord) = j_dst - 1;
         }
-        if (i_dst+2 < 8 && j_dst+1 < 8 && cases[i_dst + 2][j_dst + 1].getPion().getNom() == "Cavalier" &&
-                   cases[i_dst + 2][j_dst + 1].getPion().getColor() == Couleur::BLANC && joueur) {
+        if (i_dst+2 < 8 && j_dst+1 < 8 && cases[i_dst + 2*dimension+j_dst + 1].getPion().getNom() == "Cavalier" &&
+                   cases[i_dst + 2*dimension+j_dst + 1].getPion().getColor() == Couleur::BLANC && joueur) {
             cmp++;
             std::get<0>(coord) = i_dst + 2;
             std::get<1>(coord) = j_dst + 1;
         }
-        if (i_dst+1 < 8 && j_dst+2 < 8 && cases[i_dst + 1][j_dst + 2].getPion().getNom() == "Cavalier" &&
-                   cases[i_dst + 1][j_dst + 2].getPion().getColor() == Couleur::BLANC && joueur) {
+        if (i_dst+1 < 8 && j_dst+2 < 8 && cases[i_dst + 1*dimension+j_dst + 2].getPion().getNom() == "Cavalier" &&
+                   cases[i_dst + 1*dimension+j_dst + 2].getPion().getColor() == Couleur::BLANC && joueur) {
             cmp++;
             std::get<0>(coord) = i_dst + 1;
             std::get<1>(coord) = j_dst - +2;
         }
-        if (i_dst-1 >= 0 && j_dst+2 < 8 && cases[i_dst - 1][j_dst + 2].getPion().getNom() == "Cavalier" &&
-                   cases[i_dst - 1][j_dst + 2].getPion().getColor() == Couleur::BLANC && joueur) {
+        if (i_dst-1 >= 0 && j_dst+2 < 8 && cases[i_dst - 1*dimension+j_dst + 2].getPion().getNom() == "Cavalier" &&
+                   cases[i_dst - 1*dimension+j_dst + 2].getPion().getColor() == Couleur::BLANC && joueur) {
             cmp++;
             std::get<0>(coord) = i_dst - 1;
             std::get<1>(coord) = j_dst + 2;
         }
-        if (i_dst-2 >= 0 && j_dst+1 < 8 && cases[i_dst - 2][j_dst + 1].getPion().getNom() == "Cavalier" &&
-                   cases[i_dst - 2][j_dst + 1].getPion().getColor() == Couleur::BLANC && joueur) {
+        if (i_dst-2 >= 0 && j_dst+1 < 8 && cases[i_dst - 2*dimension+j_dst + 1].getPion().getNom() == "Cavalier" &&
+                   cases[i_dst - 2*dimension+j_dst + 1].getPion().getColor() == Couleur::BLANC && joueur) {
             cmp++;
             std::get<0>(coord) = i_dst - 2;
             std::get<1>(coord) = j_dst + 1;
         }
     }else{
-        if (i_dst-2 >= 0 && j_dst-1 >= 0 && cases[i_dst - 2][j_dst - 1].getPion().getNom() == "Cavalier" &&
-            cases[i_dst - 2][j_dst - 1].getPion().getColor() == Couleur::NOIR && !joueur) {
+        if (i_dst-2 >= 0 && j_dst-1 >= 0 && cases[i_dst - 2*dimension+j_dst - 1].getPion().getNom() == "Cavalier" &&
+            cases[i_dst - 2*dimension+j_dst - 1].getPion().getColor() == Couleur::NOIR && !joueur) {
             cmp++;
             std::get<0>(coord) = i_dst - 2;
             std::get<1>(coord) = j_dst - 1;
         }
-        if (i_dst-1 >= 0 && j_dst-2 >= 0 && cases[i_dst - 1][j_dst - 2].getPion().getNom() == "Cavalier" &&
-                   cases[i_dst - 1][j_dst - 2].getPion().getColor() == Couleur::NOIR && !joueur) {
+        if (i_dst-1 >= 0 && j_dst-2 >= 0 && cases[i_dst - 1*dimension+j_dst - 2].getPion().getNom() == "Cavalier" &&
+                   cases[i_dst - 1*dimension+j_dst - 2].getPion().getColor() == Couleur::NOIR && !joueur) {
             cmp++;
             std::get<0>(coord) = i_dst - 1;
             std::get<1>(coord) = j_dst - 2;
         }
-        if (i_dst+1 < 8 && j_dst-2 >= 0 && cases[i_dst + 1][j_dst - 2].getPion().getNom() == "Cavalier" &&
-                   cases[i_dst + 1][j_dst - 2].getPion().getColor() == Couleur::NOIR && !joueur) {
+        if (i_dst+1 < 8 && j_dst-2 >= 0 && cases[i_dst + 1*dimension+j_dst - 2].getPion().getNom() == "Cavalier" &&
+                   cases[i_dst + 1*dimension+j_dst - 2].getPion().getColor() == Couleur::NOIR && !joueur) {
             cmp++;
             std::get<0>(coord) = i_dst + 1;
             std::get<1>(coord) = j_dst - 2;
         }
-        if (i_dst+2 < 8 && j_dst-1 >= 0 && cases[i_dst + 2][j_dst - 1].getPion().getNom() == "Cavalier" &&
-                   cases[i_dst + 2][j_dst - 1].getPion().getColor() == Couleur::NOIR && !joueur) {
+        if (i_dst+2 < 8 && j_dst-1 >= 0 && cases[i_dst + 2*dimension+j_dst - 1].getPion().getNom() == "Cavalier" &&
+                   cases[i_dst + 2*dimension+j_dst - 1].getPion().getColor() == Couleur::NOIR && !joueur) {
             cmp++;
             std::get<0>(coord) = i_dst + 2;
             std::get<1>(coord) = j_dst - 1;
         }
-        if (i_dst+2 < 8 && j_dst+1 < 8 && cases[i_dst + 2][j_dst + 1].getPion().getNom() == "Cavalier" &&
-                   cases[i_dst + 2][j_dst + 1].getPion().getColor() == Couleur::NOIR && !joueur) {
+        if (i_dst+2 < 8 && j_dst+1 < 8 && cases[i_dst + 2*dimension+j_dst + 1].getPion().getNom() == "Cavalier" &&
+                   cases[i_dst + 2*dimension+j_dst + 1].getPion().getColor() == Couleur::NOIR && !joueur) {
             cmp++;
             std::get<0>(coord) = i_dst + 2;
             std::get<1>(coord) = j_dst + 1;
         }
-        if (i_dst+1 < 8 && j_dst+2 < 8 && cases[i_dst + 1][j_dst + 2].getPion().getNom() == "Cavalier" &&
-                   cases[i_dst + 1][j_dst + 2].getPion().getColor() == Couleur::NOIR && !joueur) {
+        if (i_dst+1 < 8 && j_dst+2 < 8 && cases[i_dst + 1*dimension+j_dst + 2].getPion().getNom() == "Cavalier" &&
+                   cases[i_dst + 1*dimension+j_dst + 2].getPion().getColor() == Couleur::NOIR && !joueur) {
             cmp++;
             std::get<0>(coord) = i_dst + 1;
             std::get<1>(coord) = j_dst - +2;
         }
-        if (i_dst-1 >= 0 && j_dst+2 < 8 && cases[i_dst - 1][j_dst + 2].getPion().getNom() == "Cavalier" &&
-                   cases[i_dst - 1][j_dst + 2].getPion().getColor() == Couleur::NOIR && !joueur) {
+        if (i_dst-1 >= 0 && j_dst+2 < 8 && cases[i_dst - 1*dimension+j_dst + 2].getPion().getNom() == "Cavalier" &&
+                   cases[i_dst - 1*dimension+j_dst + 2].getPion().getColor() == Couleur::NOIR && !joueur) {
             cmp++;
             std::get<0>(coord) = i_dst - 1;
             std::get<1>(coord) = j_dst + 2;
         }
-        if (cases[i_dst - 2][j_dst + 1].getPion().getNom() == "Cavalier" &&
-                   cases[i_dst - 2][j_dst + 1].getPion().getColor() == Couleur::NOIR && !joueur) {
+        if (cases[i_dst - 2*dimension+j_dst + 1].getPion().getNom() == "Cavalier" &&
+                   cases[i_dst - 2*dimension+j_dst + 1].getPion().getColor() == Couleur::NOIR && !joueur) {
             cmp++;
             std::get<0>(coord) = i_dst - 2;
             std::get<1>(coord) = j_dst + 1;
@@ -401,26 +401,26 @@ std::tuple<int,int> PlateauEchiquier::ouEstFou(int i_dst, int j_dst, bool joueur
     int cmp = 0;
     if(joueur) {
         for(int h = 0; h < 8; h++){
-            if (i_dst-h >= 0 && j_dst-h >= 0 && cases[i_dst - h][j_dst - h].getPion().getNom() == "Fou" &&
-                cases[i_dst - h][j_dst - h].getPion().getColor() == Couleur::BLANC){
+            if (i_dst-h >= 0 && j_dst-h >= 0 && cases[i_dst - h*dimension+j_dst - h].getPion().getNom() == "Fou" &&
+                cases[i_dst - h*dimension+j_dst - h].getPion().getColor() == Couleur::BLANC){
                 cmp++;
                 std::get<0>(coord) = i_dst - h;
                 std::get<1>(coord) = j_dst - h;
             }
-            if (i_dst+h < 8 && j_dst+h < 8 && cases[i_dst + h][j_dst + h].getPion().getNom() == "Fou" &&
-                cases[i_dst + h][j_dst + h].getPion().getColor() == Couleur::BLANC){
+            if (i_dst+h < 8 && j_dst+h < 8 && cases[i_dst + h*dimension+j_dst + h].getPion().getNom() == "Fou" &&
+                cases[i_dst + h*dimension+j_dst + h].getPion().getColor() == Couleur::BLANC){
                 cmp++;
                 std::get<0>(coord) = i_dst + h;
                 std::get<1>(coord) = j_dst + h;
             }
-            if (i_dst+h < 8 && j_dst-h >= 0 && cases[i_dst + h][j_dst - h].getPion().getNom() == "Fou" &&
-                cases[i_dst + h][j_dst - h].getPion().getColor() == Couleur::BLANC){
+            if (i_dst+h < 8 && j_dst-h >= 0 && cases[i_dst + h*dimension+j_dst - h].getPion().getNom() == "Fou" &&
+                cases[i_dst + h*dimension+j_dst - h].getPion().getColor() == Couleur::BLANC){
                 cmp++;
                 std::get<0>(coord) = i_dst + h;
                 std::get<1>(coord) = j_dst - h;
             }
-            if (i_dst-h >= 0 && j_dst+h < 8 && cases[i_dst - h][j_dst + h].getPion().getNom() == "Fou" &&
-                cases[i_dst - h][j_dst + h].getPion().getColor() == Couleur::BLANC){
+            if (i_dst-h >= 0 && j_dst+h < 8 && cases[i_dst - h*dimension+j_dst + h].getPion().getNom() == "Fou" &&
+                cases[i_dst - h*dimension+j_dst + h].getPion().getColor() == Couleur::BLANC){
                 cmp++;
                 std::get<0>(coord) = i_dst - h;
                 std::get<1>(coord) = j_dst + h;
@@ -429,26 +429,26 @@ std::tuple<int,int> PlateauEchiquier::ouEstFou(int i_dst, int j_dst, bool joueur
         }
     }else{
         for(int h = 0; h < 8; h++){
-            if (i_dst-h >= 0 && j_dst-h >= 0 && cases[i_dst - h][j_dst - h].getPion().getNom() == "Fou" &&
-                cases[i_dst - h][j_dst - h].getPion().getColor() == Couleur::NOIR){
+            if (i_dst-h >= 0 && j_dst-h >= 0 && cases[i_dst - h*dimension+j_dst - h].getPion().getNom() == "Fou" &&
+                cases[i_dst - h*dimension+j_dst - h].getPion().getColor() == Couleur::NOIR){
                 cmp++;
                 std::get<0>(coord) = i_dst - h;
                 std::get<1>(coord) = j_dst - h;
             }
-            if (i_dst+h < 8 && j_dst+h < 8 && cases[i_dst + h][j_dst + h].getPion().getNom() == "Fou" &&
-                cases[i_dst + h][j_dst + h].getPion().getColor() == Couleur::NOIR){
+            if (i_dst+h < 8 && j_dst+h < 8 && cases[i_dst + h*dimension+j_dst + h].getPion().getNom() == "Fou" &&
+                cases[i_dst + h*dimension+j_dst + h].getPion().getColor() == Couleur::NOIR){
                 cmp++;
                 std::get<0>(coord) = i_dst + h;
                 std::get<1>(coord) = j_dst + h;
             }
-            if (i_dst+h < 8 && j_dst-h >= 0 && cases[i_dst + h][j_dst - h].getPion().getNom() == "Fou" &&
-                cases[i_dst + h][j_dst - h].getPion().getColor() == Couleur::NOIR){
+            if (i_dst+h < 8 && j_dst-h >= 0 && cases[i_dst + h*dimension+j_dst - h].getPion().getNom() == "Fou" &&
+                cases[i_dst + h*dimension+j_dst - h].getPion().getColor() == Couleur::NOIR){
                 cmp++;
                 std::get<0>(coord) = i_dst + h;
                 std::get<1>(coord) = j_dst - h;
             }
-            if (i_dst-h >= 0 && j_dst+h < 8 && cases[i_dst - h][j_dst + h].getPion().getNom() == "Fou" &&
-                cases[i_dst - h][j_dst + h].getPion().getColor() == Couleur::NOIR){
+            if (i_dst-h >= 0 && j_dst+h < 8 && cases[i_dst - h*dimension+j_dst + h].getPion().getNom() == "Fou" &&
+                cases[i_dst - h*dimension+j_dst + h].getPion().getColor() == Couleur::NOIR){
                 cmp++;
                 std::get<0>(coord) = i_dst - h;
                 std::get<1>(coord) = j_dst + h;
@@ -464,22 +464,22 @@ std::tuple<int,int> PlateauEchiquier::ouEstFou(int i_dst, int j_dst, bool joueur
 bool PlateauEchiquier::fouPeutIlYAller(int i_src, int j_src, int i_dst, int j_dst) {
     if(i_src < i_dst && j_src > j_dst){
         for(int h = 1; h < j_src-j_dst; h++){
-            if(i_src+h < 8 && j_src-h >= 0 && !cases[i_src+h][j_src-h].isEmpty()) return false;
+            if(i_src+h < 8 && j_src-h >= 0 && !cases[i_src+h*dimension+j_src-h].isEmpty()) return false;
         }
         return true;
     }else if(i_src < i_dst && j_src < j_dst){
         for(int h = 1; h < j_dst-j_src; h++){
-            if(i_src+h < 8 && j_src+h < 8 && !cases[i_src+h][j_src+h].isEmpty()) return false;
+            if(i_src+h < 8 && j_src+h < 8 && !cases[i_src+h*dimension+j_src+h].isEmpty()) return false;
         }
         return true;
     }else if(i_src > i_dst && j_src >j_dst){
         for(int h = 1; h < j_src-j_dst; h++){
-            if(i_src-h >= 0 && j_src-h >= 0 && !cases[i_src-h][j_src-h].isEmpty()) return false;
+            if(i_src-h >= 0 && j_src-h >= 0 && !cases[i_src-h*dimension+j_src-h].isEmpty()) return false;
         }
         return true;
     }else if(i_src > i_dst && j_src < j_dst){
         for(int h = 1; h < j_dst-j_src; h++){
-            if(i_src-h >= 0 && j_src+h < 8 && !cases[i_src-h][j_src+h].isEmpty()) return false;
+            if(i_src-h >= 0 && j_src+h < 8 && !cases[i_src-h*dimension+j_src+h].isEmpty()) return false;
         }
         return true;
     }else return true;
@@ -492,31 +492,31 @@ bool PlateauEchiquier::mouvement_fou(std::string x, bool joueur) {
 std::tuple<int,int> PlateauEchiquier::ouEstDame(int i_dst, int j_dst, bool joueur) {
     if(joueur) {
         for(int h = 0; h < 8; h++){
-            if (i_dst-h >= 0 && j_dst-h >= 0 && cases[i_dst - h][j_dst - h].getPion().getNom() == "Dame" &&
-                cases[i_dst - h][j_dst - h].getPion().getColor() == Couleur::BLANC){
+            if (i_dst-h >= 0 && j_dst-h >= 0 && cases[i_dst - h*dimension+j_dst - h].getPion().getNom() == "Dame" &&
+                cases[i_dst - h*dimension+j_dst - h].getPion().getColor() == Couleur::BLANC){
                 std::get<0>(coord) = i_dst - h;
                 std::get<1>(coord) = j_dst - h;
             }
-            if (i_dst+h < 8 && j_dst+h < 8 && cases[i_dst + h][j_dst + h].getPion().getNom() == "Dame" &&
-                cases[i_dst + h][j_dst + h].getPion().getColor() == Couleur::BLANC){
+            if (i_dst+h < 8 && j_dst+h < 8 && cases[i_dst + h*dimension+j_dst + h].getPion().getNom() == "Dame" &&
+                cases[i_dst + h*dimension+j_dst + h].getPion().getColor() == Couleur::BLANC){
                 std::get<0>(coord) = i_dst + h;
                 std::get<1>(coord) = j_dst + h;
             }
-            if (i_dst+h < 8 && j_dst-h >= 0 && cases[i_dst + h][j_dst - h].getPion().getNom() == "Dame" &&
-                cases[i_dst + h][j_dst - h].getPion().getColor() == Couleur::BLANC){
+            if (i_dst+h < 8 && j_dst-h >= 0 && cases[i_dst + h*dimension+j_dst - h].getPion().getNom() == "Dame" &&
+                cases[i_dst + h*dimension+j_dst - h].getPion().getColor() == Couleur::BLANC){
                 std::get<0>(coord) = i_dst + h;
                 std::get<1>(coord) = j_dst - h;
             }
-            if (i_dst-h >= 0 && j_dst+h < 8 && cases[i_dst - h][j_dst + h].getPion().getNom() == "Dame" &&
-                cases[i_dst - h][j_dst + h].getPion().getColor() == Couleur::BLANC){
+            if (i_dst-h >= 0 && j_dst+h < 8 && cases[i_dst - h*dimension+j_dst + h].getPion().getNom() == "Dame" &&
+                cases[i_dst - h*dimension+j_dst + h].getPion().getColor() == Couleur::BLANC){
                 std::get<0>(coord) = i_dst - h;
                 std::get<1>(coord) = j_dst + h;
             }
-            if (cases[i_dst][h].getPion().getNom() == "Dame" && cases[i_dst][h].getPion().getColor() == Couleur::BLANC && tourPeutElleYAller(i_dst, h, i_dst, j_dst)){
+            if (cases[i_dst*dimension+h].getPion().getNom() == "Dame" && cases[i_dst*dimension+h].getPion().getColor() == Couleur::BLANC && tourPeutElleYAller(i_dst, h, i_dst, j_dst)){
                 std::get<0>(coord) = i_dst;
                 std::get<1>(coord) = h;
             }
-            if (cases[h][j_dst].getPion().getNom() == "Dame" && cases[h][j_dst].getPion().getColor() == Couleur::BLANC && tourPeutElleYAller(h, j_dst, i_dst, j_dst)){
+            if (cases[h*dimension+j_dst].getPion().getNom() == "Dame" && cases[h*dimension+j_dst].getPion().getColor() == Couleur::BLANC && tourPeutElleYAller(h, j_dst, i_dst, j_dst)){
                 std::get<0>(coord) = h;
                 std::get<1>(coord) = j_dst;
             }
@@ -524,31 +524,31 @@ std::tuple<int,int> PlateauEchiquier::ouEstDame(int i_dst, int j_dst, bool joueu
         }
     }else{
         for(int h = 0; h < 8; h++){
-            if (i_dst-h >= 0 && j_dst-h >= 0 && cases[i_dst - h][j_dst - h].getPion().getNom() == "Dame" &&
-                cases[i_dst - h][j_dst - h].getPion().getColor() == Couleur::NOIR){
+            if (i_dst-h >= 0 && j_dst-h >= 0 && cases[i_dst - h*dimension+j_dst - h].getPion().getNom() == "Dame" &&
+                cases[i_dst - h*dimension+j_dst - h].getPion().getColor() == Couleur::NOIR){
                 std::get<0>(coord) = i_dst - h;
                 std::get<1>(coord) = j_dst - h;
             }
-            if (i_dst+h < 8 && j_dst+h < 8 && cases[i_dst + h][j_dst + h].getPion().getNom() == "Dame" &&
-                cases[i_dst + h][j_dst + h].getPion().getColor() == Couleur::NOIR){
+            if (i_dst+h < 8 && j_dst+h < 8 && cases[i_dst + h*dimension+j_dst + h].getPion().getNom() == "Dame" &&
+                cases[i_dst + h*dimension+j_dst + h].getPion().getColor() == Couleur::NOIR){
                 std::get<0>(coord) = i_dst + h;
                 std::get<1>(coord) = j_dst + h;
             }
-            if (i_dst+h < 8 && j_dst-h >= 0 && cases[i_dst + h][j_dst - h].getPion().getNom() == "Dame" &&
-                cases[i_dst + h][j_dst - h].getPion().getColor() == Couleur::NOIR){
+            if (i_dst+h < 8 && j_dst-h >= 0 && cases[i_dst + h*dimension+j_dst - h].getPion().getNom() == "Dame" &&
+                cases[i_dst + h*dimension+j_dst - h].getPion().getColor() == Couleur::NOIR){
                 std::get<0>(coord) = i_dst + h;
                 std::get<1>(coord) = j_dst - h;
             }
-            if (i_dst-h >= 0 && j_dst+h < 8 && cases[i_dst - h][j_dst + h].getPion().getNom() == "Dame" &&
-                cases[i_dst - h][j_dst + h].getPion().getColor() == Couleur::NOIR){
+            if (i_dst-h >= 0 && j_dst+h < 8 && cases[i_dst - h*dimension+j_dst + h].getPion().getNom() == "Dame" &&
+                cases[i_dst - h*dimension+j_dst + h].getPion().getColor() == Couleur::NOIR){
                 std::get<0>(coord) = i_dst - h;
                 std::get<1>(coord) = j_dst + h;
             }
-            if (cases[i_dst][h].getPion().getNom() == "Dame" && cases[i_dst][h].getPion().getColor() == Couleur::NOIR && tourPeutElleYAller(i_dst, h, i_dst, j_dst)){
+            if (cases[i_dst*dimension+h].getPion().getNom() == "Dame" && cases[i_dst*dimension+h].getPion().getColor() == Couleur::NOIR && tourPeutElleYAller(i_dst, h, i_dst, j_dst)){
                 std::get<0>(coord) = i_dst;
                 std::get<1>(coord) = h;
             }
-            if (cases[h][j_dst].getPion().getNom() == "Dame" && cases[h][j_dst].getPion().getColor() == Couleur::NOIR && tourPeutElleYAller(h, j_dst, i_dst, j_dst)){
+            if (cases[h*dimension+j_dst].getPion().getNom() == "Dame" && cases[h*dimension+j_dst].getPion().getColor() == Couleur::NOIR && tourPeutElleYAller(h, j_dst, i_dst, j_dst)){
                 std::get<0>(coord) = h;
                 std::get<1>(coord) = j_dst;
             }
@@ -568,9 +568,9 @@ std::tuple<int,int> PlateauEchiquier::ouEstRoi(int i_dst, int j_dst, bool joueur
         for (int h = 0; h < 8; h++) {
             if (std::get<0>(possibilite[h]) >= 0 && std::get<0>(possibilite[h]) < 8 &&
                 std::get<1>(possibilite[h]) >= 0 && std::get<1>(possibilite[h]) < 8) {
-                if (!cases[std::get<0>(possibilite[h])][std::get<1>(possibilite[h])].isEmpty() &&
-                    cases[std::get<0>(possibilite[h])][std::get<1>(possibilite[h])].getPion().getNom() == "Roi" &&
-                    cases[std::get<0>(possibilite[h])][std::get<1>(possibilite[h])].getPion().getColor() == Couleur::BLANC){
+                if (!cases[std::get<0>(possibilite[h])*dimension+std::get<1>(possibilite[h])].isEmpty() &&
+                    cases[std::get<0>(possibilite[h])*dimension+std::get<1>(possibilite[h])].getPion().getNom() == "Roi" &&
+                    cases[std::get<0>(possibilite[h])*dimension+std::get<1>(possibilite[h])].getPion().getColor() == Couleur::BLANC){
                     std::get<0>(coord) = std::get<0>(possibilite[h]);
                     std::get<1>(coord) = std::get<1>(possibilite[h]);
                 }
@@ -580,9 +580,9 @@ std::tuple<int,int> PlateauEchiquier::ouEstRoi(int i_dst, int j_dst, bool joueur
         for (int h = 0; h < 8; h++) {
             if (std::get<0>(possibilite[h]) >= 0 && std::get<0>(possibilite[h]) < 8 &&
                 std::get<1>(possibilite[h]) >= 0 && std::get<1>(possibilite[h]) < 8) {
-                if (!cases[std::get<0>(possibilite[h])][std::get<1>(possibilite[h])].isEmpty() &&
-                    cases[std::get<0>(possibilite[h])][std::get<1>(possibilite[h])].getPion().getNom() == "Roi" &&
-                    cases[std::get<0>(possibilite[h])][std::get<1>(possibilite[h])].getPion().getColor() == Couleur::NOIR){
+                if (!cases[std::get<0>(possibilite[h])*dimension+std::get<1>(possibilite[h])].isEmpty() &&
+                    cases[std::get<0>(possibilite[h])*dimension+std::get<1>(possibilite[h])].getPion().getNom() == "Roi" &&
+                    cases[std::get<0>(possibilite[h])*dimension+std::get<1>(possibilite[h])].getPion().getColor() == Couleur::NOIR){
                     std::get<0>(coord) = std::get<0>(possibilite[h]);
                     std::get<1>(coord) = std::get<1>(possibilite[h]);
                 }
@@ -600,12 +600,12 @@ std::tuple<int,int> PlateauEchiquier::ouEstTour(int i_dst, int j_dst, bool joueu
     int cmp = 0;
     if(joueur) {
         for (int h = 0; h < 8; h++) {
-            if (cases[i_dst][h].getPion().getNom() == "Tour" && cases[i_dst][h].getPion().getColor() == Couleur::BLANC && tourPeutElleYAller(i_dst, h, i_dst, j_dst)){
+            if (cases[i_dst*dimension+h].getPion().getNom() == "Tour" && cases[i_dst*dimension+h].getPion().getColor() == Couleur::BLANC && tourPeutElleYAller(i_dst, h, i_dst, j_dst)){
                 cmp++;
                 std::get<0>(coord) = i_dst;
                 std::get<1>(coord) = h;
             }
-            if (cases[h][j_dst].getPion().getNom() == "Tour" && cases[h][j_dst].getPion().getColor() == Couleur::BLANC && tourPeutElleYAller(h, j_dst, i_dst, j_dst)){
+            if (cases[h*dimension+j_dst].getPion().getNom() == "Tour" && cases[h*dimension+j_dst].getPion().getColor() == Couleur::BLANC && tourPeutElleYAller(h, j_dst, i_dst, j_dst)){
                 cmp++;
                 std::get<0>(coord) = h;
                 std::get<1>(coord) = j_dst;
@@ -614,12 +614,12 @@ std::tuple<int,int> PlateauEchiquier::ouEstTour(int i_dst, int j_dst, bool joueu
         }
     }else{
         for (int h = 0; h < 8; h++) {
-            if (cases[i_dst][h].getPion().getNom() == "Tour" && cases[i_dst][h].getPion().getColor() == Couleur::NOIR && tourPeutElleYAller(i_dst, h, i_dst, j_dst)){
+            if (cases[i_dst*dimension+h].getPion().getNom() == "Tour" && cases[i_dst*dimension+h].getPion().getColor() == Couleur::NOIR && tourPeutElleYAller(i_dst, h, i_dst, j_dst)){
                 cmp++;
                 std::get<0>(coord) = i_dst;
                 std::get<1>(coord) = h;
             }
-            if (cases[h][j_dst].getPion().getNom() == "Tour" && cases[h][j_dst].getPion().getColor() == Couleur::NOIR && tourPeutElleYAller(h, j_dst, i_dst, j_dst)){
+            if (cases[h*dimension+j_dst].getPion().getNom() == "Tour" && cases[h*dimension+j_dst].getPion().getColor() == Couleur::NOIR && tourPeutElleYAller(h, j_dst, i_dst, j_dst)){
                 cmp++;
                 std::get<0>(coord) = h;
                 std::get<1>(coord) = j_dst;
@@ -644,7 +644,7 @@ bool PlateauEchiquier::tourPeutElleYAller(int i_src, int j_src, int i_dst, int j
             max = j_src - 1;
         }
         for(int h = min; h < max; h++){
-            if(!cases[i_src][h].isEmpty()) return false;
+            if(!cases[i_src*dimension+h].isEmpty()) return false;
         }
         return true;
     }else if(j_src == j_dst){
@@ -656,7 +656,7 @@ bool PlateauEchiquier::tourPeutElleYAller(int i_src, int j_src, int i_dst, int j
             max = i_src;
         }
         for(int h = min; h < max; h++){
-            if(!cases[h][j_src].isEmpty()) return false;
+            if(!cases[h*dimension+j_src].isEmpty()) return false;
         }
         return true;
     }else return false;
@@ -878,20 +878,20 @@ void PlateauEchiquier::launchEchiquier(bool ordi) {
             int jj = getEquivalenceNum(j);
             std::string mouv = "";
             std::cout << "i: "<< i << " et " << "j: " << jj << j << std::endl;
-            if(cases[i][j].getPion().getColor() == Couleur::NOIR) {
-                if (cases[i][j].getPion().getNom() == "Pion") {
+            if(cases[i*dimension+j].getPion().getColor() == Couleur::NOIR) {
+                if (cases[i*dimension+j].getPion().getNom() == "Pion") {
                     mouv = std::to_string(jj+'0') + std::to_string(i);
                     if (!mouvement_pion(mouv, quiJoue)) goto next_loop;
-                } else if (cases[i][j].getPion().getNom() == "Tour") {
+                } else if (cases[i*dimension+j].getPion().getNom() == "Tour") {
                     mouv = "T" + std::to_string(jj+'0') + std::to_string(i);
                     if (!mouvement_tour(mouv, quiJoue)) goto next_loop;
-                } else if (cases[i][j].getPion().getNom() == "Cavalier") {
+                } else if (cases[i*dimension+j].getPion().getNom() == "Cavalier") {
                     mouv = "C" + std::to_string(jj+'0') + std::to_string(i);
                     if (!mouvement_cavalier(mouv, quiJoue)) goto next_loop;
-                } else if (cases[i][j].getPion().getNom() == "Fou") {
+                } else if (cases[i*dimension+j].getPion().getNom() == "Fou") {
                     mouv = "F" + std::to_string(jj+'0') + std::to_string(i);
                     if (!mouvement_fou(mouv, quiJoue)) goto next_loop;
-                } else if (cases[i][j].getPion().getNom() == "Dame") {
+                } else if (cases[i*dimension+j].getPion().getNom() == "Dame") {
                     mouv = "D" + std::to_string(jj+'0') + std::to_string(i);
                     if (!mouvement_dame(mouv, quiJoue)) goto next_loop;
                 } else {
@@ -937,7 +937,7 @@ void PlateauEchiquier::launchEchiquier(bool ordi) {
                 for(int h = 0; h < 16; h++){
                     if(std::get<2>(joueur2[h]) == piece_bouffee && std::get<0>(joueur2[h]) == -1){
                         Pion p(piece_bouffee,img,Couleur::NOIR);
-                        cases[std::get<0>(dernier_mouv[1])][std::get<1>(dernier_mouv[1])].setPion(p);
+                        cases[std::get<0>(dernier_mouv[1])*dimension+std::get<1>(dernier_mouv[1])].setPion(p);
                     }
                 }
             }else{
@@ -954,7 +954,7 @@ void PlateauEchiquier::launchEchiquier(bool ordi) {
                 for(int h = 0; h < 16; h++){
                     if(std::get<2>(joueur1[h]) == piece_bouffee && std::get<0>(joueur1[h]) == -1){
                         Pion p(piece_bouffee,img,Couleur::BLANC);
-                        cases[std::get<0>(dernier_mouv[1])][std::get<1>(dernier_mouv[1])].setPion(p);
+                        cases[std::get<0>(dernier_mouv[1])*dimension+std::get<1>(dernier_mouv[1])].setPion(p);
                     }
                 }
             }
@@ -976,22 +976,22 @@ std::string PlateauEchiquier::helpPion(bool joueur) {
             int i = std::get<0>(joueur1[h]);
             int j = std::get<1>(joueur1[h]);
             if(i == 6){
-                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " +
                        getEquivalenceNum(j) + " -> ";
                 res += std::to_string(i-2) + " " + getEquivalenceNum(j) + "\n";
             }
-            if(i-1 >= 0 && cases[i-1][j].isEmpty()){
-                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+            if(i-1 >= 0 && cases[i-1*dimension+j].isEmpty()){
+                res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " +
                         getEquivalenceNum(j) + " -> ";
                 res += std::to_string(i-1) + " " + getEquivalenceNum(j) + "\n";
             }
-            if(i-1 >= 0 && j-1 >= 0 && !cases[i-1][j-1].isEmpty()){
-                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+            if(i-1 >= 0 && j-1 >= 0 && !cases[i-1*dimension+j-1].isEmpty()){
+                res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " +
                         getEquivalenceNum(j) + " -> ";
                 res += std::to_string(i-1) + " " + getEquivalenceNum(j-1) + "\n";
             }
-            if(i-1 >= 0 && j+1 < 8 && !cases[i-1][j+1].isEmpty()){
-                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+            if(i-1 >= 0 && j+1 < 8 && !cases[i-1*dimension+j+1].isEmpty()){
+                res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " +
                         getEquivalenceNum(j) + " -> ";
                 res += std::to_string(i-1) + " " + getEquivalenceNum(j+1) + "\n";
             }
@@ -1002,22 +1002,22 @@ std::string PlateauEchiquier::helpPion(bool joueur) {
             int i = std::get<0>(joueur2[h]);
             int j = std::get<1>(joueur2[h]);
             if(i == 1){
-                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+                res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " +
                        std::to_string(j) + " -> ";
                 res += std::to_string(i+2) + " " + getEquivalenceNum(j) + "\n";
             }
-            if(i+1 < 8 && cases[i+1][j].isEmpty()){
-                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+            if(i+1 < 8 && cases[i+1*dimension+j].isEmpty()){
+                res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " +
                        std::to_string(j) + " -> ";
                 res += std::to_string(i+1) + " " + getEquivalenceNum(j) + "\n";
             }
-            if(i+1 < 8 && j-1 >= 0 && !cases[i+1][j-1].isEmpty()){
-                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+            if(i+1 < 8 && j-1 >= 0 && !cases[i+1*dimension+j-1].isEmpty()){
+                res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " +
                        std::to_string(j) + " -> ";
                 res += std::to_string(i+1) + " " + getEquivalenceNum(j-1) + "\n";
             }
-            if(i+1 < 8 && j+1 < 8 && !cases[i+1][j+1].isEmpty()){
-                res += cases[i][j].getPion().getNom() + " " + std::to_string(i) + " " +
+            if(i+1 < 8 && j+1 < 8 && !cases[i+1*dimension+j+1].isEmpty()){
+                res += cases[i*dimension+j].getPion().getNom() + " " + std::to_string(i) + " " +
                        std::to_string(j) + " -> ";
                 res += std::to_string(i+1) + " " + getEquivalenceNum(j+1) + "\n";
             }
@@ -1045,7 +1045,7 @@ std::string PlateauEchiquier::helpTour(bool joueur) {
         j_tour2 = std::get<1>(joueur2[7]);
     }
     int h = i_tour1 + 1;
-    while (h < 8 && cases[h][j_tour1].isEmpty()) {
+    while (h < 8 && cases[h*dimension+j_tour1].isEmpty()) {
         h++;
     }
     if(h-1 != i_tour1) {
@@ -1055,7 +1055,7 @@ std::string PlateauEchiquier::helpTour(bool joueur) {
     }
 
     h = i_tour1 - 1;
-    while (h >= 0 && cases[h][j_tour1].isEmpty()) {
+    while (h >= 0 && cases[h*dimension+j_tour1].isEmpty()) {
         h--;
     }
     if(h+1 != i_tour1) {
@@ -1065,7 +1065,7 @@ std::string PlateauEchiquier::helpTour(bool joueur) {
     }
 
     h = j_tour1 + 1;
-    while (h < 8 && cases[i_tour1][h].isEmpty()) {
+    while (h < 8 && cases[i_tour1*dimension+h].isEmpty()) {
         h++;
     }
     if(h-1 != j_tour1){
@@ -1075,7 +1075,7 @@ std::string PlateauEchiquier::helpTour(bool joueur) {
     }
 
     h = j_tour1 - 1;
-    while (h >= 0 && cases[i_tour1][h].isEmpty()) {
+    while (h >= 0 && cases[i_tour1*dimension+h].isEmpty()) {
         h--;
     }
     if(h+1 != j_tour1) {
@@ -1086,7 +1086,7 @@ std::string PlateauEchiquier::helpTour(bool joueur) {
 
 
     h = i_tour2 + 1;
-    while (h < 8 && cases[h][j_tour2].isEmpty()) {
+    while (h < 8 && cases[h*dimension+j_tour2].isEmpty()) {
         h++;
     }
     if(h-1 != i_tour2) {
@@ -1096,7 +1096,7 @@ std::string PlateauEchiquier::helpTour(bool joueur) {
     }
 
     h = i_tour2 - 1;
-    while (h >= 0 && cases[h][j_tour2].isEmpty()) {
+    while (h >= 0 && cases[h*dimension+j_tour2].isEmpty()) {
         h--;
     }
     if(h+1 != i_tour2) {
@@ -1106,7 +1106,7 @@ std::string PlateauEchiquier::helpTour(bool joueur) {
     }
 
     h = j_tour2 + 1;
-    while (h < 8 && cases[i_tour2][h].isEmpty()) {
+    while (h < 8 && cases[i_tour2*dimension+h].isEmpty()) {
         h++;
     }
     if(h-1 != j_tour2){
@@ -1116,7 +1116,7 @@ std::string PlateauEchiquier::helpTour(bool joueur) {
     }
 
     h = j_tour2 - 1;
-    while (h >= 0 && cases[i_tour2][h].isEmpty()) {
+    while (h >= 0 && cases[i_tour2*dimension+h].isEmpty()) {
         h--;
     }
     if(h+1 != j_tour2) {
@@ -1147,97 +1147,97 @@ std::string PlateauEchiquier::helpCavalier(bool joueur) {
         bon = Couleur ::NOIR;
     }
     if (i_cava1-2 >= 0 && j_cava1-1 >= 0 &&
-    cases[i_cava1 - 2][j_cava1 - 1].getPion().getColor() != bon) {
+    cases[i_cava1 - 2*dimension+j_cava1 - 1].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava1) + " " +
                 getEquivalenceNum(j_cava1) + " -> ";
         res += std::to_string(i_cava1-2) + " " + getEquivalenceNum(j_cava1-1) + "\n";
     }
     if (i_cava2-2 >= 0 && j_cava2-1 >= 0 &&
-    cases[i_cava2 - 2][j_cava2 - 1].getPion().getColor() != bon) {
+    cases[i_cava2 - 2*dimension+j_cava2 - 1].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
                 getEquivalenceNum(j_cava2) + " -> ";
         res += std::to_string(i_cava2-2) + " " + getEquivalenceNum(j_cava2-1) + "\n";
     }
     if (i_cava1-1 >= 0 && j_cava1-2 >= 0 &&
-    cases[i_cava1 - 1][j_cava1 - 2].getPion().getColor() != bon) {
+    cases[i_cava1 - 1*dimension+j_cava1 - 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava1) + " " +
                 getEquivalenceNum(j_cava1) + " -> ";
         res += std::to_string(i_cava1-1) + " " + getEquivalenceNum(j_cava1-2) + "\n";
     }
     if (i_cava2-1 >= 0 && j_cava2-2 >= 0 &&
-    cases[i_cava2 - 1][j_cava2 - 2].getPion().getColor() != bon) {
+    cases[i_cava2 - 1*dimension+j_cava2 - 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
                 getEquivalenceNum(j_cava2) + " -> ";
         res += std::to_string(i_cava2-1) + " " + getEquivalenceNum(j_cava2-2) + "\n";
     }
     if (i_cava1+1 < 8 && j_cava1-2 >= 0 &&
-            cases[i_cava1 + 1][j_cava1 - 2].getPion().getColor() != bon) {
+            cases[i_cava1 + 1*dimension+j_cava1 - 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava1) + " " +
                 getEquivalenceNum(j_cava1) + " -> ";
         res += std::to_string(i_cava1+1) + " " + getEquivalenceNum(j_cava1-2) + "\n";
     }
     if (i_cava2+1 < 8 && j_cava2-2 >= 0 &&
-        cases[i_cava2 + 1][j_cava2 - 2].getPion().getColor() != bon) {
+        cases[i_cava2 + 1*dimension+j_cava2 - 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
                 getEquivalenceNum(j_cava2) + " -> ";
         res += std::to_string(i_cava2+1) + " " + getEquivalenceNum(j_cava2-2) + "\n";
     }
         if (i_cava1+2 < 8 && j_cava1-1 >= 0 &&
-            cases[i_cava1 + 2][j_cava1 - 1].getPion().getColor() != bon) {
+            cases[i_cava1 + 2*dimension+j_cava1 - 1].getPion().getColor() != bon) {
             res += "Cavalier " + std::to_string(i_cava1) + " " +
                     getEquivalenceNum(j_cava1) + " -> ";
             res += std::to_string(i_cava1+2) + " " + getEquivalenceNum(j_cava1-1) + "\n";
         }
     if (i_cava2+2 < 8 && j_cava2-1 >= 0 &&
-        cases[i_cava2 + 2][j_cava2 - 1].getPion().getColor() != bon) {
+        cases[i_cava2 + 2*dimension+j_cava2 - 1].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
                 getEquivalenceNum(j_cava2) + " -> ";
         res += std::to_string(i_cava2+2) + " " + getEquivalenceNum(j_cava2-1) + "\n";
     }
     if (i_cava1+2 < 8 && j_cava1+1 < 8 &&
-            cases[i_cava1 + 2][j_cava1 + 1].getPion().getColor() != bon) {
+            cases[i_cava1 + 2*dimension+j_cava1 + 1].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava1) + " " +
                 getEquivalenceNum(j_cava1) + " -> ";
         res += std::to_string(i_cava1+2) + " " + getEquivalenceNum(j_cava1+1) + "\n";
     }
     if (i_cava2+2 < 8 && j_cava2+1 < 8 &&
-        cases[i_cava2 + 2][j_cava2 + 1].getPion().getColor() != bon) {
+        cases[i_cava2 + 2*dimension+j_cava2 + 1].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
                 getEquivalenceNum(j_cava2) + " -> ";
         res += std::to_string(i_cava2+2) + " " + getEquivalenceNum(j_cava2+1) + "\n";
     }
     if (i_cava1+1 < 8 && j_cava1+2 < 8 &&
-            cases[i_cava1 + 1][j_cava1 + 2].getPion().getColor() != bon) {
+            cases[i_cava1 + 1*dimension+j_cava1 + 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava1) + " " +
                 getEquivalenceNum(j_cava1) + " -> ";
         res += std::to_string(i_cava1+1) + " " + getEquivalenceNum(j_cava1+2) + "\n";
     }
     if (i_cava2+1 < 8 && j_cava2+2 < 8 &&
-        cases[i_cava2 + 1][j_cava2 + 2].getPion().getColor() != bon) {
+        cases[i_cava2 + 1*dimension+j_cava2 + 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
                 getEquivalenceNum(j_cava2) + " -> ";
         res += std::to_string(i_cava2+1) + " " + getEquivalenceNum(j_cava2+2) + "\n";
     }
     if (i_cava1-1 >= 0 && j_cava1+2 < 8 &&
-    cases[i_cava1 - 1][j_cava1 + 2].getPion().getColor() != bon) {
+    cases[i_cava1 - 1*dimension+j_cava1 + 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava1) + " " +
                 getEquivalenceNum(j_cava1) + " -> ";
         res += std::to_string(i_cava1-1) + " " + getEquivalenceNum(j_cava1+2) + "\n";
     }
     if (i_cava2-1 >= 0 && j_cava2+2 < 8 &&
-        cases[i_cava2 - 1][j_cava2 + 2].getPion().getColor() != bon) {
+        cases[i_cava2 - 1*dimension+j_cava2 + 2].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
                 getEquivalenceNum(j_cava2) + " -> ";
         res += std::to_string(i_cava2-1) + " " + getEquivalenceNum(j_cava2+2) + "\n";
     }
     if (i_cava1-2 >= 0 && j_cava1+1 < 8 &&
-    cases[i_cava1 - 2][j_cava1 + 1].getPion().getColor() != bon) {
+    cases[i_cava1 - 2*dimension+j_cava1 + 1].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava1) + " " +
                 getEquivalenceNum(j_cava1) + " -> ";
         res += std::to_string(i_cava1-2) + " " + getEquivalenceNum(j_cava1+1) + "\n";
     }
     if (i_cava2-2 >= 0 && j_cava2+1 < 8 &&
-        cases[i_cava2 - 2][j_cava2 + 1].getPion().getColor() != bon) {
+        cases[i_cava2 - 2*dimension+j_cava2 + 1].getPion().getColor() != bon) {
         res += "Cavalier " + std::to_string(i_cava2) + " " +
                 getEquivalenceNum(j_cava2) + " -> ";
         res += std::to_string(i_cava2-2) + " " + getEquivalenceNum(j_cava2+1) + "\n";
@@ -1264,7 +1264,7 @@ std::string PlateauEchiquier::helpFou(bool joueur) {
     }
     int h = i_fou1 + 1;
     int hh = j_fou1 +1;
-    while (h < 8 && hh < 8 && cases[h][hh].isEmpty()) {
+    while (h < 8 && hh < 8 && cases[h*dimension+hh].isEmpty()) {
         h++;
         hh++;
     }
@@ -1276,7 +1276,7 @@ std::string PlateauEchiquier::helpFou(bool joueur) {
 
     h = i_fou1 - 1;
     hh = j_fou1 + 1;
-    while (h >= 0 && hh < 8 && cases[h][hh].isEmpty()) {
+    while (h >= 0 && hh < 8 && cases[h*dimension+hh].isEmpty()) {
         h--;
         hh++;
     }
@@ -1288,7 +1288,7 @@ std::string PlateauEchiquier::helpFou(bool joueur) {
 
     h = i_fou1 + 1;
     hh = j_fou1 -1;
-    while (h < 8 && hh >= 0 && cases[h][hh].isEmpty()) {
+    while (h < 8 && hh >= 0 && cases[h*dimension+hh].isEmpty()) {
         h++;
         hh--;
     }
@@ -1300,7 +1300,7 @@ std::string PlateauEchiquier::helpFou(bool joueur) {
 
     h = i_fou1 - 1;
     hh = j_fou1 -1;
-    while (h >= 0 && hh >= 0 && cases[h][hh].isEmpty()) {
+    while (h >= 0 && hh >= 0 && cases[h*dimension+hh].isEmpty()) {
         h--;
         hh--;
     }
@@ -1313,7 +1313,7 @@ std::string PlateauEchiquier::helpFou(bool joueur) {
 
     h = i_fou2 + 1;
     hh = j_fou2 +1;
-    while (h < 8 && hh < 8 && cases[h][hh].isEmpty()) {
+    while (h < 8 && hh < 8 && cases[h*dimension+hh].isEmpty()) {
         h++;
         hh++;
     }
@@ -1325,7 +1325,7 @@ std::string PlateauEchiquier::helpFou(bool joueur) {
 
     h = i_fou2 - 1;
     hh = j_fou2 + 1;
-    while (h >= 0 && hh < 8 && cases[h][hh].isEmpty()) {
+    while (h >= 0 && hh < 8 && cases[h*dimension+hh].isEmpty()) {
         h--;
         hh++;
     }
@@ -1337,7 +1337,7 @@ std::string PlateauEchiquier::helpFou(bool joueur) {
 
     h = i_fou2 + 1;
     hh = j_fou2 -1;
-    while (h < 8 && hh >= 0 && cases[h][hh].isEmpty()) {
+    while (h < 8 && hh >= 0 && cases[h*dimension+hh].isEmpty()) {
         h++;
         hh--;
     }
@@ -1349,7 +1349,7 @@ std::string PlateauEchiquier::helpFou(bool joueur) {
 
     h = i_fou2 - 1;
     hh = j_fou2 -1;
-    while (h >= 0 && hh >= 0 && cases[h][hh].isEmpty()) {
+    while (h >= 0 && hh >= 0 && cases[h*dimension+hh].isEmpty()) {
         h--;
         hh--;
     }
@@ -1374,7 +1374,7 @@ std::string PlateauEchiquier::helpDame(bool joueur) {
     }
 
     int h = i_dame + 1;
-    while (h < 8 && cases[h][j_dame].isEmpty()) {
+    while (h < 8 && cases[h*dimension+j_dame].isEmpty()) {
         h++;
     }
     if(h-1 != i_dame) {
@@ -1384,7 +1384,7 @@ std::string PlateauEchiquier::helpDame(bool joueur) {
     }
 
     h = i_dame - 1;
-    while (h >= 0 && cases[h][j_dame].isEmpty()) {
+    while (h >= 0 && cases[h*dimension+j_dame].isEmpty()) {
         h--;
     }
     if(h+1 != i_dame) {
@@ -1394,7 +1394,7 @@ std::string PlateauEchiquier::helpDame(bool joueur) {
     }
 
     h = j_dame + 1;
-    while (h < 8 && cases[i_dame][h].isEmpty()) {
+    while (h < 8 && cases[i_dame*dimension+h].isEmpty()) {
         h++;
     }
     if(h-1 != j_dame){
@@ -1404,7 +1404,7 @@ std::string PlateauEchiquier::helpDame(bool joueur) {
     }
 
     h = j_dame - 1;
-    while (h >= 0 && cases[i_dame][h].isEmpty()) {
+    while (h >= 0 && cases[i_dame*dimension+h].isEmpty()) {
         h--;
     }
     if(h+1 != j_dame) {
@@ -1415,7 +1415,7 @@ std::string PlateauEchiquier::helpDame(bool joueur) {
 
     h = i_dame + 1;
     int hh = j_dame +1;
-    while (h < 8 && hh < 8 && cases[h][hh].isEmpty()) {
+    while (h < 8 && hh < 8 && cases[h*dimension+hh].isEmpty()) {
         h++;
         hh++;
     }
@@ -1427,7 +1427,7 @@ std::string PlateauEchiquier::helpDame(bool joueur) {
 
     h = i_dame - 1;
     hh = j_dame + 1;
-    while (h >= 0 && hh < 8 && cases[h][hh].isEmpty()) {
+    while (h >= 0 && hh < 8 && cases[h*dimension+hh].isEmpty()) {
         h--;
         hh++;
     }
@@ -1439,7 +1439,7 @@ std::string PlateauEchiquier::helpDame(bool joueur) {
 
     h = i_dame + 1;
     hh = j_dame -1;
-    while (h < 8 && hh >= 0 && cases[h][hh].isEmpty()) {
+    while (h < 8 && hh >= 0 && cases[h*dimension+hh].isEmpty()) {
         h++;
         hh--;
     }
@@ -1451,7 +1451,7 @@ std::string PlateauEchiquier::helpDame(bool joueur) {
 
     h = i_dame - 1;
     hh = j_dame -1;
-    while (h >= 0 && hh >= 0 && cases[h][hh].isEmpty()) {
+    while (h >= 0 && hh >= 0 && cases[h*dimension+hh].isEmpty()) {
         h--;
         hh--;
     }
