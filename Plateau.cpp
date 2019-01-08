@@ -33,7 +33,8 @@ Plateau::Plateau(int dimension) : dimension(dimension) {
     cases = new Case [dimension*dimension];
     for(int i = 0; i < dimension; i++){
         for(int j = 0; j < dimension; j++){
-            cases[i*dimension+j] = Case(i,j);
+            Pion *p = new Pion();
+            setCase(i*dimension+j, p);
         }
     }
 }

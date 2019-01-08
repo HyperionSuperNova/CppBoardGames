@@ -595,7 +595,7 @@ const void PlateauDamier::lectureFichierTest() {
         else this->playerTurn2(i_src,j_src,i_dst,j_dst);
         if(c == Couleur::BLANC) c = Couleur::NOIR;
         else c = Couleur::BLANC;
-        usleep(1000);//2500000);
+        usleep(2500000);
         std::cout << *(this) << std::endl;
 
     }

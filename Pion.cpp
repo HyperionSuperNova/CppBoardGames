@@ -5,11 +5,11 @@ std::ostream &operator<<(std::ostream &os, const Pion &pion) {
     return os;
 }
 
-Pion::Pion(const std::string &name) : name(name) {}
+Pion::Pion(const std::string &name) : name(name), img(" ") {}
 
 Pion::Pion(const std::string &name, const std::string &img, Couleur c) : name(name), img(img), color(c) {}
 
-Pion::Pion(): name(""), img(" ") {
+Pion::Pion(): name(""), img(" "), color(Couleur::null) {
 
 }
 

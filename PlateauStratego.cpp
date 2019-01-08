@@ -301,7 +301,7 @@ bool PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
 
         if(piece.compare("charger") == 0){
             mettrePionOrdiSurPlateau(joueur);
-            cacherPieceJoueur(joueur);
+            //cacherPieceJoueur(joueur);
             goto end;
         }
         if(piece.compare("lecture") == 0){
@@ -316,6 +316,7 @@ bool PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
             std::cout << "Mauvaise entrée. Veuillez recommencer" << std::endl;
             std::cin >> piece;
             if(piece.compare("charger") == 0){
+                mettrePionOrdiSurPlateau(joueur);
                 cacherPieceJoueur(joueur);
                 goto end;
             }
@@ -368,8 +369,6 @@ bool PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
     }
     end:
     std::cout << "Let's the game begin!" << std::endl;
-    if(joueur) cacherPieceJoueur(true);
-    else cacherPieceJoueur(false);
     return true;
 }
 
@@ -457,10 +456,13 @@ void PlateauStratego::launchStratego(bool ordi) {
        lectureFichierTest();
        scoreFinPartie();
        return;
+   }else{
+       cacherPieceJoueur(true);
    }
 
     if(ordi) mettrePionOrdiSurPlateau(false);
     else mettrePionJoueurSurPlateau(false);
+    cacherPieceJoueur(false);
 
 
     bool quiJoue = true; //joueur 1
@@ -739,8 +741,8 @@ std::string file = "../stratego/test1.txt";
     int j_dst = -1;
     std::cout << *(this) << std::endl;
     joueur = true;
+    cacherPieceJoueur(joueur);
     while(std::getline(infile3, line)){
-        cacherPieceJoueur(joueur);
         i_src = std::stoi(line.substr(0, line.find(delimiter)));
         j_src = std::stoi(line.substr(std::to_string(i_src).length()+1, 1));
         i_dst = std::stoi(line.substr(std::to_string(j_src).length()+3, 1));
@@ -749,9 +751,8 @@ std::string file = "../stratego/test1.txt";
         else mouvement_autre(i_src,j_src,i_dst,j_dst,joueur,false);
         joueur = !joueur;
 
-        std::cout << i_src << " " << j_src << " " << i_dst << " " << j_dst <<std::endl;
-        //TODO lancer mouvement
-        usleep(1000);//2500000);
+        usleep(2500000);
+        cacherPieceJoueur(joueur);
         std::cout << *(this) << std::endl;
 
     }

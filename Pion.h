@@ -6,7 +6,7 @@
 #include <iostream>
 #include <boost/serialization/access.hpp>
 
-enum class Couleur {BLANC, NOIR};
+enum class Couleur {null, BLANC, NOIR};
 
 inline std::ostream &operator<<(std::ostream &os, Couleur c){
     switch(c){
