@@ -1,6 +1,7 @@
 #include "PlateauEchiquier.h"
 
 PlateauEchiquier::PlateauEchiquier() : PlateauCombinatoireAbstrait(8){
+    /*
     getCase(0*getDimension()+0).setPion(Pion("Tour", "\u2656", Couleur::NOIR));
     getCase(0*getDimension()+1).setPion(Pion("Cavalier", "\u2658", Couleur::NOIR));
     getCase(0*getDimension()+2).setPion(Pion("Fou", "\u2657", Couleur::NOIR));
@@ -36,6 +37,7 @@ PlateauEchiquier::PlateauEchiquier() : PlateauCombinatoireAbstrait(8){
     getCase(6*getDimension()+5).setPion(Pion("Pion", "\u265F", Couleur::BLANC));
     getCase(6*getDimension()+6).setPion(Pion("Pion", "\u265F", Couleur::BLANC));
     getCase(6*getDimension()+7).setPion(Pion("Pion", "\u265F", Couleur::BLANC));
+     */
 
     les2RoisontSurLePlateau = true;
 }

@@ -54,66 +54,77 @@ const bool PlateauDamierInternational::playerTurn2(int i_src, int j_src, int i_d
 
 const bool PlateauDamierInternational::kingMove(int i_src, int j_src, int i_dst, int j_dst, Couleur c) {
     int lambda = 1;
-    int alpha = 1;
-    std::map<int, int> m;
-    if (getCase(i_dst*getDimension()+j_dst).isEmpty()) {
         if (i_dst < i_src) {
+            i_dst++;
             if (j_dst < j_src) {
+                j_dst++;
 
                 while ((i_dst + lambda) != i_src && j_dst + lambda != j_src) {
-                    if (!getCase((i_dst + lambda)*getDimension()+j_dst + lambda).isEmpty() &&
-                        c != getCase((i_dst + lambda)*getDimension()+j_dst + lambda).getPion().getColor()) {
-                        m[(i_dst + lambda)] = j_dst + lambda;
-                    } else if (c != getCase((i_dst + lambda)*getDimension()+j_dst + lambda).getPion().getColor()) {
-                        return false;
-                    }
+                    if (!getCase((i_dst + lambda)*getDimension()+j_dst + lambda).isEmpty()) return false;
                     lambda++;
                 }
+                j_dst--;
+                if(getCase((i_dst-1)*getDimension()+j_dst-1).isEmpty()){
+                    i_dst--;
+                    setCase(i_dst*getDimension()+j_dst, Pion());
+                    setCase((i_dst-1)*getDimension()+j_dst-1, getCase(i_src*getDimension()+j_src).getPion());
+                    setCase(i_src*getDimension()+j_src, Pion());
+                    return true;
+                }else return false;
 
             } else if (j_dst > j_src) {
+                j_dst--;
                 while ((i_dst + lambda) != i_src && (j_dst - lambda) != j_src) {
-                    if (!getCase((i_dst + lambda)*getDimension()+j_dst - lambda).isEmpty() &&
-                        c != getCase((i_dst + lambda)*getDimension()+j_dst - lambda).getPion().getColor()) {
-                        m[(i_dst + lambda)] = j_dst - lambda;
-                    } else if (c != getCase((i_dst + lambda)*getDimension()+j_dst - lambda).getPion().getColor()) {
-                        return false;
-                    }
+                    if (!getCase((i_dst + lambda)*getDimension()+j_dst - lambda).isEmpty()) return false;
                     lambda++;
                 }
+                j_dst++;
+                if(getCase((i_dst-1)*getDimension()+j_dst+1).isEmpty()){
+                    i_dst--;
+                    setCase(i_dst*getDimension()+j_dst, Pion());
+                    setCase((i_dst-1)*getDimension()+j_dst+1, getCase(i_src*getDimension()+j_src).getPion());
+                    setCase(i_src*getDimension()+j_src, Pion());
+                    return true;
+                }else return false;
             }
+            i_dst--;
         } else if (i_dst > i_src) {
+            i_dst--;
             if (j_dst < j_src) {
-
+                j_dst++;
                 while ((i_dst - lambda) != i_src && j_dst + lambda != j_src) {
-                    if (!getCase((i_dst - lambda)*getDimension()+j_dst + lambda).isEmpty() &&
-                        c != getCase((i_dst - lambda)*getDimension()+j_dst + lambda).getPion().getColor()) {
-                        m[(i_dst - lambda)] = j_dst + lambda;
-                    } else if (c != getCase((i_dst - lambda)*getDimension()+j_dst + lambda).getPion().getColor()) {
-                        return false;
-                    }
+                    if (!getCase((i_dst - lambda)*getDimension()+j_dst + lambda).isEmpty()) return false;
                     lambda++;
                 }
+                j_dst--;
+                std::cout << "ICIKING" << std::endl;
+                if(getCase((i_dst+1)*getDimension()+j_dst-1).isEmpty()){
+                    i_dst++;
+                    std::cout << "LAKING" << std::endl;
+                    setCase(i_dst*getDimension()+j_dst, Pion());
+                    setCase((i_dst+1)*getDimension()+j_dst-1, getCase(i_src*getDimension()+j_src).getPion());
+                    setCase(i_src*getDimension()+j_src, Pion());
+                    return true;
+                }else return false;
 
             } else if (j_dst > j_src) {
+                j_dst--;
                 while ((i_dst - lambda) != i_src && (j_dst - lambda) != j_src) {
-                    if (!getCase((i_dst - lambda)*getDimension()+j_dst - lambda).isEmpty() &&
-                        c != getCase((i_dst - lambda)*getDimension()+j_dst - lambda).getPion().getColor()) {
-                        m[(i_dst - lambda)] = j_dst - lambda;
-                    } else if (c != getCase((i_dst - lambda)*getDimension()+j_dst - lambda).getPion().getColor()) {
-                        return false;
-                    }
+                    if (!getCase((i_dst - lambda)*getDimension()+j_dst - lambda).isEmpty()) return false;
                     lambda++;
                 }
+                j_dst++;
+                if(getCase((i_dst+1)*getDimension()+j_dst+1).isEmpty()){
+                    i_dst++;
+                    setCase(i_dst*getDimension()+j_dst, Pion());
+                    setCase((i_dst+1)*getDimension()+j_dst+1, getCase(i_src*getDimension()+j_src).getPion());
+                    setCase(i_src*getDimension()+j_src, Pion());
+                    return true;
+                }else return false;
             }
+            i_dst++;
         }
-    } else {
         return false;
-    }
-    std::map<int,int>::iterator it;
-    for(it = m.begin();it != m.end();++it){
-        setCases(it->first*getDimension()+it->second, Pion());
-    }
-    return true;
 }
 
 

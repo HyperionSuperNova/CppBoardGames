@@ -332,7 +332,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                                 move(i_src, j_src, (i_dst-1), (j_dst+1));
                                 if (i_dst-1 == 0) {
                                     Pion p2("KING", "\u26C3", Couleur::BLANC);
-                                    setCases(i_dst*getDimension()+j_dst, Pion());
+                                    Pion p = Pion();
+                                    setCases(i_dst*getDimension()+j_dst, p);
                                     setCases((i_dst-1)*getDimension()+(j_dst+1), p2);
                                     return true;
                                 }
@@ -356,7 +357,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                                 move(i_src, j_src, (i_dst-1), (j_dst-1));
                                 if (i_dst-1 == 0) {
                                     Pion p2("KING", "\u26C3", Couleur::BLANC);
-                                    setCases(i_dst*getDimension()+j_dst, Pion());
+                                    Pion p;
+                                    setCases(i_dst*getDimension()+j_dst, p);
                                     setCases((i_dst-1)*getDimension()+(j_dst-1), p2);
                                     return true;
                                 }
@@ -374,7 +376,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                         if (j_dst == j_src + 1 && (j_dst + 1) < getDimension()) {
                             if (getCase((i_dst + 1) * getDimension() + (j_dst + 1)).isEmpty()) {
                                 scoreJ1 += 1;
-                                setCases(i_dst * getDimension() + j_dst, Pion());
+                                Pion p;
+                                setCases(i_dst * getDimension() + j_dst, p);
                                 move(i_src, j_src, (i_dst + 1), (j_dst + 1));
 
 
@@ -387,7 +390,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                         } else if (j_dst == j_src - 1 && (j_dst - 1) >= 0) {
                             if (getCase((i_dst + 1) * getDimension() + (j_dst - 1)).isEmpty()) {
                                 scoreJ1 += 1;
-                                setCases(i_dst * getDimension() + j_dst, Pion());
+                                Pion p;
+                                setCases(i_dst * getDimension() + j_dst, p);
                                 move(i_src, j_src, (i_dst + 1), (j_dst - 1));
 
 
@@ -405,7 +409,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                     move(i_src, j_src, i_dst, j_dst);
                     if (i_dst == 0) {
                         Pion p2("KING", "\u26C3", Couleur::BLANC);
-                        setCases(i_dst*getDimension()+j_dst, Pion());
+                        Pion p;
+                        setCases(i_dst*getDimension()+j_dst, p);
                         setCases(i_dst*getDimension()+j_dst, p2);
                     }
                 } else return false;
@@ -423,11 +428,12 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                             if (getCase(((i_dst+1))*getDimension()+((j_dst+1))).isEmpty()) {
                                 std::cout << "passe par la Noir" << std::endl;
                                 scoreJ2 += 1;
-                                setCases(i_dst*getDimension()+j_dst, Pion());
+                                Pion p;
+                                setCases(i_dst*getDimension()+j_dst, p);
                                 move(i_src, j_src, (i_dst+1), (j_dst+1));
                                 if (i_dst+1 == getDimension()-1) {
                                     Pion p2("KING", "\u26C1", Couleur::NOIR);
-                                    setCases(i_dst*getDimension()+j_dst, Pion());
+                                    setCases(i_dst*getDimension()+j_dst,p);
                                     setCases((i_dst+1)*getDimension()+(j_dst+1), p2);
                                     return true;
                                 }
@@ -443,11 +449,12 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                             std::cout << "passe par la Noir2" << std::endl;
                             if (getCase((i_dst+1)*getDimension()+(j_dst-1)).isEmpty()) {
                                 scoreJ2 += 1;
-                                setCases(i_dst*getDimension()+j_dst, Pion());
+                                Pion p;
+                                setCases(i_dst*getDimension()+j_dst, p);
                                 move(i_src, j_src, (i_dst+1), (j_dst-1));
                                 if ((i_dst+1) == getDimension()-1) {
                                     Pion p2("KING", "\u26C1", Couleur::NOIR);
-                                    setCases(i_dst*getDimension()+j_dst, Pion());
+                                    setCases(i_dst*getDimension()+j_dst, p);
                                     setCases((i_dst+1)*getDimension()+(j_dst-1), p2);
                                     return true;
                                 }
@@ -465,7 +472,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                         move(i_src, j_src, i_dst, j_dst);
                         if (i_dst == getDimension()-1) {
                             Pion p2("KING", "\u26C1", Couleur::NOIR);
-                            setCases(i_dst*getDimension()+j_dst, Pion());
+                            Pion p;
+                            setCases(i_dst*getDimension()+j_dst, p);
                             setCases(i_dst*getDimension()+j_dst, p2);
                             return true;
                         }
@@ -475,7 +483,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                     if (j_dst == j_src + 1 && (j_dst+1) < getDimension()) {
                         if (getCase((i_dst-1)*getDimension()+(j_dst+1)).isEmpty()) {
                             scoreJ2 += 1;
-                            setCases(i_dst*getDimension()+j_dst, Pion());
+                            Pion p;
+                            setCases(i_dst*getDimension()+j_dst, p);
                             move(i_src, j_src, (i_dst-1), (j_dst+1));
                             std:: cout << "i_dst-1: " << (i_dst-1) << " j_dst+1:" << (j_dst+1) << std::endl;
                             std:: cout << "i_dst-2: " << (i_dst-2) << " j_dst-2:" << (j_dst-2) << std::endl;
@@ -490,7 +499,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                     } else if (j_dst == j_src - 1 && (j_dst-1) < getDimension() && (j_dst-1) >= 0) {
                         if (getCase((i_dst-1)*getDimension()+(j_dst-1)).isEmpty()) {
                             scoreJ1 += 1;
-                            setCases(i_dst*getDimension()+j_dst, Pion());
+                            Pion p;
+                            setCases(i_dst*getDimension()+j_dst, p);
                             move(i_src, j_src, (i_dst-1), (j_dst-1));
                             bool l = pionMove((i_dst-1), (j_dst-1), (i_dst-2), (j_dst-2), Couleur::NOIR, true);
                             bool ld = pionMove((i_dst-1), (j_dst-1), (i_dst-2), (j_dst), Couleur::NOIR, true);
@@ -504,7 +514,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                     move(i_src, j_src, i_dst, j_dst);
                     if (i_dst == getDimension()-1) {
                         Pion p2("KING", "\u26C1", Couleur::NOIR);
-                        setCases(i_dst*getDimension()+j_dst, Pion());
+                        Pion p;
+                        setCases(i_dst*getDimension()+j_dst, p);
                         setCases(i_dst*getDimension()+j_dst, p2);
                         return true;
                     }

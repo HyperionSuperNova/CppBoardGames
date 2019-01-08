@@ -20,7 +20,7 @@ int Case::getY() {
     return y;
 }
 
-void Case::setPion(Pion p) {
+void Case::setPion(Pion &p) {
     pion = p;
 }
 

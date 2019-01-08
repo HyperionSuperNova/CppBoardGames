@@ -47,7 +47,7 @@ const void Plateau::move(int i_src, int j_src, int i_dst, int j_dst) {
 }
 
 
-void Plateau::setCases(int i, Pion p) {
+void Plateau::setCases(int i, Pion &p) {
     cases[i].setPion(p);
 }
 
