@@ -18,7 +18,7 @@ std::ostream &operator<<(std::ostream &out, const PlateauDamier &damier) {
     for(int i = 0; i < damier.getDimension(); i++){
         out << "| ";
         for(int j = 0; j < damier.getDimension(); j++){
-            out << damier.getCase(i*damier.getDimension()+j).getPion().getImg() << " | ";
+            out << damier.getCase(i*damier.getDimension()+j).getPion()->getImg() << " | ";
         }
         out << "         | ";
         for(int j = 0; j < damier.getDimension(); j++){
@@ -51,18 +51,18 @@ const void PlateauDamier::initialize() {
     if(anglais) i_borne = 3;
     else i_borne = 4;
     int nb = 0;
-    Pion p("PION", "\u26C0", Couleur::NOIR);
+    Pion *p = new Pion("PION", "\u26C0", Couleur::NOIR);
     for (int i = 0; i < i_borne; i++) {
         for (int j = 0; j < getDimension(); j++) {
             if (i % 2 == 0) {
                 if (j % 2 == 1) {
-                    setCases(i*getDimension()+j, p);
+                    setCases(i*getDimension()+j, *p);
                     tuple *tmp = new tuple(nb,i,j);
                     ajoutePosCase(tmp);
                 }
             } else {
                 if (j % 2 != 1) {
-                    setCases(i*getDimension()+j, p);
+                    setCases(i*getDimension()+j, *p);
                     tuple *tmp = new tuple(nb,i,j);
                     ajoutePosCase(tmp);
                 }
@@ -97,18 +97,18 @@ const void PlateauDamier::initialize() {
 
     if(anglais) i_borne = 5;
     else i_borne = 6;
-    Pion p2("PION", "\u26C2", Couleur::BLANC);
+    Pion *p2 = new Pion("PION", "\u26C2", Couleur::BLANC);
     for (int i = i_borne; i < getDimension(); i++) {
         for (int j = 0; j < getDimension(); j++) {
             if (i % 2 == 0) {
                 if (j % 2 == 1) {
-                    setCases(i*getDimension()+j, p2);
+                    setCases(i*getDimension()+j, *p2);
                     tuple *tmp = new tuple(nb,i,j);
                     ajoutePosCase(tmp);
                 }
             } else {
                 if (j % 2 != 1) {
-                    setCases(i*getDimension()+j, p2);
+                    setCases(i*getDimension()+j, *p2);
                     tuple *tmp = new tuple(nb,i,j);
                     ajoutePosCase(tmp);
                 }
@@ -305,7 +305,7 @@ const void PlateauDamier::singlePlayer() {
 const bool PlateauDamier::pionSelect(int i_src, int j_src, Couleur c) {
     bool selectOk = false;
     if (i_src >= 0 && i_src < getDimension() && j_src >= 0 && j_src < getDimension()) {
-        if (getCase(i_src*getDimension()+j_src).getPion().getColor() == c) {
+        if (getCase(i_src*getDimension()+j_src).getPion()->getColor() == c) {
             selectOk = true;
         }
     }
@@ -313,28 +313,28 @@ const bool PlateauDamier::pionSelect(int i_src, int j_src, Couleur c) {
 }
 
 const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, Couleur c, bool dejaPasse) {
-    if((i_src == 0 && c == Couleur::BLANC && getCase(i_src*getDimension()+j_src).getPion().getNom() != "KING") || (i_src == getDimension()-1 && c == Couleur::NOIR && getCase(i_src*getDimension()+j_src).getPion().getNom() != "KING")) return false;
+    if((i_src == 0 && c == Couleur::BLANC && getCase(i_src*getDimension()+j_src).getPion()->getNom() != "KING") || (i_src == getDimension()-1 && c == Couleur::NOIR && getCase(i_src*getDimension()+j_src).getPion()->getNom() != "KING")) return false;
     if (posOk(i_src, j_src, i_dst, j_dst)) {
-        if (getCase(i_src*getDimension()+j_src).getPion().getColor() == Couleur::BLANC && c == Couleur::BLANC) {
+        if (getCase(i_src*getDimension()+j_src).getPion()->getColor() == Couleur::BLANC && c == Couleur::BLANC) {
             if (((j_dst == j_src + 1) || j_dst == j_src - 1)) {
-                if (!getCase(i_dst*getDimension()+j_dst).isEmpty() && getCase(i_dst*getDimension()+j_dst).getPion().getColor() == Couleur::NOIR) {
+                if (!getCase(i_dst*getDimension()+j_dst).isEmpty() && getCase(i_dst*getDimension()+j_dst).getPion()->getColor() == Couleur::NOIR) {
                     if (i_dst == i_src - 1) {
                         std::cout << (j_dst == j_src-1) << std::endl;
                         if (j_dst == j_src + 1 && (j_dst+1) < getDimension() && i_dst-1 >= 0) {
                             if (getCase((i_dst-1)*getDimension()+(j_dst+1)).isEmpty()) {
                                 scoreJ1 += 1;
-                                setCase(i_dst*getDimension()+j_dst, Pion());
+                                setCase(i_dst*getDimension()+j_dst, new Pion());
                                 move(i_src, j_src, (i_dst-1), (j_dst+1));
                                 if (i_dst-1 == 0) {
-                                    Pion p2("KING", "\u26C3", Couleur::BLANC);
-                                    Pion p = Pion();
-                                    setCases(i_dst*getDimension()+j_dst, p);
-                                    setCases((i_dst-1)*getDimension()+(j_dst+1), p2);
+                                    Pion *p2 = new Pion("KING", "\u26C3", Couleur::BLANC);
+                                    Pion *p = new Pion();
+                                    setCases(i_dst*getDimension()+j_dst, *p);
+                                    setCases((i_dst-1)*getDimension()+(j_dst+1), *p2);
                                     return true;
                                 }
                                 bool l = pionMove((i_dst-1), (j_dst+1), i_dst - 2, j_dst, Couleur::BLANC, true);
                                 bool ld = pionMove((i_dst-1), (j_dst+1), i_dst - 2, (j_dst+1+1), Couleur::BLANC, true);
-                                if(!anglais || (anglais && getCase(i_src*getDimension()+j_src).getPion().getNom() == "KING")) {
+                                if(!anglais || (anglais && getCase(i_src*getDimension()+j_src).getPion()->getNom() == "KING")) {
                                     bool rd = pionMove((i_dst-1), (j_dst+1), i_dst-1, j_dst, Couleur::BLANC, true); // Attention
                                     bool r = pionMove((i_dst-1), (j_dst+1), i_dst, (j_dst+1 + 1), Couleur::BLANC, true); // Attention
                                 }
@@ -344,18 +344,18 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                         } else if (j_dst == j_src - 1 && (j_dst-1) >= 0 && i_dst-1 >= 0) {
                             if (getCase((i_dst-1)*getDimension()+(j_dst-1)).isEmpty()) {
                                 scoreJ1 += 1;
-                                setCase(i_dst*getDimension()+j_dst, Pion());
+                                setCase(i_dst*getDimension()+j_dst, new Pion());
                                 move(i_src, j_src, (i_dst-1), (j_dst-1));
                                 if (i_dst-1 == 0) {
-                                    Pion p2("KING", "\u26C3", Couleur::BLANC);
-                                    Pion p;
-                                    setCases(i_dst*getDimension()+j_dst, p);
-                                    setCases((i_dst-1)*getDimension()+(j_dst-1), p2);
+                                    Pion *p2 = new Pion("KING", "\u26C3", Couleur::BLANC);
+                                    Pion *p = new Pion();
+                                    setCases(i_dst*getDimension()+j_dst, *p);
+                                    setCases((i_dst-1)*getDimension()+(j_dst-1), *p2);
                                     return true;
                                 }
                                 bool l = pionMove((i_dst-1), (j_dst-1), i_dst - 2, (j_dst-2), Couleur::BLANC, true);
                                 bool ld = pionMove((i_dst-1), (j_dst-1), i_dst - 2, j_dst, Couleur::BLANC, true);
-                                if(!anglais|| (anglais && getCase(i_src*getDimension()+j_src).getPion().getNom() == "KING")) {
+                                if(!anglais|| (anglais && getCase(i_src*getDimension()+j_src).getPion()->getNom() == "KING")) {
                                     bool rd = pionMove((i_dst-1), (j_dst-1), i_dst, (j_dst-2), Couleur::BLANC,true);
                                     bool r = pionMove((i_dst-1), (j_dst-1), i_dst+1, j_dst, Couleur::BLANC, true);
                                 }
@@ -367,8 +367,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                         if (j_dst == j_src + 1 && (j_dst + 1) < getDimension()) {
                             if (getCase((i_dst + 1) * getDimension() + (j_dst + 1)).isEmpty()) {
                                 scoreJ1 += 1;
-                                Pion p;
-                                setCases(i_dst * getDimension() + j_dst, p);
+                                Pion *p = new Pion();
+                                setCases(i_dst * getDimension() + j_dst, *p);
                                 move(i_src, j_src, (i_dst + 1), (j_dst + 1));
 
 
@@ -381,8 +381,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                         } else if (j_dst == j_src - 1 && (j_dst - 1) >= 0) {
                             if (getCase((i_dst + 1) * getDimension() + (j_dst - 1)).isEmpty()) {
                                 scoreJ1 += 1;
-                                Pion p;
-                                setCases(i_dst * getDimension() + j_dst, p);
+                                Pion *p = new Pion();
+                                setCases(i_dst * getDimension() + j_dst, *p);
                                 move(i_src, j_src, (i_dst + 1), (j_dst - 1));
 
 
@@ -399,10 +399,10 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                 } else if ((getCase(i_dst*getDimension()+j_dst).isEmpty() && i_dst == i_src - 1 && !dejaPasse)) {
                     move(i_src, j_src, i_dst, j_dst);
                     if (i_dst == 0) {
-                        Pion p2("KING", "\u26C3", Couleur::BLANC);
-                        Pion p;
-                        setCases(i_dst*getDimension()+j_dst, p);
-                        setCases(i_dst*getDimension()+j_dst, p2);
+                        Pion *p2 = new Pion("KING", "\u26C3", Couleur::BLANC);
+                        Pion *p = new Pion();
+                        setCases(i_dst*getDimension()+j_dst, *p);
+                        setCases(i_dst*getDimension()+j_dst, *p2);
                     }
                 } else return false;
 
@@ -410,21 +410,21 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                 std::cout << "Illegal movement" << std::endl;
                 return false;
             }
-        } else if (getCase(i_src*getDimension()+j_src).getPion().getColor() == Couleur::NOIR && c == Couleur::NOIR &&
-                   (!(getCase(i_dst*getDimension()+j_dst).getPion().getNom() == "KING"))) {
+        } else if (getCase(i_src*getDimension()+j_src).getPion()->getColor() == Couleur::NOIR && c == Couleur::NOIR &&
+                   (!(getCase(i_dst*getDimension()+j_dst).getPion()->getNom() == "KING"))) {
             if (((j_dst == j_src + 1) || j_dst == j_src - 1)) {
                 if (i_dst == i_src + 1) {
-                    if (!getCase(i_dst*getDimension()+j_dst).isEmpty() && getCase(i_dst*getDimension()+j_dst).getPion().getColor() == Couleur::BLANC) {
+                    if (!getCase(i_dst*getDimension()+j_dst).isEmpty() && getCase(i_dst*getDimension()+j_dst).getPion()->getColor() == Couleur::BLANC) {
                         if (j_dst == j_src + 1 && (j_dst+1) < getDimension()) {
                             if (getCase(((i_dst+1))*getDimension()+((j_dst+1))).isEmpty()) {
                                 scoreJ2 += 1;
-                                Pion p;
-                                setCases(i_dst*getDimension()+j_dst, p);
+                                Pion *p = new Pion();
+                                setCases(i_dst*getDimension()+j_dst, *p);
                                 move(i_src, j_src, (i_dst+1), (j_dst+1));
                                 if (i_dst+1 == getDimension()-1) {
-                                    Pion p2("KING", "\u26C1", Couleur::NOIR);
-                                    setCases(i_dst*getDimension()+j_dst,p);
-                                    setCases((i_dst+1)*getDimension()+(j_dst+1), p2);
+                                    Pion *p2 = new Pion("KING", "\u26C1", Couleur::NOIR);
+                                    setCases(i_dst*getDimension()+j_dst,*p);
+                                    setCases((i_dst+1)*getDimension()+(j_dst+1), *p2);
                                     return true;
                                 }
                                 if(!anglais) {
@@ -438,13 +438,13 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                         } else if (j_dst == j_src-1 && (j_dst-1) >= 0) {
                             if (getCase((i_dst+1)*getDimension()+(j_dst-1)).isEmpty()) {
                                 scoreJ2 += 1;
-                                Pion p;
-                                setCases(i_dst*getDimension()+j_dst, p);
+                                Pion *p = new Pion();
+                                setCases(i_dst*getDimension()+j_dst, *p);
                                 move(i_src, j_src, (i_dst+1), (j_dst-1));
                                 if ((i_dst+1) == getDimension()-1) {
-                                    Pion p2("KING", "\u26C1", Couleur::NOIR);
-                                    setCases(i_dst*getDimension()+j_dst, p);
-                                    setCases((i_dst+1)*getDimension()+(j_dst-1), p2);
+                                    Pion *p2 = new Pion("KING", "\u26C1", Couleur::NOIR);
+                                    setCases(i_dst*getDimension()+j_dst, *p);
+                                    setCases((i_dst+1)*getDimension()+(j_dst-1), *p2);
                                     return true;
                                 }
                                 if(!anglais) {
@@ -460,10 +460,10 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                     } else if (i_dst == i_src + 1 && getCase(i_dst*getDimension()+j_dst).isEmpty() && !dejaPasse) {
                         move(i_src, j_src, i_dst, j_dst);
                         if (i_dst == getDimension()-1) {
-                            Pion p2("KING", "\u26C1", Couleur::NOIR);
-                            Pion p;
-                            setCases(i_dst*getDimension()+j_dst, p);
-                            setCases(i_dst*getDimension()+j_dst, p2);
+                            Pion *p2 = new Pion("KING", "\u26C1", Couleur::NOIR);
+                            Pion *p = new Pion();
+                            setCases(i_dst*getDimension()+j_dst, *p);
+                            setCases(i_dst*getDimension()+j_dst, *p2);
                             return true;
                         }
                     } else return false;
@@ -472,8 +472,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                     if (j_dst == j_src + 1 && (j_dst+1) < getDimension()) {
                         if (getCase((i_dst-1)*getDimension()+(j_dst+1)).isEmpty()) {
                             scoreJ2 += 1;
-                            Pion p;
-                            setCases(i_dst*getDimension()+j_dst, p);
+                            Pion *p = new Pion();
+                            setCases(i_dst*getDimension()+j_dst, *p);
                             move(i_src, j_src, (i_dst-1), (j_dst+1));
                             bool l = pionMove((i_dst-1), (j_dst+1), (i_dst-2), (j_dst+1), Couleur::NOIR, true);
                             bool ld = pionMove((i_dst-1), (j_dst+1), (i_dst), (j_dst+1), Couleur::NOIR, true);
@@ -484,8 +484,8 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                     } else if (j_dst == j_src - 1 && (j_dst-1) < getDimension() && (j_dst-1) >= 0) {
                         if (getCase((i_dst-1)*getDimension()+(j_dst-1)).isEmpty()) {
                             scoreJ1 += 1;
-                            Pion p;
-                            setCases(i_dst*getDimension()+j_dst, p);
+                            Pion *p = new Pion();
+                            setCases(i_dst*getDimension()+j_dst, *p);
                             move(i_src, j_src, (i_dst-1), (j_dst-1));
                             bool l = pionMove((i_dst-1), (j_dst-1), (i_dst-2), (j_dst-2), Couleur::NOIR, true);
                             bool ld = pionMove((i_dst-1), (j_dst-1), (i_dst-2), (j_dst), Couleur::NOIR, true);
@@ -498,10 +498,10 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                 } else if (getCase(i_dst*getDimension()+j_dst).isEmpty() && i_dst == i_src - 1) {
                     move(i_src, j_src, i_dst, j_dst);
                     if (i_dst == getDimension()-1) {
-                        Pion p2("KING", "\u26C1", Couleur::NOIR);
-                        Pion p;
-                        setCases(i_dst*getDimension()+j_dst, p);
-                        setCases(i_dst*getDimension()+j_dst, p2);
+                        Pion *p2 = new Pion("KING", "\u26C1", Couleur::NOIR);
+                        Pion *p = new Pion();
+                        setCases(i_dst*getDimension()+j_dst, *p);
+                        setCases(i_dst*getDimension()+j_dst, *p2);
                         return true;
                     }
                 } else return false;
@@ -519,33 +519,33 @@ void PlateauDamier::help(Couleur joueur) {
     for(int i = 0; i < getDimension(); i++){
         for(int j = 0; j < getDimension(); j++){
             if(joueur == Couleur::BLANC) {
-                if(getCase(i*getDimension()+j).getPion().getColor() == joueur) {
+                if(getCase(i*getDimension()+j).getPion()->getColor() == joueur) {
                     if (anglais) {
                         if (i+1 < getDimension() && j+1 < getDimension() && getCase(i +1*getDimension()+j + 1).isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i+1) + " " + std::to_string(j+1) << std::endl;
-                        else if (getCase(i+1*getDimension()+j+1).getPion().getColor() == Couleur::NOIR && i+2 < getDimension() && j+2 < getDimension() && getCase(i +2*getDimension()+j + 2).isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i+2) + " " + std::to_string(j+2) << std::endl;
+                        else if (getCase(i+1*getDimension()+j+1).getPion()->getColor() == Couleur::NOIR && i+2 < getDimension() && j+2 < getDimension() && getCase(i +2*getDimension()+j + 2).isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i+2) + " " + std::to_string(j+2) << std::endl;
                         if (i+1 < getDimension() && j-1 >= 0 && getCase(i +1*getDimension()+j - 1).isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i+1) + " " + std::to_string(j-1) << std::endl;
-                        else if (getCase(i+1*getDimension()+j-1).getPion().getColor() == Couleur::NOIR && i+2 < getDimension() && j-2 >= 0 && getCase(i +2*getDimension()+j - 2).isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i+2) + " " + std::to_string(j-2) << std::endl;
+                        else if (getCase(i+1*getDimension()+j-1).getPion()->getColor() == Couleur::NOIR && i+2 < getDimension() && j-2 >= 0 && getCase(i +2*getDimension()+j - 2).isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i+2) + " " + std::to_string(j-2) << std::endl;
                     }
                     if (i-1 >= 0 && j+1 < getDimension() && getCase(i -1*getDimension()+j + 1).isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i-1) + " " + std::to_string(j+1) << std::endl;
-                    else if(getCase(i-1*getDimension()+j+1).getPion().getColor() == Couleur::NOIR && i-2 >= 0 && j+2 < getDimension() && getCase(i -2*getDimension()+j + 2).isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i-2) + " " + std::to_string(j+2) << std::endl;
+                    else if(getCase(i-1*getDimension()+j+1).getPion()->getColor() == Couleur::NOIR && i-2 >= 0 && j+2 < getDimension() && getCase(i -2*getDimension()+j + 2).isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i-2) + " " + std::to_string(j+2) << std::endl;
                     if (i-1 >= 0 && j-1 >= 0 && getCase(i -1*getDimension()+j - 1).isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i-1) + " " + std::to_string(j-1) << std::endl;
-                    else if (getCase(i-1*getDimension()+j-1).getPion().getColor() == Couleur::NOIR && i-2 >= 0 && j-2 >= 0 && getCase(i -2*getDimension()+j - 2).isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i-2) + " " + std::to_string(j-2) << std::endl;
+                    else if (getCase(i-1*getDimension()+j-1).getPion()->getColor() == Couleur::NOIR && i-2 >= 0 && j-2 >= 0 && getCase(i -2*getDimension()+j - 2).isEmpty()) std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i-2) + " " + std::to_string(j-2) << std::endl;
 
 
                 }
             }else{
-                if(getCase(i*getDimension()+j).getPion().getColor() == joueur) {
+                if(getCase(i*getDimension()+j).getPion()->getColor() == joueur) {
                     if (anglais) {
                         if (i - 1 >= 0 && j + 1 < getDimension() && getCase(i - 1*getDimension()+j + 1).isEmpty())
                             std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i - 1) + " " +
                                    std::to_string(j + 1) << std::endl;
-                        else if (getCase(i-1*getDimension()+j+1).getPion().getColor() == Couleur::BLANC && i - 2 >= 0 && j + 2 < getDimension() && getCase(i - 2*getDimension()+j + 2).isEmpty())
+                        else if (getCase(i-1*getDimension()+j+1).getPion()->getColor() == Couleur::BLANC && i - 2 >= 0 && j + 2 < getDimension() && getCase(i - 2*getDimension()+j + 2).isEmpty())
                         std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i - 2) + " " +
                                std::to_string(j + 2) << std::endl;
                         if (i - 1 >= 0 && j - 1 >= 0 && getCase(i - 1*getDimension()+j - 1).isEmpty())
                             std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i - 1) + " " +
                                    std::to_string(j - 1) << std::endl;
-                        else if (getCase(i-1*getDimension()+j-1).getPion().getColor() == Couleur::BLANC && i - 2 >= 0 && j - 2 >= 0 && getCase(i - 2*getDimension()+j - 2).isEmpty())
+                        else if (getCase(i-1*getDimension()+j-1).getPion()->getColor() == Couleur::BLANC && i - 2 >= 0 && j - 2 >= 0 && getCase(i - 2*getDimension()+j - 2).isEmpty())
                             std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i - 2) + " " +
                                    std::to_string(j - 2) << std::endl;
 
@@ -553,13 +553,13 @@ void PlateauDamier::help(Couleur joueur) {
                     if (i + 1 < getDimension() && j + 1 < getDimension() && getCase(i + 1*getDimension()+j + 1).isEmpty())
                         std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i + 1) + " " +
                                std::to_string(j + 1) << std::endl;
-                    else if (getCase(i+1*getDimension()+j+1).getPion().getColor() == Couleur::BLANC && i + 2 < getDimension() && j + 2 < getDimension() && getCase(i + 2*getDimension()+j + 2).isEmpty())
+                    else if (getCase(i+1*getDimension()+j+1).getPion()->getColor() == Couleur::BLANC && i + 2 < getDimension() && j + 2 < getDimension() && getCase(i + 2*getDimension()+j + 2).isEmpty())
                         std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i + 2) + " " +
                                std::to_string(j + 2) << std::endl;
                     if (i + 1 < getDimension() && j - 1 >= 0 && getCase(i + 1*getDimension()+j - 1).isEmpty())
                         std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i + 1) + " " +
                                std::to_string(j - 1) << std::endl;
-                    else if (getCase(i+1*getDimension()+j-1).getPion().getColor() == Couleur::BLANC && i + 2 < getDimension() && j - 2 >= 0 && getCase(i + 2*getDimension()+j - 2).isEmpty())
+                    else if (getCase(i+1*getDimension()+j-1).getPion()->getColor() == Couleur::BLANC && i + 2 < getDimension() && j - 2 >= 0 && getCase(i + 2*getDimension()+j - 2).isEmpty())
                         std::cout << std::to_string(i) + " " + std::to_string(j) + " -> " + std::to_string(i + 2) + " " +
                                std::to_string(j - 2) << std::endl;
                 }

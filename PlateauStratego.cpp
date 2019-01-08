@@ -18,7 +18,7 @@ std::ostream &operator<<(std::ostream &os, const PlateauStratego &stratego) {
         os << i << "|  ";
         for(int j = 0; j < stratego.getDimension(); j++){
             if((i == 4 || i == 5) && (j == 2 || j == 6)) os << "    ";
-            else os << stratego.getCase(i*stratego.getDimension()+j).getPion().getImg() << " | " ;
+            else os << stratego.getCase(i*stratego.getDimension()+j).getPion()->getImg() << " | " ;
 
         }
         os << "\n";
@@ -49,40 +49,40 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
             }
             if(getCase(i_dst*getDimension()+j_dst).isEmpty()){
                 setCase(i_dst*getDimension()+j_dst, getCase(i_src*getDimension()+j_src).getPion());
-                setCase(i_src*getDimension()+j_src, Pion());
+                setCase(i_src*getDimension()+j_src, new Pion());
                 return true;
             }else if(estPlusFortQue(getCase(i_src*getDimension()+j_src).getPion(), getCase(i_dst*getDimension()+j_dst).getPion()) ){
                 if(joueur){
-                    joueur2[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion().getNom())] --;
+                    joueur2[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion()->getNom())] --;
                 }else{
-                     joueur1[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion().getNom())] --;
+                     joueur1[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion()->getNom())] --;
                 }
-                std:: cout << "Pièce mangée: " << getCase(i_dst*getDimension()+j_dst).getPion().getNom() << std::endl;
+                std:: cout << "Pièce mangée: " << getCase(i_dst*getDimension()+j_dst).getPion()->getNom() << std::endl;
                 setCase(i_dst*getDimension()+j_dst , getCase(i_src*getDimension()+j_src).getPion());
-                setCase(i_src*getDimension()+j_src, Pion());
+                setCase(i_src*getDimension()+j_src, new Pion());
                 return true;
             }else{
-                 if(getCase(i_src*getDimension()+j_src).getPion().getNom().compare(getCase(i_dst*getDimension()+j_dst).getPion().getNom()) == 0){
-                     std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion().getNom() << std::endl;
+                 if(getCase(i_src*getDimension()+j_src).getPion()->getNom().compare(getCase(i_dst*getDimension()+j_dst).getPion()->getNom()) == 0){
+                     std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion()->getNom() << std::endl;
                      if(joueur){
-                         joueur1[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion().getNom())] --;
-                         joueur2[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion().getNom())] --;
+                         joueur1[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion()->getNom())] --;
+                         joueur2[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion()->getNom())] --;
                      }else{
-                         joueur1[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion().getNom())] --;
-                         joueur2[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion().getNom())] --;
+                         joueur1[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion()->getNom())] --;
+                         joueur2[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion()->getNom())] --;
                      }
-                     setCase(i_src*getDimension()+j_src, Pion());
-                     setCase(i_dst*getDimension()+j_dst, Pion());
+                     setCase(i_src*getDimension()+j_src, new Pion());
+                     setCase(i_dst*getDimension()+j_dst, new Pion());
                      return true;
-                 }else if(getCase(i_dst*getDimension()+j_dst).getPion().getColor() != getCase(i_src*getDimension()+j_src).getPion().getColor()){
-                     std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion().getNom() << std::endl;
+                 }else if(getCase(i_dst*getDimension()+j_dst).getPion()->getColor() != getCase(i_src*getDimension()+j_src).getPion()->getColor()){
+                     std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion()->getNom() << std::endl;
                      //revelerUnePiece(i_dst, j_dst);
                      if(joueur){ // si c'est le joueur 1 qui joue
-                         joueur1[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion().getNom())] --;
+                         joueur1[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion()->getNom())] --;
                      }else{
-                         joueur2[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion().getNom())] --;
+                         joueur2[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion()->getNom())] --;
                      }
-                     setCase(i_src*getDimension()+j_src, Pion());
+                     setCase(i_src*getDimension()+j_src, new Pion());
                      return true;
                  }else return false;
             }
@@ -104,40 +104,40 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
             }
             if(getCase(i_dst*getDimension()+j_dst).isEmpty()){
                 setCase(i_dst*getDimension()+j_dst, getCase(i_src*getDimension()+j_src).getPion());
-                setCase(i_src*getDimension()+j_src, Pion());
+                setCase(i_src*getDimension()+j_src, new Pion());
                 return true;
             }else if(estPlusFortQue(getCase(i_src*getDimension()+j_src).getPion(), getCase(i_dst*getDimension()+j_dst).getPion()) ){
                 if(joueur){
-                    joueur2[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion().getNom())] --;
+                    joueur2[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion()->getNom())] --;
                 }else{
-                    joueur1[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion().getNom())] --;
+                    joueur1[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion()->getNom())] --;
                 }
-                std:: cout << "Pièce mangée: " << getCase(i_dst*getDimension()+j_dst).getPion().getNom() << std::endl;
+                std:: cout << "Pièce mangée: " << getCase(i_dst*getDimension()+j_dst).getPion()->getNom() << std::endl;
                 setCase(i_dst*getDimension()+j_dst, getCase(i_src*getDimension()+j_src).getPion());
-                setCase(i_src*getDimension()+j_src, Pion());
+                setCase(i_src*getDimension()+j_src, new Pion());
                 return true;
-            }else if(getCase(i_dst*getDimension()+j_dst).getPion().getColor() != getCase(i_src*getDimension()+j_src).getPion().getColor()){
-                if(getCase(i_src*getDimension()+j_src).getPion().getNom().compare(getCase(i_dst*getDimension()+j_dst).getPion().getNom()) == 0){
-                    std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion().getNom() << std::endl;
+            }else if(getCase(i_dst*getDimension()+j_dst).getPion()->getColor() != getCase(i_src*getDimension()+j_src).getPion()->getColor()){
+                if(getCase(i_src*getDimension()+j_src).getPion()->getNom().compare(getCase(i_dst*getDimension()+j_dst).getPion()->getNom()) == 0){
+                    std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion()->getNom() << std::endl;
                     if(joueur){
-                        joueur1[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion().getNom())] --;
-                        joueur2[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion().getNom())] --;
+                        joueur1[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion()->getNom())] --;
+                        joueur2[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion()->getNom())] --;
                     }else{
-                        joueur1[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion().getNom())] --;
-                        joueur2[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion().getNom())] --;
+                        joueur1[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion()->getNom())] --;
+                        joueur2[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion()->getNom())] --;
                     }
-                    setCase(i_src*getDimension()+j_src, Pion());
-                    setCase(i_dst*getDimension()+j_dst, Pion());
+                    setCase(i_src*getDimension()+j_src, new Pion());
+                    setCase(i_dst*getDimension()+j_dst, new Pion());
                     return true;
                 }else {
-                    std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion().getNom() << std::endl;
+                    std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion()->getNom() << std::endl;
                     //revelerUnePiece(i_dst, j_dst);
                     if(joueur){ // si c'est le joueur 1 qui joue
-                        joueur1[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion().getNom())] --;
+                        joueur1[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion()->getNom())] --;
                     }else{
-                        joueur2[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion().getNom())] --;
+                        joueur2[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion()->getNom())] --;
                     }
-                    setCase(i_src*getDimension()+j_src,Pion());
+                    setCase(i_src*getDimension()+j_src, new Pion());
                 }
                 return true;
             }else return false;
@@ -159,34 +159,34 @@ bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst
 
             }else if(estPlusFortQue(getCase(i_src*getDimension()+j_src).getPion(), getCase(i_dst*getDimension()+j_dst).getPion())){
                 if(joueur){
-                    joueur2[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion().getNom())] --;
+                    joueur2[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion()->getNom())] --;
                 }else{
-                    joueur1[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion().getNom())] --;
+                    joueur1[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion()->getNom())] --;
                 }
-                std:: cout << "Pièce mangée: " << getCase(i_dst*getDimension()+j_dst).getPion().getNom() << std::endl;
+                std:: cout << "Pièce mangée: " << getCase(i_dst*getDimension()+j_dst).getPion()->getNom() << std::endl;
                 setCase(i_dst*getDimension()+j_dst,getCase(i_src*getDimension()+j_src).getPion());
-                setCase(i_src*getDimension()+j_src, Pion());
+                setCase(i_src*getDimension()+j_src, new Pion());
 
             }else{
-                if(getCase(i_src*getDimension()+j_src).getPion().getNom().compare(getCase(i_dst*getDimension()+j_dst).getPion().getNom()) == 0){
-                    std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion().getNom() << std::endl;
+                if(getCase(i_src*getDimension()+j_src).getPion()->getNom().compare(getCase(i_dst*getDimension()+j_dst).getPion()->getNom()) == 0){
+                    std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion()->getNom() << std::endl;
                     if(joueur){
-                        joueur1[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion().getNom())] --;
-                        joueur2[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion().getNom())] --;
+                        joueur1[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion()->getNom())] --;
+                        joueur2[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion()->getNom())] --;
                     }else{
-                        joueur1[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion().getNom())] --;
-                        joueur2[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion().getNom())] --;
+                        joueur1[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion()->getNom())] --;
+                        joueur2[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion()->getNom())] --;
                     }
-                    setCase(i_src*getDimension()+j_src, Pion());
-                    setCase(i_dst*getDimension()+j_dst, Pion());
+                    setCase(i_src*getDimension()+j_src, new Pion());
+                    setCase(i_dst*getDimension()+j_dst, new Pion());
                 }else {
-                    std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion().getNom() << std::endl;
+                    std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion()->getNom() << std::endl;
                     if(joueur){ // si c'est le joueur 1 qui joue
-                        joueur1[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion().getNom())] --;
+                        joueur1[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion()->getNom())] --;
                     }else{
-                        joueur2[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion().getNom())] --;
+                        joueur2[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion()->getNom())] --;
                     }
-                    setCase(i_src*getDimension()+j_src, Pion());
+                    setCase(i_src*getDimension()+j_src, new Pion());
                 }
             }
         }else{
@@ -200,14 +200,14 @@ bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst
     }
 }
 
-bool PlateauStratego::estPlusFortQue(Pion p1, Pion p2) {
+bool PlateauStratego::estPlusFortQue(Pion *p1, Pion *p2) {
     int p1_value = 0;
     int p2_value = 0;
     for(int i = 0; i < 12; i++){
-        if(p1.getNom().compare(std::get<1>(pions[i])) == 0){
+        if(p1->getNom().compare(std::get<1>(pions[i])) == 0){
             p1_value = std::get<0>(pions[i]);
         }
-        if(p2.getNom().compare(std::get<1>(pions[i])) == 0){
+        if(p2->getNom().compare(std::get<1>(pions[i])) == 0){
             p2_value = std::get<0>(pions[i]);
         }
     }
@@ -342,7 +342,7 @@ bool PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
                 if(joueur) {
                     if (joueur1[renvoiePionsNbr(piece)] > 0) {
                         std::string imag = std::get<1>(img[renvoiePionsNbr(piece)]);
-                        setCase(i*getDimension()+j, Pion(piece, imag, Couleur::BLANC));
+                        setCase(i*getDimension()+j, new Pion(piece, imag, Couleur::BLANC));
                         joueur1[renvoiePionsNbr(piece)]--;
                     } else {
                         std::cout << "Vous n'avez plus ce genre de pièce." << std::endl;
@@ -351,7 +351,7 @@ bool PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
                 }else{
                     if (joueur2[renvoiePionsNbr(piece)] > 0) {
                         std::string imag = std::get<1>(img[renvoiePionsNbr(piece)]);
-                        setCase(i*getDimension()+j, Pion(piece, imag, Couleur::NOIR));
+                        setCase(i*getDimension()+j, new Pion(piece, imag, Couleur::NOIR));
                         joueur2[renvoiePionsNbr(piece)]--;
                     } else {
                         std::cout << "Vous n'avez plus ce genre de pièce." << std::endl;
@@ -397,19 +397,19 @@ void PlateauStratego::mettrePionOrdiSurPlateau(bool joueur) {
         piece = line.substr(0, line.find(delimiter));
         i = std::stoi(line.substr(piece.length()+1, 1));
         j = std::stoi(line.substr(piece.length()+3, 1));
-        if(joueur) setCase(i*getDimension()+j,Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::BLANC));
-        else setCase(i*getDimension()+j,Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
+        if(joueur) setCase(i*getDimension()+j, new Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::BLANC));
+        else setCase(i*getDimension()+j,new Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
     }}
 
 void PlateauStratego::cacherPieceJoueur(bool joueur) {
     if(joueur){// ici joueur1
         for(int i = 0; i < getDimension(); i++){
             for(int j = 0; j < getDimension(); j++){
-                if(getCase(i*getDimension()+j).getPion().getColor() == Couleur::BLANC) setCase(i*getDimension()+j, Pion(getCase(i*getDimension()+j).getPion().getNom(), "\u2610", Couleur::BLANC));
-                else if(getCase(i*getDimension()+j).getPion().getColor() == Couleur::NOIR){
-                    std::string nom = getCase(i*getDimension()+j).getPion().getNom();
+                if(getCase(i*getDimension()+j).getPion()->getColor() == Couleur::BLANC) setCase(i*getDimension()+j, new Pion(getCase(i*getDimension()+j).getPion()->getNom(), "\u2610", Couleur::BLANC));
+                else if(getCase(i*getDimension()+j).getPion()->getColor() == Couleur::NOIR){
+                    std::string nom = getCase(i*getDimension()+j).getPion()->getNom();
                     std::string im = std::get<1>(img[renvoiePionsNbr(nom)]);
-                    setCase(i*getDimension()+j, Pion(nom, im, Couleur::NOIR));
+                    setCase(i*getDimension()+j, new Pion(nom, im, Couleur::NOIR));
                 }
 
             }
@@ -417,13 +417,13 @@ void PlateauStratego::cacherPieceJoueur(bool joueur) {
     }else{
         for(int i = 0; i < getDimension(); i++){
             for(int j = 0; j < getDimension(); j++){
-                if(getCase(i*getDimension()+j).getPion().getColor() == Couleur::NOIR){
-                    setCase(i*getDimension()+j, Pion(getCase(i*getDimension()+j).getPion().getNom(), "\u2610", Couleur::NOIR));
+                if(getCase(i*getDimension()+j).getPion()->getColor() == Couleur::NOIR){
+                    setCase(i*getDimension()+j, new Pion(getCase(i*getDimension()+j).getPion()->getNom(), "\u2610", Couleur::NOIR));
                 }
-                else if(getCase(i*getDimension()+j).getPion().getColor() == Couleur::BLANC){
-                    std::string nom = getCase(i*getDimension()+j).getPion().getNom();
+                else if(getCase(i*getDimension()+j).getPion()->getColor() == Couleur::BLANC){
+                    std::string nom = getCase(i*getDimension()+j).getPion()->getNom();
                     std::string im = std::get<1>(img[renvoiePionsNbr(nom)]);
-                    setCase(i*getDimension()+j, Pion(nom, im, Couleur::BLANC));
+                    setCase(i*getDimension()+j, new Pion(nom, im, Couleur::BLANC));
                 }
             }
         }
@@ -435,7 +435,7 @@ std::vector< std::tuple<int, int> > PlateauStratego::getLigneColonne() {
 
     for(int i = 0; i < getDimension(); i++){
         for(int j = 0; j < getDimension(); j++){
-            if(getCase(i*getDimension()+j).getPion().getColor() == Couleur::NOIR) pieces.push_back({i, j});
+            if(getCase(i*getDimension()+j).getPion()->getColor() == Couleur::NOIR) pieces.push_back({i, j});
         }
     }
     return pieces;
@@ -493,7 +493,7 @@ void PlateauStratego::launchStratego(bool ordi) {
             i_src = std::get<0>(coup[r]);
             j_src = std::get<1>(coup[r]);
 
-            if(getCase(i_src*getDimension()+j_src).getPion().getNom().compare("Eclaireur") == 0){
+            if(getCase(i_src*getDimension()+j_src).getPion()->getNom().compare("Eclaireur") == 0){
                 again:
                 i_dst = rand() % getDimension();
                 j_dst = rand() % getDimension();
@@ -537,12 +537,12 @@ void PlateauStratego::launchStratego(bool ordi) {
 
 
         if(quiJoue){
-            if(getCase(i_src*getDimension()+j_src).getPion().getColor() == Couleur::NOIR){
+            if(getCase(i_src*getDimension()+j_src).getPion()->getColor() == Couleur::NOIR){
                 std::cout << "Ce n'est pas une pièce à vous." << std::endl;
                 goto next_loop;
             }
         }else {
-            if (getCase(i_src*getDimension()+j_src).getPion().getColor() == Couleur::BLANC) {
+            if (getCase(i_src*getDimension()+j_src).getPion()->getColor() == Couleur::BLANC) {
                 goto next_loop;
             }
         }
@@ -553,10 +553,10 @@ void PlateauStratego::launchStratego(bool ordi) {
         }
 
 
-        if (getCase(i_src*getDimension()+j_src).getPion().getNom().compare("Bombe") == 0 || getCase(i_src*getDimension()+j_src).getPion().getNom().compare("Drapeau") == 0 || getCase(i_src*getDimension()+j_src).getPion().getNom().compare("") == 0){
+        if (getCase(i_src*getDimension()+j_src).getPion()->getNom().compare("Bombe") == 0 || getCase(i_src*getDimension()+j_src).getPion()->getNom().compare("Drapeau") == 0 || getCase(i_src*getDimension()+j_src).getPion()->getNom().compare("") == 0){
             if(ordi && quiJoue) std::cout << "Mouvement impossible\n" << std::endl;
             goto next_loop;
-        }else if (getCase(i_src*getDimension()+j_src).getPion().getNom().compare("Eclaireur") == 0){
+        }else if (getCase(i_src*getDimension()+j_src).getPion()->getNom().compare("Eclaireur") == 0){
             if(!mouvement_eclaireur(i_src, j_src, i_dst, j_dst, quiJoue, ordi)) goto next_loop;
         }
         else{
@@ -607,15 +607,15 @@ std::string PlateauStratego::help(bool joueur) {
     for(int i = 0; i < getDimension(); i++){
         for(int j = 0; j < getDimension(); j++) {
             if (pieceEstdeplacable(i, j)) {
-                if (getCase(i*getDimension()+j).getPion().getColor() == c && getCase(i*getDimension()+j).getPion().getNom().compare("Drapeau") != 0 &&
-                    getCase(i*getDimension()+j).getPion().getNom().compare("Bombe") != 0) {
-                    if (getCase(i*getDimension()+j).getPion().getNom().compare("Eclaireur") == 0) {
+                if (getCase(i*getDimension()+j).getPion()->getColor() == c && getCase(i*getDimension()+j).getPion()->getNom().compare("Drapeau") != 0 &&
+                    getCase(i*getDimension()+j).getPion()->getNom().compare("Bombe") != 0) {
+                    if (getCase(i*getDimension()+j).getPion()->getNom().compare("Eclaireur") == 0) {
                         int h = i + 1;
                         while (h < getDimension() && getCase(h*getDimension()+j).isEmpty()) {
                             h++;
                         }
                         if(h-1 != i) {
-                            res += getCase(i*getDimension()+j).getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
+                            res += getCase(i*getDimension()+j).getPion()->getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
                                    " -> ";
                             res += std::to_string(h - 1) + " " + std::to_string(j) + "\n";
                         }
@@ -625,7 +625,7 @@ std::string PlateauStratego::help(bool joueur) {
                             h--;
                         }
                         if(h+1 != i) {
-                            res += getCase(i*getDimension()+j).getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
+                            res += getCase(i*getDimension()+j).getPion()->getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
                                    " -> ";
                             res += std::to_string(h + 1) + " " + std::to_string(j) + "\n";
                         }
@@ -635,7 +635,7 @@ std::string PlateauStratego::help(bool joueur) {
                             h++;
                         }
                         if(h-1 != j){
-                            res += getCase(i*getDimension()+j).getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
+                            res += getCase(i*getDimension()+j).getPion()->getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
                                    " -> ";
                             res += std::to_string(i) + " " + std::to_string(h - 1) + "\n";
                         }
@@ -645,7 +645,7 @@ std::string PlateauStratego::help(bool joueur) {
                             h--;
                         }
                         if(h+1 != j) {
-                            res += getCase(i*getDimension()+j).getPion().getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
+                            res += getCase(i*getDimension()+j).getPion()->getNom() + " " + std::to_string(i) + " " + std::to_string(j) +
                                    " -> ";
                             res += std::to_string(i) + " " + std::to_string(h + 1) + "\n";
                         }
@@ -653,25 +653,25 @@ std::string PlateauStratego::help(bool joueur) {
                     } else {
                         if (i + 1 < getDimension() && j + 1 < getDimension() && i - 1 >= 0 && j - 1 >= 0) {
                             if (getCase(i - 1*getDimension()+j).isEmpty()) {
-                                res += getCase(i*getDimension()+j).getPion().getNom() + " " + std::to_string(i) + " " +
+                                res += getCase(i*getDimension()+j).getPion()->getNom() + " " + std::to_string(i) + " " +
                                        std::to_string(j) + " -> ";
                                 res += std::to_string(i - 1) + " " + std::to_string(j) + "\n";
 
                             }
                             if (getCase(i + 1*getDimension()+j).isEmpty()) {
-                                res += getCase(i*getDimension()+j).getPion().getNom() + " " + std::to_string(i) + " " +
+                                res += getCase(i*getDimension()+j).getPion()->getNom() + " " + std::to_string(i) + " " +
                                        std::to_string(j) + " -> ";
                                 res += std::to_string(i + 1) + " " + std::to_string(j) + "\n";
 
                             }
                             if (getCase(i*getDimension()+j - 1).isEmpty()) {
-                                res += getCase(i*getDimension()+j).getPion().getNom() + " " + std::to_string(i) + " " +
+                                res += getCase(i*getDimension()+j).getPion()->getNom() + " " + std::to_string(i) + " " +
                                        std::to_string(j) + " -> ";
                                 res += std::to_string(i) + " " + std::to_string(j - 1) + "\n";
 
                             }
                             if (getCase(i*getDimension()+j + 1).isEmpty()) {
-                                res += getCase(i*getDimension()+j).getPion().getNom() + " " + std::to_string(i) + " " +
+                                res += getCase(i*getDimension()+j).getPion()->getNom() + " " + std::to_string(i) + " " +
                                        std::to_string(j) + " -> ";
                                 res += std::to_string(i) + " " + std::to_string(j + 1) + "\n";
                             }
@@ -702,8 +702,8 @@ const void PlateauStratego::lectureFichierTest() {
         piece = line.substr(0, line.find(delimiter));
         i = std::stoi(line.substr(piece.length()+1, 1));
         j = std::stoi(line.substr(piece.length()+3, 1));
-        if(joueur) setCase(i*getDimension()+j, Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::BLANC));
-        else setCase(i*getDimension()+j, Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
+        if(joueur) setCase(i*getDimension()+j, new Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::BLANC));
+        else setCase(i*getDimension()+j, new Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
         joueur = !joueur;
     }
 
@@ -720,8 +720,8 @@ const void PlateauStratego::lectureFichierTest() {
         piece = line.substr(0, line.find(delimiter));
         i = std::stoi(line.substr(piece.length()+1, 1));
         j = std::stoi(line.substr(piece.length()+3, 1));
-        if(joueur) setCase(i*getDimension()+j, Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::BLANC));
-        else setCase(i*getDimension()+j, Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
+        if(joueur) setCase(i*getDimension()+j, new Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::BLANC));
+        else setCase(i*getDimension()+j, new Pion(piece, std::get<1>(img[renvoiePionsNbr(piece)]), Couleur::NOIR));
         joueur != joueur;
     }
 
@@ -745,7 +745,7 @@ std::string file = "../stratego/test1.txt";
         j_src = std::stoi(line.substr(std::to_string(i_src).length()+1, 1));
         i_dst = std::stoi(line.substr(std::to_string(j_src).length()+3, 1));
         j_dst = std::stoi(line.substr(std::to_string(i_dst).length()+5, 1));
-        if(getCase(i_src*getDimension()+j_src).getPion().getNom() == "Eclaireur") mouvement_eclaireur(i_src,j_src,i_dst,j_dst,joueur,false);
+        if(getCase(i_src*getDimension()+j_src).getPion()->getNom() == "Eclaireur") mouvement_eclaireur(i_src,j_src,i_dst,j_dst,joueur,false);
         else mouvement_autre(i_src,j_src,i_dst,j_dst,joueur,false);
         joueur = !joueur;
 

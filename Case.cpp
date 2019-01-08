@@ -5,40 +5,26 @@ Case::Case() {}
 Case::Case(int ii, int jj) {
     x = ii;
     y = jj;
-    pion = Pion();
+    pion = new Pion();
 }
 
-Pion Case::getPion() {
+Pion *Case::getPion() {
     return pion;
 }
 
-int Case::getX() {
-    return x;
-}
-
-int Case::getY() {
-    return y;
-}
 
 void Case::setPion(Pion &p) {
-    pion = p;
+    pion = new Pion(p.getNom(), p.getImg(), p.getColor());
 }
 
-void Case::setPionImg(std::string im) {
-    pion.setImg(im);
-}
 
 bool Case::isEmpty() {
-    return pion.getNom().compare("") == 0;
+    return pion->getNom().compare("") == 0;
 }
 
 std:: ostream& operator<<(std::ostream & out, const Case &c) {
     out << c.pion;
     return out;
-}
-
-void Case::setPionBis(Pion &p) {
-    this->pion = p;
 }
 
 

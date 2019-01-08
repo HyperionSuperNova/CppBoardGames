@@ -16,7 +16,7 @@ public:
     int getDimension() const;
     void setDimension(int);
     virtual Case getCase(int) const;
-    virtual void setCase(int, Pion);
+    virtual void setCase(int, Pion*);
     virtual const void move(int i_src, int j_src, int i_dst, int j_dst);
     void setCases(int, Pion&);
     friend std::ostream &operator<<(std::ostream &, const Plateau &);

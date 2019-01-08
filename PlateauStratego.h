@@ -18,7 +18,7 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const PlateauStratego &stratego);
     bool mouvement_eclaireur(int , int, int, int, bool, bool);
     bool mouvement_autre(int, int, int, int, bool, bool);
-    bool estPlusFortQue(Pion p1, Pion p2);
+    bool estPlusFortQue(Pion *p1, Pion *p2);
     bool mettrePionJoueurSurPlateau(bool);
     void cacherPieceJoueur(bool);
     void mettrePionOrdiSurPlateau(bool);

@@ -9,7 +9,7 @@ class Case {
 private:
     int x;
     int y;
-    Pion pion;
+    Pion *pion;
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version) {
@@ -20,11 +20,8 @@ private:
 public:
     Case();
     Case(int ii, int jj);
-    Pion getPion();
-    int getX();
-    int getY();
-    void setPionImg(std::string);
-    void setPionBis(Pion &p);
+    Pion *getPion();
+
     void setPion(Pion &);
     bool isEmpty();
     friend std:: ostream&operator<<(std:: ostream&, const Case &);

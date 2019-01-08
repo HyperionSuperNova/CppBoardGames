@@ -4,8 +4,8 @@ Case Plateau::getCase(int i) const{
     return this->cases[i];
 }
 
-void Plateau::setCase(int i, Pion p) {
-    cases[i].setPion(p);
+void Plateau::setCase(int i, Pion *p) {
+    cases[i].setPion(*p);
 }
 
 std:: ostream& operator<<(std::ostream & out, const Plateau &p) {
@@ -13,7 +13,7 @@ std:: ostream& operator<<(std::ostream & out, const Plateau &p) {
     for(int i = 0; i < p.dimension; i++){
         out << "| ";
         for(int j = 0; j < p.dimension; j++){
-            out << p.cases[i*p.dimension+j].getPion().getImg() << " | ";
+            out << p.cases[i*p.dimension+j].getPion()->getImg() << " | ";
         }
         out << "\n";
     }
@@ -40,10 +40,10 @@ Plateau::Plateau(int dimension) : dimension(dimension) {
 
 const void Plateau::move(int i_src, int j_src, int i_dst, int j_dst) {
     Case c = getCase(i_dst*dimension+j_dst);
-    std::cout << getCase(i_src*dimension+j_src).getPion().getNom() << " " << getCase(i_src*dimension+j_src).getPion().getColor() << std::endl;
+    std::cout << getCase(i_src*dimension+j_src).getPion()->getNom() << " " << getCase(i_src*dimension+j_src).getPion()->getColor() << std::endl;
     setCase(i_dst*dimension+j_dst, getCase(i_src*dimension+j_src).getPion());
-    std::cout << getCase(i_dst*dimension+j_dst).getPion().getNom() << " " << getCase(i_dst*dimension+j_dst).getPion().getColor() << std::endl;
-    setCase(i_src*dimension+j_src, Pion());
+    std::cout << getCase(i_dst*dimension+j_dst).getPion()->getNom() << " " << getCase(i_dst*dimension+j_dst).getPion()->getColor() << std::endl;
+    setCase(i_src*dimension+j_src, new Pion());
 }
 
 
