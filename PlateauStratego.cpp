@@ -284,8 +284,6 @@ int PlateauStratego::renvoiePionsNbr(std::string s) {
 }
 
 bool PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
-    if(joueur) cacherPieceJoueur(false);
-    else cacherPieceJoueur(true);
     std::string piece= "";
     std::string ii = "";
     std::string jj = "";
@@ -370,6 +368,8 @@ bool PlateauStratego::mettrePionJoueurSurPlateau(bool joueur) {
     }
     end:
     std::cout << "Let's the game begin!" << std::endl;
+    if(joueur) cacherPieceJoueur(true);
+    else cacherPieceJoueur(false);
     return true;
 }
 
