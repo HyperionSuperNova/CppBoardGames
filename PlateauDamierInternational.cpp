@@ -10,7 +10,6 @@ const bool PlateauDamierInternational::playerTurn(int i_src, int j_src, int i_ds
         bool pionSel_dst = pionSelect(i_dst, j_dst, Couleur::BLANC);
 
         if (getCase(i_src*getDimension()+j_src).getPion().getNom() == "PION") {
-            std::cout << "passe par la" << std::endl;
             if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::BLANC, false))) {
 
                 return false;
@@ -69,6 +68,8 @@ const bool PlateauDamierInternational::kingMove(int i_src, int j_src, int i_dst,
                     setCase(i_dst*getDimension()+j_dst, Pion());
                     setCase((i_dst-1)*getDimension()+j_dst-1, getCase(i_src*getDimension()+j_src).getPion());
                     setCase(i_src*getDimension()+j_src, Pion());
+                    if(c == Couleur::BLANC) scoreJ1++;
+                    else scoreJ2++;
                     return true;
                 }else return false;
 
@@ -84,6 +85,8 @@ const bool PlateauDamierInternational::kingMove(int i_src, int j_src, int i_dst,
                     setCase(i_dst*getDimension()+j_dst, Pion());
                     setCase((i_dst-1)*getDimension()+j_dst+1, getCase(i_src*getDimension()+j_src).getPion());
                     setCase(i_src*getDimension()+j_src, Pion());
+                    if(c == Couleur::BLANC) scoreJ1++;
+                    else scoreJ2++;
                     return true;
                 }else return false;
             }
@@ -104,6 +107,8 @@ const bool PlateauDamierInternational::kingMove(int i_src, int j_src, int i_dst,
                     setCase(i_dst*getDimension()+j_dst, Pion());
                     setCase((i_dst+1)*getDimension()+j_dst-1, getCase(i_src*getDimension()+j_src).getPion());
                     setCase(i_src*getDimension()+j_src, Pion());
+                    if(c == Couleur::BLANC) scoreJ1++;
+                    else scoreJ2++;
                     return true;
                 }else return false;
 
@@ -119,6 +124,8 @@ const bool PlateauDamierInternational::kingMove(int i_src, int j_src, int i_dst,
                     setCase(i_dst*getDimension()+j_dst, Pion());
                     setCase((i_dst+1)*getDimension()+j_dst+1, getCase(i_src*getDimension()+j_src).getPion());
                     setCase(i_src*getDimension()+j_src, Pion());
+                    if(c == Couleur::BLANC) scoreJ1++;
+                    else scoreJ2++;
                     return true;
                 }else return false;
             }

@@ -174,8 +174,8 @@ const void PlateauDamier::launcher() {
     return;
 }
 void PlateauDamier::affichageVainqueur() {
-    if(scoreJ1 == getDimension()*getDimension()/4 - (getDimension()/2)) std::cout << "Le joueur 1 gagne!" << std::endl;
-    else if(scoreJ2 == getDimension()*getDimension()/4 - (getDimension()/2)) std::cout << "Le joueur 2 gagne!" << std::endl;
+    if(scoreJ1 >= getDimension()*getDimension()/4 - (getDimension()/2)) std::cout << "Le joueur 1 gagne!" << std::endl;
+    else if(scoreJ2 >= getDimension()*getDimension()/4 - (getDimension()/2)) std::cout << "Le joueur 2 gagne!" << std::endl;
 }
 
 const void PlateauDamier::twoPlayer() {
@@ -238,7 +238,6 @@ const void PlateauDamier::twoPlayer() {
         i_src = std::get<0>(coord_src);
         j_src = std::get<1>(coord_src);
         pionSel_src = pionSelect(i_src, j_src, Couleur::NOIR);
-        std::cout << "i_src: " << i_src << " et j_src: " << j_src << std::endl;
 
 
         std::cout << "Veuillez entrez les coordonnées de la case ou vous souhaitez le deplacer" << "Exemple: 14"
@@ -281,7 +280,6 @@ const void PlateauDamier::singlePlayer() {
         int i_src = std::get<0>(coord_src);
         int j_src = std::get<1>(coord_src);
         bool pionSel_src = pionSelect(i_src, j_src, Couleur::BLANC);
-        std::cout << "i_src: " << i_src << " et j_src: " << j_src << std::endl;
 
 
         std::cout << "Veuillez entrez les coordonnées de la case ou vous souhaitez le deplacer" << "Exemple: 14"
@@ -321,12 +319,9 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
             if (((j_dst == j_src + 1) || j_dst == j_src - 1)) {
                 if (!getCase(i_dst*getDimension()+j_dst).isEmpty() && getCase(i_dst*getDimension()+j_dst).getPion().getColor() == Couleur::NOIR) {
                     if (i_dst == i_src - 1) {
-                        std::cout << "et la?" << std::endl;
                         std::cout << (j_dst == j_src-1) << std::endl;
                         if (j_dst == j_src + 1 && (j_dst+1) < getDimension() && i_dst-1 >= 0) {
-                            std::cout << "et la2?" << std::endl;
                             if (getCase((i_dst-1)*getDimension()+(j_dst+1)).isEmpty()) {
-                                std::cout << "et la10?" << std::endl;
                                 scoreJ1 += 1;
                                 setCase(i_dst*getDimension()+j_dst, Pion());
                                 move(i_src, j_src, (i_dst-1), (j_dst+1));
@@ -337,7 +332,6 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                                     setCases((i_dst-1)*getDimension()+(j_dst+1), p2);
                                     return true;
                                 }
-                                std::cout << "passe ici?" << std::endl;
                                 bool l = pionMove((i_dst-1), (j_dst+1), i_dst - 2, j_dst, Couleur::BLANC, true);
                                 bool ld = pionMove((i_dst-1), (j_dst+1), i_dst - 2, (j_dst+1+1), Couleur::BLANC, true);
                                 if(!anglais || (anglais && getCase(i_src*getDimension()+j_src).getPion().getNom() == "KING")) {
@@ -348,10 +342,7 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                             } else return false;
 
                         } else if (j_dst == j_src - 1 && (j_dst-1) >= 0 && i_dst-1 >= 0) {
-                            std::cout << "et la3?" << std::endl;
-                            std::cout << "idst: " << (i_dst-1) << " et jdst:" << (j_dst-1) << std::endl;
                             if (getCase((i_dst-1)*getDimension()+(j_dst-1)).isEmpty()) {
-                                std::cout << "et la4?" << std::endl;
                                 scoreJ1 += 1;
                                 setCase(i_dst*getDimension()+j_dst, Pion());
                                 move(i_src, j_src, (i_dst-1), (j_dst-1));
@@ -426,7 +417,6 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                     if (!getCase(i_dst*getDimension()+j_dst).isEmpty() && getCase(i_dst*getDimension()+j_dst).getPion().getColor() == Couleur::BLANC) {
                         if (j_dst == j_src + 1 && (j_dst+1) < getDimension()) {
                             if (getCase(((i_dst+1))*getDimension()+((j_dst+1))).isEmpty()) {
-                                std::cout << "passe par la Noir" << std::endl;
                                 scoreJ2 += 1;
                                 Pion p;
                                 setCases(i_dst*getDimension()+j_dst, p);
@@ -446,7 +436,6 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                             } else return false;
 
                         } else if (j_dst == j_src-1 && (j_dst-1) >= 0) {
-                            std::cout << "passe par la Noir2" << std::endl;
                             if (getCase((i_dst+1)*getDimension()+(j_dst-1)).isEmpty()) {
                                 scoreJ2 += 1;
                                 Pion p;
@@ -486,10 +475,6 @@ const bool PlateauDamier::pionMove(int i_src, int j_src, int i_dst, int j_dst, C
                             Pion p;
                             setCases(i_dst*getDimension()+j_dst, p);
                             move(i_src, j_src, (i_dst-1), (j_dst+1));
-                            std:: cout << "i_dst-1: " << (i_dst-1) << " j_dst+1:" << (j_dst+1) << std::endl;
-                            std:: cout << "i_dst-2: " << (i_dst-2) << " j_dst-2:" << (j_dst-2) << std::endl;
-                            std:: cout << "i_dst: " << (i_dst) << " j_dst:" << (j_dst) << std::endl;
-                            std:: cout << "i_src: " << (i_src) << " j_src:" << (j_src) << std::endl;
                             bool l = pionMove((i_dst-1), (j_dst+1), (i_dst-2), (j_dst+1), Couleur::NOIR, true);
                             bool ld = pionMove((i_dst-1), (j_dst+1), (i_dst), (j_dst+1), Couleur::NOIR, true);
                             bool rd = pionMove((i_dst-1), (j_dst+1), (i_dst), (j_dst), Couleur::NOIR, true);
