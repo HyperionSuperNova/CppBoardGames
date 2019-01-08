@@ -4,7 +4,6 @@ PlateauDamierAnglais::PlateauDamierAnglais() : PlateauDamier(8) {
     setDimension(8);
 }
 
-
 const bool PlateauDamierAnglais::playerTurn(int i_src, int j_src, int i_dst, int j_dst) {
     if (turn == 0) {
         bool pionSel_src = pionSelect(i_src, j_src, Couleur::BLANC);

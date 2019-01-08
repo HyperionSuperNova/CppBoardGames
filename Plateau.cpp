@@ -38,10 +38,12 @@ Plateau::Plateau(int dimension) : dimension(dimension) {
     }
 }
 
-const void Plateau::move(int i_src, int j_src, int i_dst, int j_dst) const {
-    Case c = cases[i_dst*dimension+j_dst];
-    cases[i_dst*dimension+j_dst] = cases[i_src*dimension+j_src];
-    cases[i_src*dimension+j_src] = c;
+const void Plateau::move(int i_src, int j_src, int i_dst, int j_dst) {
+    Case c = getCase(i_dst*dimension+j_dst);
+    std::cout << getCase(i_src*dimension+j_src).getPion().getNom() << " " << getCase(i_src*dimension+j_src).getPion().getColor() << std::endl;
+    setCase(i_dst*dimension+j_dst, getCase(i_src*dimension+j_src).getPion());
+    std::cout << getCase(i_dst*dimension+j_dst).getPion().getNom() << " " << getCase(i_dst*dimension+j_dst).getPion().getColor() << std::endl;
+    setCase(i_src*dimension+j_src, Pion());
 }
 
 

@@ -44,13 +44,13 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
             for(int j = min; j < max; j++){
                 if(!getCase(i_src*getDimension()+j).isEmpty() || ((i_src == 4 || i_src == 5) && (j == 2 || j == 3 || j == 6 || j == 7))){
                     if(ordi && joueur) std::cout << "Mouvement impossible. Case non vide sur le chemin";
-                    return 0;
+                    return false;
                 }
             }
             if(getCase(i_dst*getDimension()+j_dst).isEmpty()){
                 setCase(i_dst*getDimension()+j_dst, getCase(i_src*getDimension()+j_src).getPion());
                 setCase(i_src*getDimension()+j_src, Pion());
-                return 1;
+                return true;
             }else if(estPlusFortQue(getCase(i_src*getDimension()+j_src).getPion(), getCase(i_dst*getDimension()+j_dst).getPion()) ){
                 if(joueur){
                     joueur2[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion().getNom())] --;
@@ -60,7 +60,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 std:: cout << "Pièce mangée: " << getCase(i_dst*getDimension()+j_dst).getPion().getNom() << std::endl;
                 setCase(i_dst*getDimension()+j_dst , getCase(i_src*getDimension()+j_src).getPion());
                 setCase(i_src*getDimension()+j_src, Pion());
-                return 1;
+                return true;
             }else{
                  if(getCase(i_src*getDimension()+j_src).getPion().getNom().compare(getCase(i_dst*getDimension()+j_dst).getPion().getNom()) == 0){
                      std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion().getNom() << std::endl;
@@ -73,7 +73,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                      }
                      setCase(i_src*getDimension()+j_src, Pion());
                      setCase(i_dst*getDimension()+j_dst, Pion());
-                     return 1;
+                     return true;
                  }else if(getCase(i_dst*getDimension()+j_dst).getPion().getColor() != getCase(i_src*getDimension()+j_src).getPion().getColor()){
                      std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion().getNom() << std::endl;
                      //revelerUnePiece(i_dst, j_dst);
@@ -83,8 +83,8 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                          joueur2[renvoiePionsNbr(getCase(i_src*getDimension()+j_src).getPion().getNom())] --;
                      }
                      setCase(i_src*getDimension()+j_src, Pion());
-                     return 1;
-                 }else return 0;
+                     return true;
+                 }else return false;
             }
 
 
@@ -99,13 +99,13 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
             for(int i = min; i < max; i++){
                 if(!getCase(i*getDimension()+j_src).isEmpty() ||  ((i == 4 || i == 5) && (j_src == 2 || j_src == 3 || j_src == 6 || j_src == 7))){
                     if(ordi && joueur) std::cout << "Mouvement impossible. Case non vide sur le chemin";
-                    return 0;
+                    return false;
                 }
             }
             if(getCase(i_dst*getDimension()+j_dst).isEmpty()){
                 setCase(i_dst*getDimension()+j_dst, getCase(i_src*getDimension()+j_src).getPion());
                 setCase(i_src*getDimension()+j_src, Pion());
-                return 1;
+                return true;
             }else if(estPlusFortQue(getCase(i_src*getDimension()+j_src).getPion(), getCase(i_dst*getDimension()+j_dst).getPion()) ){
                 if(joueur){
                     joueur2[renvoiePionsNbr(getCase(i_dst*getDimension()+j_dst).getPion().getNom())] --;
@@ -115,7 +115,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                 std:: cout << "Pièce mangée: " << getCase(i_dst*getDimension()+j_dst).getPion().getNom() << std::endl;
                 setCase(i_dst*getDimension()+j_dst, getCase(i_src*getDimension()+j_src).getPion());
                 setCase(i_src*getDimension()+j_src, Pion());
-                return 1;
+                return true;
             }else if(getCase(i_dst*getDimension()+j_dst).getPion().getColor() != getCase(i_src*getDimension()+j_src).getPion().getColor()){
                 if(getCase(i_src*getDimension()+j_src).getPion().getNom().compare(getCase(i_dst*getDimension()+j_dst).getPion().getNom()) == 0){
                     std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion().getNom() << std::endl;
@@ -128,7 +128,7 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                     }
                     setCase(i_src*getDimension()+j_src, Pion());
                     setCase(i_dst*getDimension()+j_dst, Pion());
-                    return 1;
+                    return true;
                 }else {
                     std::cout << "Battu par: " << getCase(i_dst*getDimension()+j_dst).getPion().getNom() << std::endl;
                     //revelerUnePiece(i_dst, j_dst);
@@ -139,15 +139,15 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
                     }
                     setCase(i_src*getDimension()+j_src,Pion());
                 }
-                return 1;
-            }else return 0;
+                return true;
+            }else return false;
         }else{
             if(ordi && joueur) std::cout << "mouvement impossible";
-            return 0;
+            return false;
         }
     }else{
         if(ordi && joueur) std::cout << "Out of Bounds" << std::endl;
-        return 0;
+        return false;
     }
 }
 
@@ -191,12 +191,12 @@ bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst
             }
         }else{
             if(ordi && joueur) std::cout << "mouvement impossible";
-            return 0;
+            return false;
         }
-        return 1;
+        return true;
     }else{
         if(ordi && joueur) std::cout << "Out of Bounds" << std::endl;
-        return 0;
+        return false;
     }
 }
 
