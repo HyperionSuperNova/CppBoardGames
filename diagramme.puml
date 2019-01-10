@@ -80,8 +80,8 @@ abstract class PlateauDamier{
     + const void lectureFichierTest()
 
     + bool bot()
-    + virtual const bool playerTurn(int,int,int,int) = 0
-    + virtual const bool playerTurn2(int,int,int,int) = 0
+    + const void playerTurn()
+    + const void playerTurn2()
     + void help(Couleur)
     + const void launcher()
     + const void singlePlayer()
@@ -94,16 +94,12 @@ abstract class PlateauDamier{
 class PlateauDamierInternational{
     + PlateauDamierInternational()
     + const bool kingMove(int i_src, int j_src,int i_dst, int j_dst, Couleur c)
-    + const void playerTurn()
-    + const void playerTurn2()
     + void save()
     + void load()
 }
 
 class PlateauDamierAnglais{
     + PlateauDamierAnglais()
-    + const void playerTurn()
-    + const void playerTurn2()
     + const bool kingMove(int i_src, int j_src, int i_dst, int j_dst, Couleur c)
 }
 

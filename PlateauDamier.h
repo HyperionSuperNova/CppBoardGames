@@ -40,8 +40,8 @@ public:
     const void lectureFichierTest();
 
     bool bot();
-    virtual const bool playerTurn(int,int,int,int) = 0;
-    virtual const bool playerTurn2(int,int,int,int) = 0;
+    const bool playerTurn(int, int,int,int);
+    const bool playerTurn2(int,int,int,int);
     void help(Couleur);
     const void launcher();
     const void singlePlayer();

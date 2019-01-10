@@ -121,6 +121,53 @@ std::tuple<int,int> PlateauDamier::nbCasetoCoord(int a) {
     return {std::get<1>(*posCase[a-1]), std::get<2>(*posCase[a-1])};
 }
 
+const bool PlateauDamier::playerTurn(int i_src, int j_src, int i_dst, int j_dst) {
+    if (turn == 0) {
+        bool pionSel_src = pionSelect(i_src, j_src, Couleur::BLANC);
+        bool pionSel_dst = pionSelect(i_dst, j_dst, Couleur::BLANC);
+
+        if (getCase(i_src*getDimension()+j_src).getPion()->getNom() == "PION") {
+            if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::BLANC, false))) {
+                std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
+
+                return false;
+            }
+        } else if (getCase(i_src*getDimension()+j_src).getPion()->getNom() == "KING") {
+            if ((/* h.size() != 2 || */ !kingMove(i_src, j_src, i_dst, j_dst, Couleur::BLANC))) {
+                std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
+                return false;
+            }
+        }
+
+    }
+    turn += 1;
+    return true;
+}
+
+const bool PlateauDamier::playerTurn2(int i_src, int j_src, int i_dst, int j_dst) {
+    if (turn == 1) {
+        bool pionSel_src = pionSelect(i_src, j_src, Couleur::NOIR);
+        bool pionSel_dst = pionSelect(i_dst, j_dst, Couleur::NOIR);
+
+        if (getCase(i_src*getDimension()+j_src).getPion()->getNom() == "PION") {
+            if ((!pionMove(i_src, j_src, i_dst, j_dst, Couleur::NOIR, false))) {
+                std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
+
+                return false;
+            }
+        } else if (getCase(i_src*getDimension()+j_src).getPion()->getNom() == "KING") {
+            if ((!kingMove(i_src, j_src, i_dst, j_dst, Couleur::NOIR))) {
+                std::cout << "Mauvaise entrée ! Try Again !" << std::endl;
+                return false;
+            }
+        }
+
+    }
+    turn -= 1;
+    return true;
+}
+
+
 
 const bool PlateauDamier::posOk(int i_src, int j_src, int i_dst, int j_dst){
     bool cartesianConstraint =
@@ -595,7 +642,7 @@ const void PlateauDamier::lectureFichierTest() {
         else this->playerTurn2(i_src,j_src,i_dst,j_dst);
         if(c == Couleur::BLANC) c = Couleur::NOIR;
         else c = Couleur::BLANC;
-        usleep(2500000);
+        usleep(2000000);
         std::cout << *(this) << std::endl;
 
     }

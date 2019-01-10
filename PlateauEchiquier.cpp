@@ -203,7 +203,6 @@ bool PlateauEchiquier::mouvement_pion(std::string x, bool joueur) {
     int i_borne = 0;
     if(joueur) i_borne = i_dst+1;
     else i_borne = i_dst-1;
-    std::cout << (getCase(i_dst*getDimension()+j_dst).getPion()->getColor()) << std::endl;
     if((joueur && getCase(i_dst*getDimension()+j_dst).getPion()->getColor() == Couleur::BLANC) || (!joueur && getCase(i_dst*getDimension()+j_dst).getPion()->getColor() == Couleur::NOIR)){
         std::cout << "Mouvement impossible" << std::endl;
         return false;

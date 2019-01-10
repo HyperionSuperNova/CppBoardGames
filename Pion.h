@@ -8,13 +8,7 @@
 
 enum class Couleur {null, BLANC, NOIR};
 
-inline std::ostream &operator<<(std::ostream &os, Couleur c){
-    switch(c){
-        case Couleur::BLANC : os << "B"; break;
-        case Couleur::NOIR : os << "N"; break;
-    }
-    return os;
-}
+
 class Pion{
 private:
     std::string name;

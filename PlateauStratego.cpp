@@ -32,6 +32,14 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
     bool ok = true;
     int min = 0;
     int max = 0;
+    if(getCase(i_src*getDimension()+j_src).getPion()->getColor() == getCase(i_dst*getDimension()+j_dst).getPion()->getColor()){
+        std:: cout << "Vous ne pouvez pas manger une de vos pièces! " << std::endl;
+        return false;
+    }
+    if(((i_dst == 4 || i_dst == 5) && (j_dst == 2 || j_dst == 3 || j_dst == 6 || j_dst == 7))){
+        if(ordi && joueur) std::cout << "Mouvement impossible. GlouGlouGlou";
+        return false;
+    }
     if( i_dst < getDimension() && j_dst < getDimension()){
         if(i_dst == i_src){
             if(j_dst > j_src) {
@@ -152,6 +160,14 @@ bool PlateauStratego::mouvement_eclaireur(int i_src, int j_src, int i_dst, int j
 }
 
 bool PlateauStratego::mouvement_autre(int i_src, int j_src, int i_dst, int j_dst, bool joueur, bool ordi) {
+    if(((i_dst == 4 || i_dst == 5) && (j_dst == 2 || j_dst == 3 || j_dst == 6 || j_dst == 7))){
+        if(ordi && joueur) std::cout << "Mouvement impossible. GlouGlouGlou" << std::endl;
+        return false;
+    }
+    if(getCase(i_src*getDimension()+j_src).getPion()->getColor() == getCase(i_dst*getDimension()+j_dst).getPion()->getColor()){
+        std:: cout << "Vous ne pouvez pas manger une de vos pièces! " << std::endl;
+        return false;
+    }
     if( i_dst < getDimension() && j_dst < getDimension()){
         if((i_dst == i_src -1 && j_dst == j_src) || (i_dst == i_src +1 && j_dst == j_src) || (i_dst == i_src && j_dst == j_src -1) || (i_dst == i_src && j_dst == j_src + 1)){
             if(getCase(i_dst*getDimension()+j_dst).isEmpty()){
@@ -751,7 +767,7 @@ std::string file = "../stratego/test1.txt";
         else mouvement_autre(i_src,j_src,i_dst,j_dst,joueur,false);
         joueur = !joueur;
 
-        usleep(2500000);
+        usleep(2000000);
         cacherPieceJoueur(joueur);
         std::cout << *(this) << std::endl;
 
